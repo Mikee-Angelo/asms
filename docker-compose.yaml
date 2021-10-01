@@ -1,0 +1,109 @@
+version: "3.8" 
+
+services: 
+  #NGINX
+  nginx: 
+    image: nginx:stable-alpine
+    container_name: asms_nginx
+    restart: unless-stopped
+    ports: 
+      - "8000:80"
+    volumes: 
+      - .:/var/www/html
+      - ./dockerize/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on: 
+      - php
+      - mysql
+    networks:
+      - laravel 
+
+  #MYSQL
+  mysql:
+    image: mysql:8.0.26
+    container_name: asms_mysql
+    restart: unless-stopped
+    tty: true
+    ports: 
+      - "3307:3306"
+    environment: 
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes: 
+      - ./dockerize/mysql/data:/var/lib/mysql
+    networks: 
+      - laravel
+
+  #PHPMYADMIN
+  phpmyadmin: 
+    image: phpmyadmin:latest
+    container_name: asms_phpmyadmin
+    restart: unless-stopped
+    ports: 
+      - "8081:80"
+    environment: 
+      PMA_HOST: mysql 
+      PMA_USER: ${DB_USERNAME}
+      PMA_PASSWORD: ${DB_PASSWORD}
+    depends_on: 
+      - mysql
+    networks:
+      - laravel 
+
+  #PHP 
+  php: 
+    build: 
+      context: . 
+      dockerfile: Dockerfile
+    container_name: asms_php
+    volumes: 
+      - .:/var/www/html
+    ports: 
+      - "9000:9000"
+    networks: 
+      - laravel
+
+  #COMPOSER
+  composer:
+    image: composer:latest
+    container_name: asms_composer
+    volumes: 
+      - .:/var/www/html
+    working_dir: /var/www/html
+    command: install
+    depends_on: 
+      - php
+    networks: 
+      - laravel
+
+  #NPM
+  npm: 
+    image: node:16-alpine3.11
+    container_name: asms_npm
+    volumes: 
+      - .:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ['npm']
+    networks: 
+      - laravel
+
+  #ARTISAN
+  artisan: 
+    build: 
+      context: . 
+      dockerfile: Dockerfile
+    container_name: asms_artisan
+    volumes: 
+      - .:/var/www/html
+    depends_on: 
+      - mysql
+    working_dir: /var/www/html
+    environment: ['php', '/var/www/html/artisan']
+    networks: 
+      - laravel
+      
+networks: 
+  laravel:
