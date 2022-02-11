@@ -87,7 +87,7 @@ This is my recommended way of installing so you will not install all the require
 Run the following commands: 
 ```
 git clone https://github.com/Mikee-Angelo/asms.git
-cd asms-main
+cd asms
 cp .env.example .env #follow changing of parameter in option 1
 docker-compose up -d
 docker-compose run --rm composer install
