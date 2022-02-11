@@ -174,3 +174,7 @@ dockerize/mysql/data/asms/personal_access_tokens.ibd
 dockerize/mysql/data/asms/role_has_permissions.ibd
 dockerize/mysql/data/asms/roles.ibd
 dockerize/mysql/data/asms/users.ibd
+dockerize/mysql/data/binlog.000003
+dockerize/mysql/data/d0217df3140d.err
+bootstrap/cache/packages.php
+bootstrap/cache/services.php
