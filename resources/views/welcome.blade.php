@@ -29,13 +29,14 @@
         }
 
         .gradient {
-            background-image: linear-gradient(-225deg, #cbbacc 0%, #2580b3 100%);
+            /* background-image: linear-gradient(-225deg, #cbbacc 0%, #000038 100%); */
+            background-color: #000038
         }
 
         button,
         .gradient2 {
-            background-color: #f39f86;
-            background-image: linear-gradient(315deg, #f39f86 0%, #f9d976 74%);
+            background-color: #fff;
+            /* background-image: linear-gradient(315deg, #f39f86 0%, #f9d976 74%); */
         }
 
         /* Browser mockup code
@@ -110,11 +111,11 @@
 
     <div class="container mx-auto h-screen">
         <div class="text-center px-3 lg:px-0">
-            <h1 class="my-4 text-2xl md:text-3xl lg:text-5xl font-black leading-tight">
+            <h1 class="my-4 text-2xl md:text-3xl lg:text-5xl font-black text-white leading-tight">
                 Academic Student Management System
             </h1>
-            <p class="leading-normal text-gray-800 text-base md:text-xl lg:text-2xl mb-8">
-                Sub-hero message, not too long and not too short. Make it just right!
+            <p class="leading-normal text-white text-base md:text-xl lg:text-2xl mb-8">
+                Global competency, our aim!
             </p>
         </div>
 
@@ -125,7 +126,8 @@
 
     {{-- Introduction --}}
     <section class="bg-gray-100 py-8">
-        <div class="container max-w-5xl mx-auto m-8">
+        <div class="container mx-auto flex flex-wrap pt-4 pb-12">
+
             <h2 class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800">
                 Introduction
             </h2>
@@ -272,32 +274,12 @@
           </div>
     </section>
 
-
-
-    <section class="gradient w-full mx-auto text-center pt-6 pb-12">
-        <h2 class="w-full my-2 text-5xl font-black leading-tight text-center text-white">
-            Call to Action
-        </h2>
-        <div class="w-full mb-4">
-            <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
-        </div>
-
-        <h3 class="my-4 text-3xl font-extrabold">
-            Main Hero Message to sell yourself!
-        </h3>
-
-        <button
-            class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded my-6 py-4 px-8 shadow-lg">
-            Action!
-        </button>
-    </section>
-
     <!--Footer-->
-    <footer class="bg-white ">
+    <footer class="gradient ">
         <div class="container mx-auto mt-8 px-8">
             <div class="w-full flex items-center flex-col md:flex-row py-6 ">
                 <div class="flex-1 mb-6">
-                    <a class="text-orange-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
+                    <a class="text-orange-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl text-white" href="#">
                         <svg class="h-6 w-6 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path d="M13 8V0L8.11 5.87 3 12h4v8L17 8h-4z" />
                         </svg>
@@ -306,70 +288,70 @@
                 </div>
 
                 <div class="flex-1">
-                    <p class="uppercase font-extrabold text-gray-500 md:mb-6">Links</p>
+                    <p class="uppercase font-extrabold text-white md:mb-6">Links</p>
                     <ul class="list-reset mb-6">
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">FAQ</a>
+                                class="text-white font-light no-underline hover:underline hover:text-orange-500">FAQ</a>
                         </li>
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">Help</a>
+                                class="text-white font-light no-underline hover:underline hover:text-orange-500">Help</a>
                         </li>
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">Support</a>
+                                class="text-white font-light no-underline hover:underline hover:text-orange-500">Support</a>
                         </li>
                     </ul>
                 </div>
                 <div class="flex-1">
-                    <p class="uppercase font-extrabold text-gray-500 md:mb-6">Legal</p>
+                    <p class="uppercase font-extrabold text-white md:mb-6">Legal</p>
                     <ul class="list-reset mb-6">
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">Terms</a>
+                                class="font-light no-underline hover:underline text-white hover:text-orange-500">Terms</a>
                         </li>
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">Privacy</a>
+                                class="font-light no-underline hover:underline text-white hover:text-orange-500">Privacy</a>
                         </li>
                     </ul>
                 </div>
                 <div class="flex-1">
-                    <p class="uppercase font-extrabold text-gray-500 md:mb-6">Social</p>
+                    <p class="uppercase font-extrabold text-white md:mb-6">Social</p>
                     <ul class="list-reset mb-6">
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">Facebook</a>
+                                class="font-light no-underline hover:underline text-white hover:text-orange-500">Facebook</a>
                         </li>
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">Linkedin</a>
+                                class="font-light no-underline hover:underline text-white hover:text-orange-500">Linkedin</a>
                         </li>
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">Twitter</a>
+                                class="font-light no-underline hover:underline text-white hover:text-orange-500">Twitter</a>
                         </li>
                     </ul>
                 </div>
                 <div class="flex-1">
-                    <p class="uppercase font-extrabold text-gray-500 md:mb-6">
+                    <p class="uppercase font-extrabold text-white md:mb-6">
                         Company
                     </p>
                     <ul class="list-reset mb-6">
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">Official
+                                class="font-light no-underline hover:underline text-white hover:text-orange-500">Official
                                 Blog</a>
                         </li>
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">About
+                                class="font-light no-underline hover:underline text-white hover:text-orange-500">About
                                 Us</a>
                         </li>
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#"
-                                class="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">Contact</a>
+                                class="font-light no-underline hover:underline text-white hover:text-orange-500">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -385,7 +367,10 @@
         var navMenu = document.getElementById("nav-toggle");
         var navAction = document.getElementById('navAction');
 
-
+        navAction.onclick = () => { 
+            // console.log('HELLO');
+            window.location.href = "{{route('login')}}";
+        }
 
         document.onclick = check;
 
