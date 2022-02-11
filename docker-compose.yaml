@@ -20,6 +20,7 @@ services:
   #MYSQL
   mysql:
     image: mysql:8.0.26
+    platform: linux/x86_64
     container_name: asms_mysql
     restart: unless-stopped
     tty: true
