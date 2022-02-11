@@ -89,6 +89,7 @@ Run the following commands:
 git clone https://github.com/Mikee-Angelo/asms.git
 cd asms
 cp .env.example .env #follow changing of parameter in option 1
+create "mysql" folder and add "data" folder inside it
 docker-compose up -d
 docker-compose run --rm composer install
 docker-compose exec php php artisan key:generate
