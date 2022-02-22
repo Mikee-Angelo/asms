@@ -232,10 +232,14 @@
                 Students
             </p>
 
-            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• To design module for enrollment system with curriculum/course evaluation.</p>
-            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• To design and develop a database storage for student information.</p>
-            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• To manage student grades of SBCI Students. </p>
-            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• To design a proposed system in terms of saving time, and deducting the burden
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• To design module for enrollment system with
+                curriculum/course evaluation.</p>
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• To design and develop a database storage for
+                student information.</p>
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• To manage student grades of SBCI Students.
+            </p>
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• To design a proposed system in terms of
+                saving time, and deducting the burden
                 of the Registrar’s Office and SBCI Students. </p>
         </div>
     </section>
@@ -251,7 +255,8 @@
             </div>
 
             <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-10">
-               Aim to identify the potential weakness of the study and clarify the boundaries and exception of the system.
+                Aim to identify the potential weakness of the study and clarify the boundaries and exception of the
+                system.
             </p>
 
             <h3 class="w-full px-6 my-2 text-lg font-black leading-tight text-gray-800 mt-10">
@@ -259,19 +264,196 @@
             </h3>
 
             <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-2">
-               The general intent of this study focuses on the development of SBCI Student Management System that will serves as a portal for the students. However, the study focuses on the following:
+                The general intent of this study focuses on the development of SBCI Student Management System that will
+                serves as a portal for the students. However, the study focuses on the following:
             </p>
 
-            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-6">• Student Management: This is a customized module where student’s details are maintained and stored for future. The information can be used when required by the registrar.</p>
-            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• Enrollment Management: This makes the enrollment process easy, faster and paperless. Enrolling through online admission form has made the entire process easier and provides clear visibility on student’s details which can be securely stored for future endeavors.</p>
-            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• Year Level and Subject Management: It allows faculty posting of class subject such as course syllabus and handouts.</p>
-            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• Grading System: It allows faculty to manage class grades and submit grades. Professors can access list of students for each class that they are teaching and perform standard school management such as to submit final grades, incompletes, and failed information.</p>
-            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• Hardware and Software specifications :The SBCI Student Management System  is intended for Desktop and Mobile phone.</p>
-            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• Access Control: Only the Registrar can  access the whole system. While the SBCI    Students can view their all information</p>
-       
-        
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-6">• Student Management: This is a customized
+                module where student’s details are maintained and stored for future. The information can be used when
+                required by the registrar.</p>
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• Enrollment Management: This makes the
+                enrollment process easy, faster and paperless. Enrolling through online admission form has made the
+                entire process easier and provides clear visibility on student’s details which can be securely stored
+                for future endeavors.</p>
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• Year Level and Subject Management: It allows
+                faculty posting of class subject such as course syllabus and handouts.</p>
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• Grading System: It allows faculty to manage
+                class grades and submit grades. Professors can access list of students for each class that they are
+                teaching and perform standard school management such as to submit final grades, incompletes, and failed
+                information.</p>
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• Hardware and Software specifications :The
+                SBCI Student Management System is intended for Desktop and Mobile phone.</p>
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-2">• Access Control: Only the Registrar can access
+                the whole system. While the SBCI Students can view their all information</p>
 
-          </div>
+
+            <h3 class="w-full px-6 my-2 text-lg font-black leading-tight text-gray-800 mt-10">
+                Limitation
+            </h3>
+
+            <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-6">1. Students</p>
+            <ul class="mt-3">
+                <li class="ml-5">
+                    <p class="w-full text-md md:text-lg text-gray-600 px-6">1.1 Login</p>
+                </li>
+
+                <li class="ml-5 mt-2">
+                    <p class="w-full text-md md:text-lg text-gray-600 px-6">1.2 Check his/her personal information</p>
+                </li>
+
+                <li class="ml-5 mt-2">
+                    <p class="w-full text-md md:text-lg text-gray-600 px-6">1.3 Evaluate enrollment status</p>
+                </li>
+
+                <li class="ml-5 mt-2">
+                    <p class="w-full text-md md:text-lg text-gray-600 px-6">1.4 Check year level</p>
+                </li>
+
+                <li class="ml-5 mt-2">
+                    <p class="w-full text-md md:text-lg text-gray-600 px-6">1.5 Evaluate Grade</p>
+                </li>
+
+                <li class="ml-5 mt-2">
+                    <p class="w-full text-md md:text-lg text-gray-600 px-6">1.6 Add and Drop Subject</p>
+                </li>
+
+
+                <p class="w-full text-md md:text-lg text-gray-600 px-6 mt-6">2. Registrar</p>
+                <ul class="mt-3">
+                    <li class="ml-5">
+                        <p class="w-full text-md md:text-lg text-gray-600 px-6">2.1 Have the access to the whole system
+                        </p>
+                    </li>
+
+                    <li class="ml-5 mt-2">
+                        <p class="w-full text-md md:text-lg text-gray-600 px-6">2.2 Record SBCI Student Information</p>
+                    </li>
+
+                    <li class="ml-5 mt-2">
+                        <p class="w-full text-md md:text-lg text-gray-600 px-6">2.3 Enroll Student</p>
+                    </li>
+
+                    <li class="ml-5 mt-2">
+                        <p class="w-full text-md md:text-lg text-gray-600 px-6">2.4 Add/ View / Delete Students</p>
+                    </li>
+
+                    <li class="ml-5 mt-2">
+                        <p class="w-full text-md md:text-lg text-gray-600 px-6">2.5 Create Year level</p>
+                    </li>
+
+                    <li class="ml-5 mt-2">
+                        <p class="w-full text-md md:text-lg text-gray-600 px-6">2.6 Generate grade and subject</p>
+                    </li>
+
+                    <li class="ml-5 mt-2">
+                        <p class="w-full text-md md:text-lg text-gray-600 px-6">2.7 Enrollment form and student grades
+                            printing</p>
+                    </li>
+                </ul>
+        </div>
+    </section>
+
+
+
+    {{-- Significance of the study --}}
+    <section class="bg-gray-100 py-8">
+        <div class="container mx-auto flex flex-wrap pt-4 pb-12">
+
+            <h2 class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800">
+                Significance of the study
+            </h2>
+            <div class="w-full mb-4">
+                <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
+            </div>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-10">
+                The proposed study is intended of keeping records, enrollment process, year level, subject, and also the
+                grades of the Student in Subic Bay Colleges Inc. and eventually to upgrade its operation in order to
+                facilitate be able to recognize pertinent information, enrollment processes, year level, subject and
+                grades of students. This study was conducted for the benefit of the School, Registrar’s Office,
+                Teachers, School Head, Students, Researchers and Future Researchers as well.
+            </p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">The School. </span>The proposed system is intended for the school of Subic Bay
+                Colleges Inc. which is more improving delivery of service especially in keeping the information,
+                registration, course and subject and grading system of a students . This study leads to the development
+                of a computerized information system in the most practicable way.
+            </p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">The Registrar’s Office. </span>The Registrar can access and monitor the Student
+                Information and this will helps them to lessen their workload.
+            </p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">The Teachers. </span>This leads them to a reduction in workload and saves them
+                time that could be better spent in the class.</p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">The School Head. </span>This study will help them to organize procedure and
+                different transactions in school.</p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">The Students. </span>The development of the system is to lessen the burden in
+                keeping information, registration, course and subject, and class grades of the students through the
+                computerized student information system.</p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">The Researchers. </span>By study, the researchers gain additional knowledge and
+                have the opportunity to develop their skills in system analysis and software development.</p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">The Future Researchers. </span>This study will serve as reference for future
+                researchers. It will serve as a guide on how to conduct such study to do better of necessary.</p>
+        </div>
+    </section>
+
+    {{-- Conceptual Framework of the study --}}
+    <section class="bg-white py-8">
+        <div class="container mx-auto flex flex-wrap pt-4 pb-12">
+            <h2 class="w-full my-2 text-5xl font-black leading-tight text-center text-gray-800">
+                Conceptual Framework of the Study
+            </h2>
+            <div class="w-full mb-4">
+                <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
+            </div>
+
+            <h3 class="w-full px-6 my-2 text-lg font-black leading-tight text-gray-800 mt-10">
+                Definition of terms
+            </h3>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                For clarity, the following terms are defined operationally and conceptually:
+            </p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">Database. </span>A digital tracking system that maintain the record of all the
+                SBCI Students.</p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">Manual Based System. </span>Is a bookkeeping system where the SBCI Students
+                record are maintained by hand, without using a computer system.</p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">SBCI Student Management System. </span>It is a web-based application, that
+                keeps the personal information, enrollment process, year level, subject and grades of a student.</p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">Student Data Right. </span>A secured SBCI Student Management System would
+                prefer the security of student’s information as the most crucial aspect of the job. It values security
+                and uses inbuilt mechanisms to deal with sensitive or vulnerable information. </p>
+
+            <p class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 mt-6">
+                <span class="font-black">Web-based application software. </span>A software package that can be accessed
+                through the web browser. </p>
+
+
+
+
+
+
+        </div>
     </section>
 
     <!--Footer-->
@@ -279,7 +461,8 @@
         <div class="container mx-auto mt-8 px-8">
             <div class="w-full flex items-center flex-col md:flex-row py-6 ">
                 <div class="flex-1 mb-6">
-                    <a class="text-orange-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl text-white" href="#">
+                    <a class="text-orange-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl text-white"
+                        href="#">
                         <svg class="h-6 w-6 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path d="M13 8V0L8.11 5.87 3 12h4v8L17 8h-4z" />
                         </svg>
@@ -367,7 +550,7 @@
         var navMenu = document.getElementById("nav-toggle");
         var navAction = document.getElementById('navAction');
 
-        navAction.onclick = () => { 
+        navAction.onclick = () => {
             // console.log('HELLO');
             window.location.href = "{{route('login')}}";
         }
