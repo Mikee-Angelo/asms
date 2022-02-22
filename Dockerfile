@@ -2,4 +2,7 @@ FROM php:8.0.5-fpm-alpine
 
 WORKDIR /var/www/html
 
-RUN docker-php-ext-install pdo pdo_mysql
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+RUN apt-get update && apt-get install -y libbz2-dev
+RUN docker-php-ext-install pdo pdo_mysql sodium bz2
