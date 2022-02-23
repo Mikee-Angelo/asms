@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                      <img src="{{asset('img/logo.png')}}" class="h-12" alt="SBCI Logo">
+                        <img src="{{asset('img/logo.png')}}" class="h-12" alt="SBCI Logo">
                     </a>
                 </div>
 
@@ -19,6 +19,11 @@
                     <x-nav-link :href="route('students.index')" :active="request()->routeIs('students.index')">
                         {{ __('Students') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.index')">
+                        {{ __('Courses') }}
+                    </x-nav-link>
+
 
                     <x-nav-link :href="route('manage')" :active="request()->routeIs('manage')">
                         {{ __('Manage') }}
