@@ -24,6 +24,10 @@
                         {{ __('Courses') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('subjects.index')" :active="request()->routeIs('subjects.index')">
+                        {{ __('Subjects') }}
+                    </x-nav-link>
+
 
                     <x-nav-link :href="route('manage')" :active="request()->routeIs('manage')">
                         {{ __('Manage') }}
