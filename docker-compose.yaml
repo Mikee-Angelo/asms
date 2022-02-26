@@ -62,6 +62,7 @@ services:
     container_name: asms_php
     volumes: 
       - .:/var/www/html
+      # - ./dockerize/php.ini:/usr/local/etc/php/php.ini
     ports: 
       - "9000:9000"
     networks: 
