@@ -1,18 +1,18 @@
- <table class="students-datatable w-full rounded-lg leading-normal">
+ <table class="course-subject-datatable w-full rounded-lg leading-normal">
      <thead>
          <tr>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                 Course Name
+                 Subject
              </th>
-             <th
+             {{-- <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Type
-             </th>
-             <th
+             </th> --}}
+             {{-- <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Status
-             </th>
+             </th> --}}
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Actions
@@ -26,26 +26,26 @@
  <script type="text/javascript">
      $(function () {
 
-         var table = $('.students-datatable').DataTable({
+         var table = $('.course-subject-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax: "{{ route('courses.index') }}",
+             ajax: "/",
              columns: [
+                //  {
+                //      data: 'course_id',
+                //      name: 'course_id',
+                //      className: 'border p-4 dark:border-dark-5',
+                //  },
                  {
-                     data: 'course_name',
-                     name: 'course_name',
+                     data: 'subject_id',
+                     name: 'subject_id',
                      className: 'border p-4 dark:border-dark-5',
                  },
-                 {
-                     data: 'type',
-                     name: 'type',
-                     className: 'border p-4 dark:border-dark-5',
-                 },
-                 {
-                     data: 'status',
-                     name: 'status',
-                     className: 'border p-4 dark:border-dark-5',
-                 },
+                //  {
+                //      data: 'status',
+                //      name: 'status',
+                //      className: 'border p-4 dark:border-dark-5',
+                //  },
                  {
                      data: 'action',
                      name: 'action',
