@@ -448,11 +448,6 @@
                 <span class="font-black">Web-based application software. </span>A software package that can be accessed
                 through the web browser. </p>
 
-
-
-
-
-
         </div>
     </section>
 
