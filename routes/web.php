@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/enroll', [ \App\Http\Controllers\EnrollController::class, 'index'])->name('enroll');
+
 Route::middleware(['auth'])->group(function() { 
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
