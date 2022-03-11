@@ -609,7 +609,7 @@
 
         enrollCTA.onclick = () => {
             // console.log('HELLO');
-            window.location.href = "{{ route('enroll') }}";
+            window.location.href = "{{ route('enroll.index') }}";
         }
 
 
