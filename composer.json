@@ -11,6 +11,7 @@
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "luigel/laravel-paymongo": "^2.1",
         "spatie/laravel-permission": "^5.1",
         "yajra/laravel-datatables": "^1.5"
     },
