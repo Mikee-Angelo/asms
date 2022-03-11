@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 //Model
 use App\Models\Course; 
+use App\Models\Application; 
+use App\Models\Student;
 
 
 class EnrollController extends Controller
@@ -13,7 +15,6 @@ class EnrollController extends Controller
     //
     public function index() { 
         $courses = Course::get();
-
-        return view('enroll', compact('courses'));
+        return view('enroll.index', compact('courses'));
     }
 }

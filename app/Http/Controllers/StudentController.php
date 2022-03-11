@@ -10,7 +10,7 @@ class StudentController extends Controller
 {
     //
     public function index(Request $request) { 
-        $students = Student::get(); 
+        $students = Student::whereNotNull('student_number')->get(); 
 
         if($request->ajax()){ 
             return DataTables::of($students)
