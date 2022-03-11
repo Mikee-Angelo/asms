@@ -1,14 +1,22 @@
- <table class="course-subject-datatable w-full rounded-lg leading-normal">
+ <table class="subjects-course-datatable w-full rounded-lg leading-normal">
      <thead>
          <tr>
+        
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Subject Code
              </th>
-
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Description
+             </th>
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Lec
+             </th>
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Lab
              </th>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
@@ -20,13 +28,14 @@
 
      </tbody>
  </table>
+ 
  <script type="text/javascript">
      $(function () {
 
-         var table = $('.course-subject-datatable').DataTable({
+         var table = $('.subjects-course-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax: "{{ route('courses.subjects.index', ['course' => request()->course ]) }}",
+             ajax: "/courses/{{ request()->course }}/subjects/all",
              columns: [
                  {
                      data: 'subject_code',
@@ -36,6 +45,16 @@
                  {
                      data: 'description',
                      name: 'description',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+                 {
+                     data: 'lec',
+                     name: 'lec',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+                  {
+                     data: 'lab',
+                     name: 'lab',
                      className: 'border p-4 dark:border-dark-5',
                  },
                  {
