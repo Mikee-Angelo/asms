@@ -21,7 +21,7 @@ class CreateCourseSubjectsTable extends Migration
             $table->foreign('subject_id')->references('id')->on('subjects');
             $table->tinyInteger('year');
             $table->tinyInteger('semester');
-            $table->bigInteger('prerequisite_id')->unsigned();
+            $table->bigInteger('prerequisite_id')->unsigned()->nullable();
             $table->foreign('prerequisite_id')->references('id')->on('course_subjects');
             $table->timestamps();
         });

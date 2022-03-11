@@ -1,4 +1,4 @@
- <table class="subjects-course-datatable w-full rounded-lg leading-normal">
+ <table id="subjects-course-datatable" class="w-full rounded-lg leading-normal">
      <thead>
          <tr>
         
@@ -32,10 +32,10 @@
  <script type="text/javascript">
      $(function () {
 
-         var table = $('.subjects-course-datatable').DataTable({
+         var table = $('#subjects-course-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax: "/courses/{{ request()->course }}/subjects/all",
+             ajax: "/courses/{{ request()->course }}/subjects/show",
              columns: [
                  {
                      data: 'subject_code',
@@ -66,6 +66,35 @@
                  },
              ]
          });
+
+        $('#subjects-course-datatable').on('click', '.add-button[data-remote]', function(e) {
+           
+            var url = $(this).data('remote');
+            var semester = $("#semester :selected").val();
+            var year_level = $("#year_level :selected").val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/courses/{{ request()->course }}/subjects',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    method: '_POST',
+                    submit: true,
+                    subject_id: url,
+                    year: year_level,
+                    semester: semester,
+                    prerequisite_id: null,
+                }
+            }).always(function (data) {
+                $('#subjects-course-datatable').DataTable().draw(false);
+                $('#course-subject-datatable').DataTable().draw(false);
+            });
+        });
 
          $('.dataTables_paginate').addClass(
              'px-4 py-2 border-t border-b text-base text-indigo-500 bg-white hover:bg-gray-100');
