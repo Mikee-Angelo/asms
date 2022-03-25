@@ -19,8 +19,24 @@ use Yajra\DataTables\DataTables;
 class CourseSubjectController extends Controller
 {
     //
-    public function index(Request $request) { 
-        $datas = CourseSubject::with(['course', 'subject'])->where('course_id', $request->id)->get(); 
+    public function index(String $id, Request $request) {
+        $year = 1;
+        $semester = 1; 
+        
+        if(!is_null($request->query('semester'))) { 
+            $semester = $request->query('semester');
+        }
+
+        if(!is_null($request->query('year'))) { 
+            $year = $request->query('year');
+        }
+
+        
+        $datas = CourseSubject::with(['course', 'subject'])->where([
+            ['course_id', '=', $id],
+            ['year', '=', $year],
+            ['semester', '=', $semester],
+        ])->get(); 
     
         if($request->ajax()){ 
             return DataTables::of($datas)
@@ -31,12 +47,13 @@ class CourseSubjectController extends Controller
                         return $data->subject->description;
                     })
                     ->addColumn('action', function($row){
-                        $btn = '<a href="'.route('courses.subjects', ['id' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
+                        $btn = '<button type="button" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</button>';
                         return $btn;
                     })
                     ->rawColumns(['action'])
                     ->make(true);
         }
+
 
         return view('course-subject.index');
     }
@@ -47,14 +64,18 @@ class CourseSubjectController extends Controller
     }
 
     public function show(String $id, Request $request) {
-         $ids = CourseSubject::select('subject_id')->with(['course', 'subject'])->where('course_id', $id)->get(); 
- 
-        $datas = Subject::whereNotIn('id',  $ids)->get();
+        $ids = CourseSubject::select('subject_id')->with(['course', 'subject'])->where('course_id', $id)->get(); 
+        
+        if($ids->count() > 0) { 
+            $datas = Subject::whereIn('id', (array) $ids)->get();
+        }else{
+            $datas = Subject::whereNotIn('id',  $ids)->get();
+        }
 
         if($request->ajax()){ 
             return DataTables::of($datas)
                     ->addColumn('action', function($row){
-                        $btn = '<a href="#" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Add</a>';
+                        $btn = '<buttpon type="button" data-remote="'.$row->id.'" class="add-button inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Add</button>';
                         return $btn;
                     })
                     ->rawColumns(['action'])
@@ -71,11 +92,11 @@ class CourseSubjectController extends Controller
         $courseSubject = new CourseSubject;
 
         $courseSubject->course_id = $course->id; 
-        $courseSubject->subject_id =  $validated['id']; 
+        $courseSubject->subject_id =  $validated['subject_id']; 
         $courseSubject->year = $validated['year']; 
         $courseSubject->semester = $validated['semester'];
-
-        if(is_not_null($validated['prerequisite_id'])) { 
+        
+        if(!is_null($validated['prerequisite_id'])) { 
             $courseSubject->prerequisite_id = $validated['prerequisite_id'];
         }
 

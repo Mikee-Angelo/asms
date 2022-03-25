@@ -1,4 +1,4 @@
- <table id="course-subject-datatable" class="w-full rounded-lg leading-normal">
+ <table id="pricing-subject-datatable" class="w-full rounded-lg leading-normal">
      <thead>
          <tr>
              <th
@@ -9,9 +9,13 @@
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Description
              </th>
-             <th
+               <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                 Actions
+                 Lec/Lab
+             </th>
+              <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Amount
              </th>
          </tr>
      </thead>
@@ -22,10 +26,10 @@
  <script type="text/javascript">
      $(function () {
 
-         var table = $('#course-subject-datatable').DataTable({
+         var table = $('#pricing-subject-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax:  '/courses/{{ request()->course }}/subjects',
+             ajax:  '{{ url()->full() }}',
              columns: [
                  {
                      data: 'subject_code',
@@ -37,13 +41,17 @@
                      name: 'description',
                      className: 'border p-4 dark:border-dark-5',
                  },
-                 {
-                     data: 'action',
-                     name: 'action',
-                     orderable: true,
-                     searchable: true,
+                {
+                     data: 'units',
+                     name: 'units',
                      className: 'border p-4 dark:border-dark-5',
                  },
+                {
+                     data: 'amount',
+                     name: 'amount',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+               
              ]
          });
 

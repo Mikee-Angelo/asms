@@ -68,6 +68,17 @@
       'Html' => 'Collective\\Html\\HtmlFacade',
     ),
   ),
+  'luigel/laravel-paymongo' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Luigel\\Paymongo\\PaymongoServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Paymongo' => 'Luigel\\Paymongo\\Facades\\Paymongo',
+    ),
+  ),
   'maatwebsite/excel' => 
   array (
     'providers' => 

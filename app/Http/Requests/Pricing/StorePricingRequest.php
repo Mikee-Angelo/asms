@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Pricing;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCourseSubjectRequest extends FormRequest
+class StorePricingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,12 @@ class StoreCourseSubjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'subject_id' => 'required|exists:subjects,id',
-            'year' => 'required|integer',
-            'semester' => 'required|integer', 
-            'prerequisite_id' => 'nullable|exists:subjects,id',
+            //
+            'course' => 'required|array',
+            'lec_price' => 'required|integer', 
+            'lab_price' => 'required|integer', 
+            'discount' => 'required|integer',
+            'scheduled_date' => 'required|date', 
         ];
     }
 }

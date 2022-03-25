@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class Pricing extends Model
 {
     use HasFactory;
 
-    public function pricing() { 
-        return $this->hasOne('App\Models\Pricing', 'course_id');
+    public function course() { 
+        return $this->belongsTo('App\Models\Course', 'course_id');
     }
 }

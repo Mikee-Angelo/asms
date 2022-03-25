@@ -1,18 +1,19 @@
- <table id="course-subject-datatable" class="w-full rounded-lg leading-normal">
+ <table class="pricing-datatable w-full rounded-lg leading-normal">
      <thead>
          <tr>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                 Subject Code
+                 Course
              </th>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                 Description
+                 Scheduled Date
              </th>
-             <th
+              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Actions
              </th>
+
          </tr>
      </thead>
      <tbody>
@@ -22,43 +23,30 @@
  <script type="text/javascript">
      $(function () {
 
-         var table = $('#course-subject-datatable').DataTable({
+         var table = $('.pricing-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax:  '/courses/{{ request()->course }}/subjects',
-             columns: [
-                 {
-                     data: 'subject_code',
-                     name: 'subject_code',
+             ajax: "{{ route('pricings.index') }}",
+             columns: [{
+                     data: 'course.course_name',
+                     name: 'course',
                      className: 'border p-4 dark:border-dark-5',
                  },
                  {
-                     data: 'description',
-                     name: 'description',
+                     data: 'scheduled_date',
+                     name: 'scheduled_date',
                      className: 'border p-4 dark:border-dark-5',
                  },
-                 {
+                  {
                      data: 'action',
                      name: 'action',
                      orderable: true,
                      searchable: true,
                      className: 'border p-4 dark:border-dark-5',
                  },
+
              ]
          });
-
-
-        $('#semester').on('change', function() {
-            var year = $('#year_level :selected').val();
-
-            table.ajax.url('{{ url()->full()}}?semester=' + this.value + '&year=' + year).load();
-        });
-
-         $('#year_level').on('change', function() {
-            var semester = $('#semester :selected').val();
-
-            table.ajax.url('{{ url()->full()}}?semester=' + semester + '&year=' + this.value).load();
-        });
 
          $('.dataTables_paginate').addClass(
              'px-4 py-2 border-t border-b text-base text-indigo-500 bg-white hover:bg-gray-100');

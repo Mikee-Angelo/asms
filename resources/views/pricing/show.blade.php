@@ -1,15 +1,24 @@
-@section('title', 'Assign')
+@section('title', 'Tuition Fee | '.$pricing->course->code)
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Assign Subjects') }}
+            {{ __('Tuition Fee') }}
         </h2>
     </x-slot>
 
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex flex-row">
+             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <h2 class="w-full text-3xl font-black leading-tight text-gray-800">
+                            {{ $pricing->course->course_name }}
+                        </h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
+             <div class="flex flex-row">
                 <!-- Year Level -->
                 <div class="mb-4 mr-4">
                     <x-label for="year_level" :value="__('Year')" />
@@ -47,23 +56,17 @@
 
                 </div>
             </div>
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <x-course-subject-table></x-course-subject-table>
+                    <h2 id="course-year-level" class="w-full text-3xl font-black leading-tight text-gray-800 mb-5">
+                            {{ $pricing->course->code }}
+                        </h2>
+
+                        <x-pricing-subject-table></x-pricing-subject-table>
                 </div>
             </div>
-
-            <h2 class="w-full my-5 text-3xl font-black leading-tight text-gray-800">
-                All Subjects
-            </h2>
-
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-5">
-
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <x-subject-course-table></x-subject-course-table>
-                </div>
-            </div>
-
         </div>
     </div>
+
+
 </x-app-layout>
