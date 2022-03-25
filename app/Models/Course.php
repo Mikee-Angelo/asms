@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
+
+    public function pricing() { 
+        return $this->hasOne('App\Models\Pricing', 'course_id');
+    }
 }

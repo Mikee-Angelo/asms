@@ -25,6 +25,7 @@ class StorePricingRequest extends FormRequest
     {
         return [
             //
+            'course' => 'required|array',
             'lec_price' => 'required|integer', 
             'lab_price' => 'required|integer', 
             'discount' => 'required|integer',

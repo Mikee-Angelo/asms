@@ -3,21 +3,17 @@
          <tr>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                 Lecture Price
-             </th>
-             <th
-                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                 Lab Price
-             </th>
-             <th
-                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                 Discount
+                 Course
              </th>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Scheduled Date
              </th>
-          
+              <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Actions
+             </th>
+
          </tr>
      </thead>
      <tbody>
@@ -31,28 +27,24 @@
              processing: true,
              serverSide: true,
              ajax: "{{ route('pricings.index') }}",
-             columns: [
-                 {
-                     data: 'lec_price',
-                     name: 'lec_price',
+             columns: [{
+                     data: 'course.course_name',
+                     name: 'course',
                      className: 'border p-4 dark:border-dark-5',
                  },
                  {
-                     data: 'lab_price',
-                     name: 'lab_price',
-                     className: 'border p-4 dark:border-dark-5',
-                 },
-                  {
-                     data: 'discount',
-                     name: 'discount',
-                     className: 'border p-4 dark:border-dark-5',
-                 }, 
-                  {
                      data: 'scheduled_date',
                      name: 'scheduled_date',
                      className: 'border p-4 dark:border-dark-5',
-                 }, 
-              
+                 },
+                  {
+                     data: 'action',
+                     name: 'action',
+                     orderable: true,
+                     searchable: true,
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+
              ]
          });
 

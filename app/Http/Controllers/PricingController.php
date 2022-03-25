@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 //Models
 use App\Models\Pricing;
+use App\Models\Course; 
+use App\Models\CourseSubject; 
+
+//Facades
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 //Others
 use Yajra\DataTables\DataTables;
@@ -17,9 +23,10 @@ class PricingController extends Controller
 {
     //
     public function index(Request $request) {
-        $datas = Pricing::get(); 
 
         if($request->ajax()){ 
+            $datas = Pricing::with('course')->get(); 
+
             return DataTables::of($datas)
                     ->addColumn('lec_price', function($data){
                         return '₱ '. $data->lec_price / 100; 
@@ -30,7 +37,11 @@ class PricingController extends Controller
                     ->addColumn('discount', function($data){
                         return $data->discount.' %';
                     })
-                    
+                    ->addColumn('action', function($row){
+                        $btn = '<a href="'.route('pricings.show', ['pricing' => $row]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
                     ->make(true);
         }
 
@@ -38,25 +49,81 @@ class PricingController extends Controller
     }
 
     public function create(){ 
-        return view('pricing.create');
+        $courses = Course::where('status', 1)->get();
+
+        return view('pricing.create', compact('courses'));
+    }
+
+    public function show(Pricing $pricing, Request $request) { 
+        $year = 1;
+        $semester = 1; 
+        
+        if(!is_null($request->query('semester'))) { 
+            $semester = $request->query('semester');
+        }
+
+        if(!is_null($request->query('year'))) { 
+            $year = $request->query('year');
+        }
+    
+        if($request->ajax()){ 
+
+            $datas = CourseSubject::with(['course', 'subject'])->where([
+                ['course_id', '=', $pricing->course->id],
+                ['year', '=', $year],
+                ['semester', '=', $semester],
+            ])->get(); 
+            
+            return DataTables::of($datas)
+                    ->addColumn('subject_code', function($data) {
+                        return $data->subject->subject_code;
+                    }) 
+                    ->addColumn('description', function($data) {
+                        return $data->subject->description;
+                    })
+                    ->addColumn('units', function($data) {
+                        return $data->subject->lec . ' / '. $data->subject->lab;
+                    })
+                     ->addColumn('amount', function($data) {
+                        $lec_total = ($data->course->pricing->lec_price / 100) * $data->subject->lec;
+                        $lab_total = ($data->course->pricing->lab_price / 100) * $data->subject->lab;
+
+                        $sum = $lec_total + $lab_total; 
+
+                        return '₱ '. $sum;
+                    })
+                    ->make(true);
+        }
+
+        return view('pricing.show', compact('pricing')); 
     }
 
     public function store(StorePricingRequest $request) {
         $validated = $request->validated();
+        
+        $courses = array_keys($validated['course']);
 
-        $pricing = new Pricing; 
+        $payload = [];
 
-        $pricing->lec_price = $validated['lec_price'] * 100;
-        $pricing->lab_price = $validated['lab_price'] * 100;
-        $pricing->discount = $validated['discount'];
-        $pricing->scheduled_date = $validated['scheduled_date'];
+        foreach($courses as $course) { 
+            $payload[] = [
+                'user_id' => Auth::id(),
+                'course_id' => $course, 
+                'lec_price' => $validated['lec_price'] * 100,
+                'lab_price' =>  $validated['lab_price'] * 100,
+                'discount' => $validated['discount'],
+                'scheduled_date' => $validated['scheduled_date'],
+            ];
+        }
 
-        $pricing->save(); 
-
+        DB::transaction(function () use ($payload){
+            Pricing::insert($payload);
+        });
+    
         return redirect('pricings/create')->with('status', [
             'success' => true, 
             'message' => 'Success', 
-            'description' => 'Pricing successfully added',
+            'description' => 'Tuition Fee successfully added',
         ]);
     }
 }
