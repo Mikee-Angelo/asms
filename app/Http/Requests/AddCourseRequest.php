@@ -24,7 +24,6 @@ class AddCourseRequest extends FormRequest
     public function rules()
     {
         return [
-            'department_id' =>'required|integer', 
             'code' => 'required|string',
             'course_name' => 'required|string', 
             'type' => 'required|integer',
