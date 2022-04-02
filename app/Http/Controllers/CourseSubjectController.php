@@ -64,12 +64,12 @@ class CourseSubjectController extends Controller
     }
 
     public function show(String $id, Request $request) {
-        $ids = CourseSubject::select('subject_id')->with(['course', 'subject'])->where('course_id', $id)->get(); 
+        $ids = CourseSubject::select('subject_id')->with([ 'subject'])->where('course_id', $id)->pluck('subject_id'); 
         
         if($ids->count() > 0) { 
-            $datas = Subject::whereIn('id', (array) $ids)->get();
+            $datas = Subject::whereNotIn('id',  array_values($ids->toArray()))->get();
         }else{
-            $datas = Subject::whereNotIn('id',  $ids)->get();
+            $datas = Subject::get();
         }
 
         if($request->ajax()){ 
@@ -89,6 +89,18 @@ class CourseSubjectController extends Controller
         $validated = $request->validated(); 
 
         $course = Course::findOrFail($id);
+        
+        $validateCourse = CourseSubject::where([
+            ['course_id', '=', $course->id],
+            ['subject_id', '=', $validated['subject_id']],
+            ['year', '=', $validated['year']],
+            ['semester', '=', $validated['semester']],
+        ])->first();
+
+        if(!is_null($validateCourse)) { 
+            return ;
+        }
+        
         $courseSubject = new CourseSubject;
 
         $courseSubject->course_id = $course->id; 
