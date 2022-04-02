@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 //Models
 use App\Models\Student; 
 use App\Models\Application; 
+use App\Models\ApplicationSubject; 
+use App\Models\CourseSubject; 
 
 //Requests
 use App\Http\Requests\Application\StoreApplicationRequest; 
+use App\Http\Requests\Application\UpdateApplicationRequest;
 
 //Facades
 use Illuminate\Support\Facades\DB;
@@ -23,7 +26,7 @@ class ApplicationController extends Controller
     //
     public function index(Request $request) {
 
-        $datas = Application::with(['student', 'course'])->get(); 
+        $datas = Application::with(['student', 'course'])->where('status' , 'pending')->get(); 
 
         if($request->ajax()){ 
             return DataTables::of($datas)
@@ -47,12 +50,31 @@ class ApplicationController extends Controller
         return view('application.index');
      }
 
-     public function show(Application $application) {
+     public function show(Application $application, Request $request) {
+        if($request->ajax()){ 
+            $datas = ApplicationSubject::with(['application', 'subject'])->where('application_id', $application->id)->get(); 
+        
+            return DataTables::of($datas)
+                ->addColumn('subject', function($row){ 
+                    return $row->subject->description;
+                }) 
+                ->addColumn('leclab', function($row){ 
+                    return $row->subject->lec.' / '.$row->subject->lab;
+                })
+                ->addColumn('action', function($row){
+                    $btn = '<a href="'.route('application.show', ['application' => $row->id ]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
         return view('application.show', compact('application'));
      }
 
     public function store(StoreApplicationRequest $request) {
         $validated = $request->validated(); 
+
 
         DB::transaction(function () use ($validated) {
             
@@ -87,7 +109,6 @@ class ApplicationController extends Controller
                 'status' => 1,
             ]);
 
-
             $application = Application::create([
                 'ticket_no' => Str::uuid()->toString(),
                 'student_id' => $student->id,
@@ -101,8 +122,22 @@ class ApplicationController extends Controller
                 'chronic_illness' => $validated['chronic_illness'],
                 'interfering_illness' => $validated['interfering_illness'],
                 'allergies' => $validated['allergies'],
- 
             ]);
+
+            $ids = CourseSubject::where([
+                ['course_id', '=', $validated['course_id']],
+                ['year', '=', $validated['year_level']],
+                ['semester', '=', 1]
+            ])->pluck('subject_id');
+            
+            foreach($ids as $id){ 
+                $as = new ApplicationSubject;
+                $as->application_id = $application->id; 
+                $as->subject_id = $id;
+
+                $as->save();
+            }
+          
         });
 
         return redirect('enroll')->with('status', [
@@ -112,5 +147,43 @@ class ApplicationController extends Controller
         ]);
 
             
+    }
+
+    public function accept(UpdateApplicationRequest $request) { 
+        $validated = $request->validated();
+
+        if($request->ajax()){ 
+            $application = Application::find($validated['id']);
+
+            if(!is_null($application)){ 
+
+                //Year Enrolled + Semester + Last ID Enrolled
+                $now = \Carbon\Carbon::now();
+
+                $studentCount = Student::count();
+
+                Student::where('id', $application->id)->update([
+                    'student_number' => $now->year.$application->semester.$studentCount
+                ]);
+
+                Application::where([
+                    'id' => $validated['id'],
+                    'status' => 'pending',
+                ])->update([
+                    'status' => 'accepted',
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Application accepted', 
+                ]);
+            } 
+        }
+
+        return response()->json([
+            'success' => false, 
+            'message' => 'Application declined', 
+        ]);
+
     }
 }

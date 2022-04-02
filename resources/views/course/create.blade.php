@@ -13,14 +13,14 @@
 
                     @if(session('status'))
 
-                    <div class="bg-green-200 border-green-600 text-green-600 border-l-4 p-4 mb-5" role="alert">
-                        <p class="font-bold">
-                            {{session('status')['message']}}
-                        </p>
-                        <p>
-                            {{session('status')['description']}}
-                        </p>
-                    </div>
+                        <div class="bg-green-200 border-green-600 text-green-600 border-l-4 p-4 mb-5" role="alert">
+                            <p class="font-bold">
+                                {{session('status')['message']}}
+                            </p>
+                            <p>
+                                {{session('status')['description']}}
+                            </p>
+                        </div>
 
                     @endif
                     <!-- Validation Errors -->

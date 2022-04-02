@@ -88,9 +88,14 @@
                                     New Application
                                 </option>
                                 <option value="2">
+                                    Old Application
+                                </option>
+                                <option value="3">
                                     Transferee
                                 </option>
-
+                                <option value="4">
+                                    Cross-Enroll
+                                </option>
                             </select>
 
                         </div>
