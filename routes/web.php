@@ -28,10 +28,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('subjects', \App\Http\Controllers\SubjectController::class)->only(['index', 'show', 'create', 'store']);
     Route::resource('application', \App\Http\Controllers\ApplicationController::class)->only(['index', 'show']);
     Route::resource('pricings', \App\Http\Controllers\PricingController::class)->only(['index', 'create', 'store', 'show']);
-
-    Route::prefix('/manage')->group(function() { 
-        Route::get('/', [\App\Http\Controllers\SuperAdmin\ManageController::class, 'index'])->name('manage'); 
-    });
+    Route::resource('roles', \App\Http\Controllers\SuperAdmin\ManageController::class);
 });
 
 require __DIR__.'/auth.php';

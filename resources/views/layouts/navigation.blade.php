@@ -36,8 +36,8 @@
                         {{ __('Pricings') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('manage')" :active="request()->routeIs('manage')">
-                        {{ __('Manage') }}
+                    <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                        {{ __('Roles') }}
                     </x-nav-link>
                 </div>
             </div>
