@@ -28,26 +28,10 @@
 
                     <form action="{{route('courses.store')}}" method="post">
                         @csrf
-                        {{-- Department --}}
-                        <div class="mb-4">
-                            <x-label for="department_id" :value="__('Department')" />
-
-                            <select :value="old('department_id')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                                name="department_id">
-                                <option value="">
-                                    Select an option
-                                </option>
-                                <option value="1">
-                                    Department of Information Technology
-                                </option>
-
-                            </select>
-                        </div>
 
                         {{-- Course Code  --}}
                         <div class="mb-4">
-                            <x-label for="code" :value="__('Code')" />
+                            <x-label for="code" :value="__('Short Code')" />
 
                             <x-input id="code" class="block mt-1 w-full" type="text" name="code" :value="old('code')"
                                 required autofocus />

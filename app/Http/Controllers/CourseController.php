@@ -50,8 +50,7 @@ class CourseController extends Controller
         $validated = $request->validated(); 
 
         $course = new Course; 
-
-        $course->department_id = $validated['department_id'];
+        $course->department_id = 1;
         $course->code = $validated['code']; 
         $course->course_name = $validated['course_name']; 
         $course->type = $validated['type']; 
