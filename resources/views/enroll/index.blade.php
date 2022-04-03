@@ -1,11 +1,20 @@
 @section('title', 'Enroll Now')
 
+
 <x-guest-layout>
     <form action="{{ route('application.store') }}" method="post">
         @csrf
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-12" style="background-color: #000038">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+
+                <div class="flex flex-col items-center mb-4">
+                    <img src="{{asset('img/logo.png')}}" class="h-36" alt="SBCI Logo">
+                    <h1 class="my-4 text-2xl md:text-3xl lg:text-5xl font-black text-white leading-tight">
+                        Application for Enrollment
+                    </h1>
+                </div>
+
                 <!-- Session Status -->
                 @if(session('status'))
 
@@ -28,6 +37,33 @@
                         <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
                             Application
                         </h2>
+
+                        <!-- Application Type -->
+                        <div class="mb-4">
+                            <x-label for="application_type" :value="__('Type of Application')" />
+
+                            <select :value="old('application_type')" id="application_type"
+                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                name="application_type">
+                                <option value="">
+                                    Select an option
+                                </option>
+                                <option value="1">
+                                    New Application
+                                </option>
+                                <option value="2">
+                                    Old Application
+                                </option>
+                                <option value="3">
+                                    Transferee
+                                </option>
+                                <option value="4">
+                                    Cross-Enroll
+                                </option>
+                            </select>
+
+                        </div>
+
                         <!-- Course -->
                         <div class="mb-4">
                             <x-label for="course_id" :value="__('Course')" />
@@ -73,38 +109,11 @@
                             </select>
 
                         </div>
-
-                        <!-- Application Type -->
-                        <div class="mb-4">
-                            <x-label for="application_type" :value="__('Type of Application')" />
-
-                            <select :value="old('application_type')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                                name="application_type">
-                                <option value="">
-                                    Select an option
-                                </option>
-                                <option value="1">
-                                    New Application
-                                </option>
-                                <option value="2">
-                                    Old Application
-                                </option>
-                                <option value="3">
-                                    Transferee
-                                </option>
-                                <option value="4">
-                                    Cross-Enroll
-                                </option>
-                            </select>
-
-                        </div>
-
                     </div>
                 </div>
             </div>
 
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8  mt-5">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8  mt-5">
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
@@ -143,32 +152,35 @@
                                 :value="old('birthday')" required autofocus />
                         </div>
 
-                        <!-- Mobile Number -->
-                        <div class="mb-4">
-                            <x-label for="mobile_no" :value="__('Mobile No.')" />
+                        <div class="flex flex-row">
+                            <!-- Mobile Number -->
+                            <div class="mb-4 w-full mr-2">
+                                <x-label for="mobile_no" :value="__('Mobile No.')" />
 
-                            <x-input id="mobile_no" class="block mt-1 w-full" type="tel" name="mobile_no"
-                                :value="old('mobile_no')" required autofocus />
-                        </div>
+                                <x-input id="mobile_no" class="block mt-1 w-full" type="tel" name="mobile_no"
+                                    :value="old('mobile_no')" required autofocus />
+                            </div>
 
-                        <!-- Gender -->
-                        <div class="mb-4">
-                            <x-label for="gender" :value="__('Gender')" />
+                            <!-- Gender -->
+                            <div class="mb-4 w-full ml-2">
+                                <x-label for="gender" :value="__('Gender')" />
 
-                            <select :value="old('gender')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                                name="gender">
-                                <option value="">
-                                    Select an option
-                                </option>
-                                <option value="male">
-                                    Male
-                                </option>
-                                <option value="female">
-                                    Female
-                                </option>
+                                <select :value="old('gender')"
+                                    class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                    name="gender">
+                                    <option value="">
+                                        Select an option
+                                    </option>
+                                    <option value="male">
+                                        Male
+                                    </option>
+                                    <option value="female">
+                                        Female
+                                    </option>
 
-                            </select>
+                                </select>
+                            </div>
+
                         </div>
 
                         <!-- Email Address -->
@@ -264,7 +276,7 @@
 
 
 
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-5">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
@@ -303,44 +315,69 @@
                                 name="secondary_graduated" :value="old('secondary_graduated')" required autofocus />
                         </div>
 
+                        <!-- Senior High School Status -->
+                        <div class="mb-4">
+                            <x-label for="senior_high_status" :value="__('Are you a Senior High graduate?')" />
+
+                            <select :value="old('senior_high_status')" id="senior_high_status"
+                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                name="senior_high_status">
+                                <option value="">
+                                    Select an option
+                                </option>
+                                <option value="yes">
+                                    Yes
+                                </option>
+                                <option value="no">
+                                    No
+                                </option>
+
+                            </select>
+                        </div>
+
                         <!-- Name of Senior High School -->
-                        <div class="mb-4">
-                            <x-label for="senior_school_name" :value="__('Name of Senior High School')" />
+                        <div class="senior_high_container hidden">
+                            <div class="mb-4">
+                                <x-label for="senior_school_name" :value="__('Name of Senior High School')" />
 
-                            <x-input id="senior_school_name" class="block mt-1 w-full" type="text"
-                                name="senior_school_name" :value="old('senior_school_name')" required autofocus />
-                        </div>
+                                <x-input id="senior_school_name" class="block mt-1 w-full" type="text"
+                                    name="senior_school_name" :value="old('senior_school_name')" required autofocus />
+                            </div>
 
-                        <!-- Strand / Track -->
-                        <div class="mb-4">
-                            <x-label for="strand" :value="__('Strand / Track')" />
+                            <!-- Strand / Track -->
+                            <div class="mb-4">
+                                <x-label for="strand" :value="__('Strand / Track')" />
 
-                            <x-input id="strand" class="block mt-1 w-full" type="text" name="strand"
-                                :value="old('strand')" required autofocus />
-                        </div>
+                                <x-input id="strand" class="block mt-1 w-full" type="text" name="strand"
+                                    :value="old('strand')" required autofocus />
+                            </div>
 
-                        <!-- Year Graduated -->
-                        <div class="mb-4">
-                            <x-label for="senior_graduated" :value="__('Year Graduated')" />
+                            <!-- Year Graduated -->
+                            <div class="mb-4">
+                                <x-label for="senior_graduated" :value="__('Year Graduated')" />
 
-                            <x-input id="senior_graduated" class="block mt-1 w-full" type="month"
-                                name="senior_graduated" :value="old('senior_graduated')" required autofocus />
+                                <x-input id="senior_graduated" class="block mt-1 w-full" type="month"
+                                    name="senior_graduated" :value="old('senior_graduated')" required autofocus />
+                            </div>
                         </div>
 
                         <!-- Tertiary School -->
-                        <div class="mb-4">
-                            <x-label for="tertiary_school" :value="__('Tertiary School (College)')" />
+                        <div class="tertiary-container hidden">
+                            <div class="mb-4">
+                                <x-label for="tertiary_school" :value="__('Tertiary School (College)')" />
 
-                            <x-input id="tertiary_school" class="block mt-1 w-full" type="text" name="tertiary_school"
-                                :value="old('tertiary_school')" required autofocus />
-                        </div>
+                                <x-input id="tertiary_school" class="block mt-1 w-full" type="text"
+                                    name="tertiary_school" :value="old('tertiary_school')" required autofocus />
+                            </div>
 
-                        <!-- Year Graduated -->
-                        <div class="mb-4">
-                            <x-label for="tertiary_graduated" :value="__('Year Graduated')" />
+                            <!-- Year Graduated -->
+                            <div class="mb-4">
+                                <x-label for="tertiary_graduated" :value="__('Year Graduated')" />
 
-                            <x-input id="tertiary_graduated" class="block mt-1 w-full" type="month"
-                                name="tertiary_graduated" :value="old('tertiary_graduated')" required autofocus />
+                                <x-input id="tertiary_graduated" class="block mt-1 w-full" type="month"
+                                    name="tertiary_graduated" :value="old('tertiary_graduated')" required autofocus />
+                            </div>
+
                         </div>
 
                         <!-- Date of the Last school attended  -->
@@ -356,7 +393,7 @@
                 </div>
             </div>
 
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-5">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
@@ -373,10 +410,10 @@
                                 <option value="">
                                     Select an option
                                 </option>
-                                <option value="1">
+                                <option value="0">
                                     Yes
                                 </option>
-                                <option value="2">
+                                <option value="1">
                                     No
                                 </option>
 
@@ -393,10 +430,10 @@
                                 <option value="">
                                     Select an option
                                 </option>
-                                <option value="1">
+                                <option value="0">
                                     Yes
                                 </option>
-                                <option value="2">
+                                <option value="1">
                                     No
                                 </option>
 
@@ -414,10 +451,10 @@
                                 <option value="">
                                     Select an option
                                 </option>
-                                <option value="1">
+                                <option value="0">
                                     Yes
                                 </option>
-                                <option value="2">
+                                <option value="1">
                                     No
                                 </option>
 
@@ -434,10 +471,10 @@
                                 <option value="">
                                     Select an option
                                 </option>
-                                <option value="1">
+                                <option value="0">
                                     Yes
                                 </option>
-                                <option value="2">
+                                <option value="1">
                                     No
                                 </option>
 
@@ -455,10 +492,10 @@
                                 <option value="">
                                     Select an option
                                 </option>
-                                <option value="1">
+                                <option value="0">
                                     Yes
                                 </option>
-                                <option value="2">
+                                <option value="1">
                                     No
                                 </option>
 
@@ -475,10 +512,10 @@
                                 <option value="">
                                     Select an option
                                 </option>
-                                <option value="1">
+                                <option value="0">
                                     Yes
                                 </option>
-                                <option value="2">
+                                <option value="1">
                                     No
                                 </option>
                             </select>
@@ -487,12 +524,23 @@
                 </div>
             </div>
 
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-5">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
                             Declaration of Application
                         </h2>
+
+                        <!-- EULA -->
+                        <div class="block mt-4">
+                            <label for="eula_status" class="inline-flex">
+                                <input id="eula_status" type="checkbox"
+                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mt-1"
+                                    name="eula_status">
+                                <span
+                                    class="ml-2 text-sm text-gray-600">{{ __("I agree to pay a Non-refundable registration fee of Php 2,000.00 (for CHED courses)/ Php 1,000.00 (for TVET Courses) payable to Subic Bay Colleges (SBCI), Inc. Registration fee and monthly fee are NON-REFUNDABLE regardless of the outcome of the registration. I have been made aware of the financial obligations associated with studying at this institution, and I agree to pay any tuition and other fees that are due to the institution in accordance with its rules. My withdrawal from this institution does not relieve me from the obligation to pay the full semester's tuition") }}</span>
+                            </label>
+                        </div>
 
                         <!-- Admission Status -->
                         <div class="block mt-4">
@@ -507,7 +555,7 @@
 
                         <!-- Information Status -->
                         <div class="block mt-4">
-                            <label for="admission_status" class="inline-flex">
+                            <label for="information_status" class="inline-flex">
                                 <input id="information_status" type="checkbox"
                                     class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mt-1"
                                     name="information_status">
@@ -515,7 +563,7 @@
                                     class="ml-2 text-sm text-gray-600">{{ __("All the information given are will evaluate by the registrar kindly wait for confirmation of your enrollment in your email address or text message. Thank you for enrolling in Subic Bay Colleges Inc. ") }}</span>
                             </label>
                         </div>
-                        <x-button class="mt-5">
+                        <x-button id="application-submit-button" class="mt-5" disabled>
                             {{ __('Enroll') }}
                         </x-button>
 
@@ -525,5 +573,64 @@
 
         </div>
     </form>
+
+    <script type="text/javascript">
+        $(function () {
+
+            var status = () => {
+                let eula = $('#eula_status').is(':checked');
+                let admission = $('#admission_status').is(':checked');
+                let information = $('#information_status').is(':checked');
+
+                let status = eula && admission && information;
+
+                if (status) {
+                    $('#application-submit-button').removeAttr('disabled');
+                } else {
+                    $('#application-submit-button').prop('disabled', true);
+                }
+
+                return status;
+            }
+
+            $('#eula_status').click(function () {
+                status();
+            });
+
+            $('#admission_status').click(function () {
+                status();
+            });
+
+            $('#information_status').click(function () {
+                status();
+            });
+
+            $('#senior_high_status').change(function (e) {
+                let value = $(e.target).val();
+                console.log(value);
+
+                if (value == 'yes') {
+                    $('.senior_high_container').removeClass('hidden');
+
+                } else {
+                    $('.senior_high_container').addClass('hidden');
+                }
+            });
+
+            $('#application_type').change(function () {
+                let value = $(this).val(); 
+
+                console.log(value);
+
+                if(value == 3 || value == 4) { 
+                    $('.tertiary-container').removeClass('hidden');
+                }else{ 
+                    $('.tertiary-container').addClass('hidden');
+
+                }
+            });
+        });
+
+    </script>
 
 </x-guest-layout>
