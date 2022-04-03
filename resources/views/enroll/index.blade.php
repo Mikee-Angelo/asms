@@ -341,7 +341,7 @@
                                 <x-label for="senior_school_name" :value="__('Name of Senior High School')" />
 
                                 <x-input id="senior_school_name" class="block mt-1 w-full" type="text"
-                                    name="senior_school_name" :value="old('senior_school_name')" required autofocus />
+                                    name="senior_school_name" :value="old('senior_school_name')"   />
                             </div>
 
                             <!-- Strand / Track -->
@@ -349,7 +349,7 @@
                                 <x-label for="strand" :value="__('Strand / Track')" />
 
                                 <x-input id="strand" class="block mt-1 w-full" type="text" name="strand"
-                                    :value="old('strand')" required autofocus />
+                                    :value="old('strand')"  />
                             </div>
 
                             <!-- Year Graduated -->
@@ -357,7 +357,7 @@
                                 <x-label for="senior_graduated" :value="__('Year Graduated')" />
 
                                 <x-input id="senior_graduated" class="block mt-1 w-full" type="month"
-                                    name="senior_graduated" :value="old('senior_graduated')" required autofocus />
+                                    name="senior_graduated" :value="old('senior_graduated')"   />
                             </div>
                         </div>
 
@@ -367,7 +367,7 @@
                                 <x-label for="tertiary_school" :value="__('Tertiary School (College)')" />
 
                                 <x-input id="tertiary_school" class="block mt-1 w-full" type="text"
-                                    name="tertiary_school" :value="old('tertiary_school')" required autofocus />
+                                    name="tertiary_school" :value="old('tertiary_school')"  />
                             </div>
 
                             <!-- Year Graduated -->
@@ -375,7 +375,7 @@
                                 <x-label for="tertiary_graduated" :value="__('Year Graduated')" />
 
                                 <x-input id="tertiary_graduated" class="block mt-1 w-full" type="month"
-                                    name="tertiary_graduated" :value="old('tertiary_graduated')" required autofocus />
+                                    name="tertiary_graduated" :value="old('tertiary_graduated')" />
                             </div>
 
                         </div>
@@ -612,8 +612,27 @@
                 if (value == 'yes') {
                     $('.senior_high_container').removeClass('hidden');
 
+                    $('#senior_school_name').prop('required', true);
+                    $('#senior_school_name').prop('autofocus', true);
+
+                    $('#strand').prop('required', true);
+                    $('#strand').prop('autofocus', true);
+
+                    $('#senior_graduated').prop('required', true);
+                    $('#senior_graduated').prop('autofocus', true);
+                    
+                    
                 } else {
                     $('.senior_high_container').addClass('hidden');
+
+                    $('#senior_school_name').removeAttr('required');
+                    $('#senior_school_name').removeAttr('autofocus');
+
+                    $('#strand').removeAttr('required');
+                    $('#strand').removeAttr('autofocus');
+
+                    $('#senior_graduated').removeAttr('required');
+                    $('#senior_graduated').removeAttr('autofocus');
                 }
             });
 
@@ -624,8 +643,20 @@
 
                 if(value == 3 || value == 4) { 
                     $('.tertiary-container').removeClass('hidden');
+                    $('#tertiary_school').prop('required', true);
+                    $('#tertiary_school').prop('autofocus', true);
+
+                    $('#tertiary_graduated').prop('required', true);
+                    $('#tertiary_graduated').prop('autofocus', true);
+                    
                 }else{ 
                     $('.tertiary-container').addClass('hidden');
+                    $('#tertiary_school').removeAttr('required');
+                    $('#tertiary_school').removeAttr('autofocus');
+
+                    $('#tertiary_graduated').removeAttr('required');
+                    $('#tertiary_graduated').removeAttr('autofocus');
+        
 
                 }
             });
