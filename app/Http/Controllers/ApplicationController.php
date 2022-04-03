@@ -9,6 +9,7 @@ use App\Models\Student;
 use App\Models\Application; 
 use App\Models\ApplicationSubject; 
 use App\Models\CourseSubject; 
+use App\Models\User; 
 
 //Requests
 use App\Http\Requests\Application\StoreApplicationRequest; 
@@ -17,9 +18,13 @@ use App\Http\Requests\Application\UpdateApplicationRequest;
 //Facades
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 //Others
 use Yajra\DataTables\DataTables;
+
+//Mail
+use App\Mail\ApplicationMail; 
 
 class ApplicationController extends Controller
 {
@@ -153,26 +158,58 @@ class ApplicationController extends Controller
         $validated = $request->validated();
 
         if($request->ajax()){ 
-            $application = Application::find($validated['id']);
-
+            $application = Application::with('student')->find($validated['id']);
+            
             if(!is_null($application)){ 
+
+                $firstName = $application->student->given_name;
+                $lastName = $application->student->last_name;
+                $parsedLastName = str_replace(' ', '_', $lastName);
+                $customEmail = strtolower( $firstName[0].$parsedLastName).'@subicbaycollege.com'; 
+                $customPassword = Str::random(8);
 
                 //Year Enrolled + Semester + Last ID Enrolled
                 $now = \Carbon\Carbon::now();
 
                 $studentCount = Student::count();
+                DB::beginTransaction();
 
-                Student::where('id', $application->id)->update([
-                    'student_number' => $now->year.$application->semester.$studentCount
-                ]);
+                try{ 
+                    $user = User::create([
+                        'name' => $firstName.' '.$lastName,
+                        'password' =>  bcrypt($customPassword),
+                        'email' => $customEmail,
+                    ]);
 
-                Application::where([
-                    'id' => $validated['id'],
-                    'status' => 'pending',
-                ])->update([
-                    'status' => 'accepted',
-                ]);
+                    Student::where('id', $application->id)->update([
+                        'user_id' =>  $user->id,
+                        'student_number' => $now->year.$application->semester.$studentCount
+                    ]);     
+                    
+                    Mail::to($application->student->register_email)->send(new ApplicationMail($user, $customPassword));
 
+                    Application::where([
+                        'id' => $validated['id'],
+                        'status' => 'pending',
+                    ])->update([
+                        'status' => 'accepted',
+                    ]);
+
+                    $user->assignRole('Student');
+
+
+                }catch(\Exception $e){
+                    DB::rollback();
+
+                     return response()->json([
+                        'success' => false,
+                        'message' => 'Something went Wrong', 
+                    ]);
+
+                }
+
+                DB::commit();
+               
                 return response()->json([
                     'success' => true,
                     'message' => 'Application accepted', 
