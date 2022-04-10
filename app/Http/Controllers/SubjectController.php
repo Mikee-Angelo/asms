@@ -14,6 +14,7 @@ use App\Models\Course;
 
 //Request
 use App\Http\Requests\AddSubjectRequest; 
+use App\Http\Requests\Subjects\SearchSubjectRequest; 
 
 class SubjectController extends Controller
 {
@@ -49,6 +50,19 @@ class SubjectController extends Controller
         
 
         return view('subject.create', compact('courses'));
+    }
+
+    public function search(Subject $subject, SearchSubjectRequest $request) { 
+
+        $validated = $request->validated();
+        
+        $subjects = Subject::select('subject_code', 'description')->where('subject_code', 'LIKE', '%'.$validated['subject_code'].'%')->get();
+
+        return response()->json([
+            'status' => true, 
+            'data' => $subjects, 
+        ]);
+        
     }
 
     public function store(AddSubjectRequest $request) { 
