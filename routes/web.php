@@ -25,7 +25,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('students', \App\Http\Controllers\StudentController::class)->only(['index', 'show']);
     Route::resource('courses', \App\Http\Controllers\CourseController::class)->only(['index', 'show', 'create', 'store']);
     Route::resource('courses.subjects', \App\Http\Controllers\CourseSubjectController::class, ['parameters' => 'id'])->only(['index', 'show', 'create', 'store']);
-    Route::resource('subjects', \App\Http\Controllers\SubjectController::class)->only(['index', 'show', 'create', 'store']);
+    Route::resource('subjects', \App\Http\Controllers\SubjectController::class)->only(['index', 'show', 'create', 'store', 'destroy']);
     
     //Application
     Route::put('application/accept', [ \App\Http\Controllers\ApplicationController::class, 'accept']);
