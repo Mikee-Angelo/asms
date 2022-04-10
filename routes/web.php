@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -35,6 +36,9 @@ Route::middleware(['auth'])->group(function() {
 
     Route::resource('pricings', \App\Http\Controllers\PricingController::class)->only(['index', 'create', 'store', 'show']);
     Route::resource('roles', \App\Http\Controllers\SuperAdmin\ManageController::class);
+
+    //Mail
+    Route::resource('mail', \App\Http\Controllers\MailController::class);
 });
 
 require __DIR__.'/auth.php';

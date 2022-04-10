@@ -1,5 +1,5 @@
 <div>
-    Eto na yung account mo , ina mo!!!!!
+    <p>{{ $description }}</p>
     Email: {{ $email }}
     Password: {{ $password }}
 </div>

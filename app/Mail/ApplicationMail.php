@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 
 //Model
 use App\Models\User; 
+use App\Models\Mail; 
 
 class ApplicationMail extends Mailable
 {
@@ -39,10 +40,12 @@ class ApplicationMail extends Mailable
      */
     public function build()
     {
+        $mail = Mail::where('tag', 'Application')->first();
         
         return $this->view('mails.application')->with([
             'email' => $this->user->email,
             'password' => $this->password,
+            'description' => $mail->description
         ]);
     }
 }
