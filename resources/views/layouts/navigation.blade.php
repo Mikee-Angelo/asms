@@ -15,30 +15,33 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    
-                    <x-nav-link :href="route('application.index')" :active="request()->routeIs('application.index')">
-                        {{ __('Applications') }}
-                    </x-nav-link>
 
-                    <x-nav-link :href="route('students.index')" :active="request()->routeIs('students.index')">
-                        {{ __('Students') }}
-                    </x-nav-link>
 
-                    <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.index')">
-                        {{ __('Courses') }}
-                    </x-nav-link>
+                    @role('Super Admin')
+                        <x-nav-link :href="route('application.index')" :active="request()->routeIs('application.index')">
+                            {{ __('Applications') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('subjects.index')" :active="request()->routeIs('subjects.index')">
-                        {{ __('Subjects') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('students.index')" :active="request()->routeIs('students.index')">
+                            {{ __('Students') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('pricings.index')" :active="request()->routeIs('pricings.index')">
-                        {{ __('Pricings') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.index')">
+                            {{ __('Courses') }}
+                        </x-nav-link>
 
-                    <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
-                        {{ __('Roles') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('subjects.index')" :active="request()->routeIs('subjects.index')">
+                            {{ __('Subjects') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('pricings.index')" :active="request()->routeIs('pricings.index')">
+                            {{ __('Pricings') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                            {{ __('Roles') }}
+                        </x-nav-link>
+                    @endhasrole
                 </div>
             </div>
 
