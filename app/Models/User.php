@@ -43,7 +43,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function application() { 
-        return $this->hasMany('App\Models\Application', 'user_id');
+    public function student() { 
+        return $this->hasOne('App\Models\Student', 'user_id');
     }
 }

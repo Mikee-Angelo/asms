@@ -30,4 +30,8 @@ class Application extends Model
     public function course() {
         return $this->belongsTo('App\Models\Course', 'course_id', 'id');
     }
+
+    public function application_subject() { 
+        return $this->hasMany('App\Models\ApplicationSubject', 'application_id');
+    }
 }
