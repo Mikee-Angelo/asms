@@ -159,7 +159,7 @@ class ApplicationController extends Controller
 
         if($request->ajax()){ 
             $application = Application::with('student')->find($validated['id']);
-            
+         
             if(!is_null($application)){ 
 
                 $firstName = $application->student->given_name;
@@ -172,6 +172,7 @@ class ApplicationController extends Controller
                 $now = \Carbon\Carbon::now();
 
                 $studentCount = Student::count();
+
                 DB::beginTransaction();
 
                 try{ 
@@ -181,7 +182,7 @@ class ApplicationController extends Controller
                         'email' => $customEmail,
                     ]);
 
-                    Student::where('id', $application->id)->update([
+                    Student::where('id', $application->student_id)->update([
                         'user_id' =>  $user->id,
                         'student_number' => $now->year.$application->semester.$studentCount
                     ]);     
@@ -203,7 +204,7 @@ class ApplicationController extends Controller
 
                      return response()->json([
                         'success' => false,
-                        'message' => 'Something went Wrong', 
+                        'message' => 'Something went wrong', 
                     ]);
 
                 }
