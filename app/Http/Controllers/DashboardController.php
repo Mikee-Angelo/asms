@@ -9,15 +9,18 @@ use Illuminate\Support\Facades\Auth;
 
 //Models
 use App\Models\Application; 
+use App\Models\Student; 
 
 //Others
 use Yajra\DataTables\DataTables;
-
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     //
     public function index(Request $request){ 
+        $students = Student::get(); 
+
         if(Auth::user()->hasRole('Student')) { 
             if($request->ajax()){ 
                $subject = Auth::user()->student->application->last()->application_subject ;
@@ -43,6 +46,14 @@ class DashboardController extends Controller
             return view('student.dashboard.index', compact('student'));
         }
 
-        return view('dashboard');
+        $now = Carbon::now();
+        
+        //Get total number of student
+        $total_number_of_student = Student::count();
+
+        //Get total number of accepted application this year
+        $active_student = Application::whereYear('created_at', $now->year)->where('status', 'accepted')->count();
+
+        return view('dashboard',compact('total_number_of_student', 'active_student'));
     }
 }
