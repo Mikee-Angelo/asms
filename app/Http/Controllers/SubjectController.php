@@ -24,7 +24,17 @@ class SubjectController extends Controller
         if($request->ajax()){ 
             return DataTables::of($subject)
                     ->addColumn('action', function($row){
-                        $btn = '<a href="'.route('subjects.show', ['subject' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
+                        if(request()->routeIs('courses.subjects.index')) { 
+                            $btn = '<a href="'.route('courses.subjects.index', ['course' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Add</a>';
+                        }else{ 
+                            $btn = '
+                                <div class="flex flex-row">
+                                    <a href="'.route('subjects.show', ['subject' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>
+                                    <button type="button" data-remote="'.$row->id.'" class="del-btn ml-2 inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Delete</button>
+                                </div>
+                            ';
+                        }
+
                         return $btn;
                     })
                     ->rawColumns(['action'])
@@ -58,6 +68,25 @@ class SubjectController extends Controller
             'message' => 'Success', 
             'description' => 'Subject successfully added',
         ]);
+    }
+
+    public function destroy(String $id){ 
+        $subject = Subject::find($id); 
+
+        try { 
+            $subject->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Successfully Deleted',
+            ]);
+
+        }catch (Exception $e) { 
+            return response()->json([
+                'status' => false,
+                'message' => e,
+            ]);
+        }
     }
 }
 

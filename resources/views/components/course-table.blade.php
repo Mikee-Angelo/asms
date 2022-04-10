@@ -3,10 +3,6 @@
          <tr>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                 Code
-             </th>
-             <th
-                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Course Name
              </th>
              <th
@@ -34,11 +30,7 @@
              processing: true,
              serverSide: true,
              ajax: "{{ route('courses.index') }}",
-             columns: [{
-                     data: 'code',
-                     name: 'code',
-                     className: 'border p-4 dark:border-dark-5',
-                 },
+             columns: [
                  {
                      data: 'course_name',
                      name: 'course_name',

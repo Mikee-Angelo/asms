@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+//Illuminate
 use Illuminate\Http\Request;
+
+//Others
 use Yajra\DataTables\DataTables;
+
+//Models
 use App\Models\Course; 
+use App\Models\CourseSubject; 
+
+//Requests
 use App\Http\Requests\AddCourseRequest;
+
 
 class CourseController extends Controller
 {
@@ -26,7 +35,11 @@ class CourseController extends Controller
         return view('course.index');
     }
 
-    public function show(Course $course) {}
+    public function show(Course $course) {
+        $course_subjects = CourseSubject::where('course_id', $course->id)->get();
+        
+        return view('course.show', compact('course', 'course_subjects'));
+    }
 
 
     public function create() {  
@@ -37,8 +50,7 @@ class CourseController extends Controller
         $validated = $request->validated(); 
 
         $course = new Course; 
-
-        $course->department_id = $validated['department_id'];
+        $course->department_id = 1;
         $course->code = $validated['code']; 
         $course->course_name = $validated['course_name']; 
         $course->type = $validated['type']; 

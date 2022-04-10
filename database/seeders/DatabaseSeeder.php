@@ -18,14 +18,10 @@ class DatabaseSeeder extends Seeder
     {
         // Create some default roles
         $sa = Role::create(['name' => 'Super Admin']);
-        Role::create(['name' => 'Admin']);
-        Role::create(['name' => 'Faculty']);
-        Role::create(['name' => 'Student']);
         
         // Create super admin password
         $user = User::create(['name' => 'Administrator', 'email' => 'admin@admin.com', 'password' => bcrypt('1234567890') , 'activated_at' => \Carbon\Carbon::now()]);
 
         $user->assignRole($sa);
-        // \App\Models\User::factory(10)->create();
     }
 }
