@@ -31,9 +31,23 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'g-recaptcha-response' => 'required|captcha'
         ];
     }
 
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+
+    public function messages(){ 
+        return [
+            'g-recaptcha-response.required' => 'Please verify that you are not a robot.',
+             'g-recaptcha-response.captcha' => 'Captcha error! try again later or contact site admin.',
+        ];
+    }
+    
     /**
      * Attempt to authenticate the request's credentials.
      *

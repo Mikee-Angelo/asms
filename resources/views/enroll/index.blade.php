@@ -563,6 +563,11 @@
                                     class="ml-2 text-sm text-gray-600">{{ __("All the information given are will evaluate by the registrar kindly wait for confirmation of your enrollment in your email address or text message. Thank you for enrolling in Subic Bay Colleges Inc. ") }}</span>
                             </label>
                         </div>
+                        <div class="mt-3 w-full">
+
+                            {!! NoCaptcha::display() !!}
+                        </div>
+
                         <x-button id="application-submit-button" class="mt-5" disabled>
                             {{ __('Enroll') }}
                         </x-button>
@@ -574,6 +579,7 @@
         </div>
     </form>
 
+    {!! NoCaptcha::renderJs() !!}
     <script type="text/javascript">
         $(function () {
 
