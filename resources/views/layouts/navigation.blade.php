@@ -46,6 +46,10 @@
                             {{ __('Mail') }}
                         </x-nav-link>
 
+                        <x-nav-link :href="route('faculty.index')" :active="request()->routeIs('faculty.index')">
+                            {{ __('Faculty') }}
+                        </x-nav-link>
+
                     @endhasrole
                 </div>
             </div>
