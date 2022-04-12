@@ -46,6 +46,11 @@ class DashboardController extends Controller
             return view('student.dashboard.index', compact('student'));
         }
 
+        if(Auth::user()->hasRole('Instructor')) { 
+
+            return view('faculty.dashboard.instructor');
+        }
+
         $now = Carbon::now();
         
         //Get total number of student

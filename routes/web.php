@@ -39,6 +39,10 @@ Route::middleware(['auth'])->group(function() {
 
     //Mail
     Route::resource('mail', \App\Http\Controllers\MailController::class);
+
+    //Faculty
+    Route::resource('faculty', \App\Http\Controllers\FacultyController::class);
+
 });
 
 require __DIR__.'/auth.php';
