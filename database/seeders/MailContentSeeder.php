@@ -21,5 +21,10 @@ class MailContentSeeder extends Seeder
             'tag' => 'Application',
             'description' => "Thankyou for enrolling to Subic Bay Colleges (SBCI), Inc. Here's your student account",
         ]);
+
+        Mail::create([
+            'tag' => 'Faculty Account',
+            'description' => "Thankyou for enrolling to Subic Bay Colleges (SBCI), Inc. Here's your student account",
+        ]);
     }
 }
