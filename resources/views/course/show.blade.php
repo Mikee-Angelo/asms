@@ -24,7 +24,7 @@
                     </h2>
 
                     <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        Dean: <span class="ml-5">{{ $course_dean->user->name }}</span>
+                        Dean: <span class="ml-5">{{ $course_dean->user->name ?? 'N/A' }}</span>
                     </p>
 
                     @if ($course_subjects->count() == 0)
