@@ -30,7 +30,6 @@ class CourseSubjectController extends Controller
         if(!is_null($request->query('year'))) { 
             $year = $request->query('year');
         }
-
         
         $datas = CourseSubject::with(['course', 'subject'])->where([
             ['course_id', '=', $id],

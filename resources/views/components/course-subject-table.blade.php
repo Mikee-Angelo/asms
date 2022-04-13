@@ -25,7 +25,7 @@
          var table = $('#course-subject-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax:  '/courses/{{ request()->course }}/subjects',
+             ajax:  '{{ request()->course->id }}/subjects',
              columns: [
                  {
                      data: 'subject_code',
@@ -51,13 +51,13 @@
         $('#semester').on('change', function() {
             var year = $('#year_level :selected').val();
 
-            table.ajax.url('{{ url()->full()}}?semester=' + this.value + '&year=' + year).load();
+            table.ajax.url('{{ request()->course->id }}/subjects?semester=' + this.value + '&year=' + year).load();
         });
 
          $('#year_level').on('change', function() {
             var semester = $('#semester :selected').val();
 
-            table.ajax.url('{{ url()->full()}}?semester=' + semester + '&year=' + this.value).load();
+            table.ajax.url('{{ request()->course->id }}/subjects?semester=' + semester + '&year=' + this.value).load();
         });
 
          $('.dataTables_paginate').addClass(
