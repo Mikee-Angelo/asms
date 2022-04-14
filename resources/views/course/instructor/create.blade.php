@@ -1,8 +1,8 @@
-@section('title', 'Assign Dean')
+@section('title', 'Assign Instructor')
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Assign Dean') }}
+            {{ __('Assign Instructor') }}
         </h2>
     </x-slot>
 
@@ -26,12 +26,12 @@
                     <!-- Validation Errors -->
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-                    <form action="{{route('courses.dean.store', ['course' => $course->id ])}}" method="post">
+                    <form action="{{route('courses.instructor.store', ['course' => $course->id ])}}" method="post">
                         @csrf
 
                         {{-- Course Type --}}
                         <div class="mb-4">
-                            <x-label for="faculty_id" :value="__('Dean Name')" />
+                            <x-label for="faculty_id" :value="__('Instructor Name')" />
 
                             <select
                                 class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
@@ -40,9 +40,9 @@
                                     Select an option
                                 </option>
                                 
-                                @foreach ($courseDeans as $courseDean)
-                                    <option value="{{ $courseDean->id }}">
-                                        {{ $courseDean->name }}
+                                @foreach ($instructors as $instructor)
+                                    <option value="{{ $instructor->id }}">
+                                        {{ $instructor->name }}
                                     </option>
                                 @endforeach
 

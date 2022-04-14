@@ -50,4 +50,9 @@ class User extends Authenticatable
     public function course_dean() { 
         return $this->hasOne('App\Models\CourseDean', 'faculty_id');
     }
+
+    public function course_instructor() { 
+        return $this->hasOne('App\Models\CourseInstructor', 'faculty_id');
+    }
+
 }

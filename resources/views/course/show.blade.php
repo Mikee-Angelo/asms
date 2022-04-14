@@ -16,6 +16,10 @@
                 <a href="{{route('courses.dean.create', ['course' => $course->id])}}"
                     class="mr-2 justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Assign
                     Dean</a>
+
+                <a href="{{route('courses.instructor.create', ['course' => $course->id])}}"
+                    class="mr-2 justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Assign
+                    Instructor</a>
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -32,6 +36,17 @@
                     @else
 
                     @endif
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-5">
+
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                        Instructors
+                    </h2>
+                    
+                    <x-course-instructor-table></x-course-instructor-table>
                 </div>
             </div>
 
@@ -76,7 +91,7 @@
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                
+
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
                         Subjects
@@ -86,7 +101,7 @@
                 </div>
             </div>
 
-             <div class="flex flex-row mt-5">
+            <div class="flex flex-row mt-5">
                 <!-- Year Level -->
                 <div class="mb-4 mr-4">
                     <x-label for="student_year_level" :value="__('Year')" />
@@ -127,7 +142,7 @@
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                
+
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
                         Students
