@@ -12,4 +12,9 @@ class CourseInstructor extends Model
     public function faculty() { 
         return $this->belongsTo('App\Models\User', 'faculty_id');
     }
+
+    public function course() { 
+        return $this->belongsTo('App\Models\Course', 'course_id');
+    }
+    
 }

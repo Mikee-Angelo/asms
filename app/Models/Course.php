@@ -16,4 +16,8 @@ class Course extends Model
     public function application() {
         return $this->hasMany('App\Models\Application', 'course_id');
     }
+
+    public function course_dean(){ 
+        return $this->hasOne('App\Models\CourseDean', 'course_id');
+    }
 }

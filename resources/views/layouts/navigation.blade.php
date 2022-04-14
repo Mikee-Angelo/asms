@@ -49,8 +49,13 @@
                         <x-nav-link :href="route('faculty.index')" :active="request()->routeIs('faculty.index')">
                             {{ __('Faculty') }}
                         </x-nav-link>
-
                     @endhasrole
+
+                    @hasanyrole('Super Admin|Instructor')
+                        <x-nav-link :href="route('schedule.index')" :active="request()->routeIs('schedule.index')">
+                            {{ __('Schedule') }}
+                        </x-nav-link>
+                    @endhasanyrole
                 </div>
             </div>
 

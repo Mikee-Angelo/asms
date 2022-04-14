@@ -45,9 +45,13 @@ Route::middleware(['auth'])->group(function() {
 
     //Course Dean
     Route::resource('courses.dean', \App\Http\Controllers\CourseDeanController::class);
-
+    
     //Course Dean
     Route::resource('courses.instructor', \App\Http\Controllers\CourseInstructorController::class);
+
+    //Schedule
+    Route::post('schedule/submit', [\App\Http\Controllers\ScheduleController::class, 'submit'])->name('schedule.submit');
+    Route::resource('schedule', \App\Http\Controllers\ScheduleController::class);
 
 });
 
