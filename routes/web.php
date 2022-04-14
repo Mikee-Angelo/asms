@@ -46,6 +46,9 @@ Route::middleware(['auth'])->group(function() {
     //Course Dean
     Route::resource('courses.dean', \App\Http\Controllers\CourseDeanController::class);
 
+    //Course Dean
+    Route::resource('courses.instructor', \App\Http\Controllers\CourseInstructorController::class);
+
 });
 
 require __DIR__.'/auth.php';
