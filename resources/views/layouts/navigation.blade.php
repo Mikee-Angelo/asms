@@ -42,6 +42,10 @@
                             {{ __('Miscellaneous') }}
                         </x-nav-link>
 
+                        <x-nav-link :href="route('other.index')" :active="request()->routeIs('other.index')">
+                            {{ __('Other Fees') }}
+                        </x-nav-link>
+
                         <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
                             {{ __('Roles') }}
                         </x-nav-link>

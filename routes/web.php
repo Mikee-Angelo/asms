@@ -56,6 +56,9 @@ Route::middleware(['auth'])->group(function() {
     //Miscellaneous
     Route::resource('miscellaneous', \App\Http\Controllers\MiscellaneousController::class);
 
+    //Others
+    Route::resource('other', \App\Http\Controllers\OtherController::class);
+
 });
 
 require __DIR__.'/auth.php';
