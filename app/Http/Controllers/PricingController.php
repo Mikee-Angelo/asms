@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 //Models
 use App\Models\Pricing;
@@ -36,6 +37,9 @@ class PricingController extends Controller
                     })
                     ->addColumn('discount', function($data){
                         return $data->discount.' %';
+                    })
+                     ->addColumn('scheduled_date', function($data){
+                        return Carbon::parse($data->scheduled_date)->format('F d, Y');
                     })
                     ->addColumn('action', function($row){
                         $btn = '<a href="'.route('pricings.show', ['pricing' => $row]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';

@@ -38,6 +38,10 @@
                             {{ __('Pricings') }}
                         </x-nav-link>
 
+                        <x-nav-link :href="route('miscellaneous.index')" :active="request()->routeIs('miscellaneous.index')">
+                            {{ __('Miscellaneous') }}
+                        </x-nav-link>
+
                         <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
                             {{ __('Roles') }}
                         </x-nav-link>

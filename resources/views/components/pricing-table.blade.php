@@ -5,6 +5,14 @@
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Course
              </th>
+              <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Lec
+             </th>
+              <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Lab
+             </th>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Scheduled Date
@@ -30,6 +38,16 @@
              columns: [{
                      data: 'course.course_name',
                      name: 'course',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+                 {
+                     data: 'lec_price',
+                     name: 'lec_price',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+                 {
+                     data: 'lab_price',
+                     name: 'lab_price',
                      className: 'border p-4 dark:border-dark-5',
                  },
                  {
