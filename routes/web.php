@@ -53,6 +53,9 @@ Route::middleware(['auth'])->group(function() {
     Route::post('schedule/submit', [\App\Http\Controllers\ScheduleController::class, 'submit'])->name('schedule.submit');
     Route::resource('schedule', \App\Http\Controllers\ScheduleController::class);
 
+    //Miscellaneous
+    Route::resource('miscellaneous', \App\Http\Controllers\MiscellaneousController::class);
+
 });
 
 require __DIR__.'/auth.php';
