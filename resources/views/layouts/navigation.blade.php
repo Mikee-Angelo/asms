@@ -46,6 +46,10 @@
                             {{ __('Other Fees') }}
                         </x-nav-link>
 
+                        <x-nav-link :href="route('registration-fee.index')" :active="request()->routeIs('registration-fee.index')">
+                            {{ __('Registration Fee') }}
+                        </x-nav-link>
+
                         <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
                             {{ __('Roles') }}
                         </x-nav-link>
