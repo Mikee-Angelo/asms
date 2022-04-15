@@ -62,6 +62,9 @@ Route::middleware(['auth'])->group(function() {
     //Registration Fee
     Route::resource('registration-fee',\App\Http\Controllers\RegistrationFeeController::class);
 
+    //Discount
+    Route::resource('discount', \App\Http\Controllers\DiscountController::class);
+
 });
 
 require __DIR__.'/auth.php';
