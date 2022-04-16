@@ -48,7 +48,7 @@
                 </div>
                 <div class="flex flex-col justify-start">
                     <p class="text-gray-800 text-4xl text-left dark:text-white font-bold mt-4">
-                        36
+                        {{ $number_of_faculty }}
                     </p>
 
                 </div>
