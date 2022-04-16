@@ -67,7 +67,7 @@
                         </x-nav-link>
                     @endhasrole
 
-                    @hasanyrole('Super Admin|Instructor')
+                    @hasanyrole('Super Admin|Instructor|Dean')
                         <x-nav-link :href="route('schedule.index')" :active="request()->routeIs('schedule.index')">
                             {{ __('Schedule') }}
                         </x-nav-link>

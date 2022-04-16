@@ -55,4 +55,8 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\CourseInstructor', 'faculty_id');
     }
 
+    public function schedule() { 
+        return $this->hasMany('App\Models\Schedule', 'sender_id');
+    }
+
 }

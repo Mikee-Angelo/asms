@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+
 //Models
 use App\Models\Schedule;
+use App\Models\User;
 
 //Others
 use Yajra\DataTables\DataTables;
+use  Acaronlex\LaravelCalendar\Calendar;
 
 //Request
 use App\Http\Requests\Schedule\StoreScheduleRequest; 
@@ -19,10 +22,28 @@ class ScheduleController extends Controller
     //
     public function index(Request $request) { 
 
-        if($request->ajax()){ 
-            $schedules = Schedule::get(); 
+        if($request->ajax()){
+            if(Auth::user()->hasRole('Dean')) { 
+                $users = User::role('Instructor')->get();
+                
+                return DataTables::of($users)
+                    ->addColumn('name', function($row) { 
+                        return $row->name;
+                    })
+                    ->addColumn('count', function($row){ 
+                        return $row->schedule->count() ?? 0;
+                    })
+                    ->addColumn('action', function($row){
+                        $btn = '<a href="'.route('schedule.show', ['schedule' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
 
-            return DataTables::of($schedule)
+            $schedules = Schedule::where()->get(); 
+
+            return DataTables::of($schedules)
                     ->addColumn('action', function($row){
                         
                         $btn = '<a href="'.route('courses.show', ['course' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
@@ -35,8 +56,50 @@ class ScheduleController extends Controller
         return view('schedule.index');
     }
 
-    public function show() { 
-        return view('schedule.show');
+    public function show(String $id) { 
+        $instructors = User::role('Instructor')->get();
+        $days= [
+            'Monday' => Carbon::MONDAY, 
+            'Tuesday' => Carbon::TUESDAY, 
+            'Wednesday' => Carbon::WEDNESDAY,
+            'Thursday' => Carbon::THURSDAY,
+            'Friday' => Carbon::FRIDAY,
+            'Saturday' => Carbon::SATURDAY,
+        ];
+
+        $events = [];
+
+        foreach($instructors as $instructor) { 
+            foreach($instructor->schedule as $schedule) { 
+                $now = Carbon::now();
+                $day = $now->startOfWeek($days[$schedule->day])->format('Y-m-d');
+                $events[] = Calendar::event(
+                    $instructor->name, //event title
+                    false, //full day event?
+                    $day.' '.$schedule->starts_at, //start time, must be a DateTime object or valid DateTime format (http://bit.ly/1z7QWbg)
+                    $day.' '.$schedule->ends_at, //end time, must be a DateTime object or valid DateTime format (http://bit.ly/1z7QWbg),
+                    $instructor->id,
+                    
+                );
+            }
+        }
+
+        $calendar = new Calendar();
+        $calendar->addEvents($events);
+        $calendar->setOptions([ 
+            'displayEventTime' => true,
+            'selectable' => true,
+            'firstDay' => '0',
+            'initialView' => 'timeGridWeek',
+            'headerToolbar' => [
+                'left' => 'prev,next today myCustomButton',
+                'center' => 'title',
+                'right' => 'timeGridWeek,timeGridDay'
+            ],
+        ]);
+
+
+        return view('schedule.show', compact('instructor', 'calendar'));
     }
 
     public function create(Request $request) {

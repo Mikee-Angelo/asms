@@ -48,7 +48,6 @@ class SubjectController extends Controller
     public function create() { 
         $courses = Course::select(['id', 'code', 'course_name'])->get();
         
-
         return view('subject.create', compact('courses'));
     }
 
@@ -69,7 +68,8 @@ class SubjectController extends Controller
         $validated = $request->validated(); 
 
         $subject = new Subject; 
- 
+        
+        $subject->course_id = $validated['course_id'];
         $subject->subject_code = $validated['subject_code']; 
         $subject->description = $validated['description']; 
         $subject->lec = is_null($validated['lec']) ? 0 : $validated['lec']; 

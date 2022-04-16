@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "acaronlex/laravel-calendar": "^1.6",
         "anhskohbo/no-captcha": "*",
         "aws/aws-sdk-php": "^3.218",
         "consoletvs/charts": "7.*",
