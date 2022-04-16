@@ -117,6 +117,13 @@
                         </x-dropdown>
                     </div>
                     @endhasrole
+
+                    @hasanyrole('Instructor|Dean')
+
+                    <x-nav-link :href="route('schedule.index')" :active="request()->routeIs('schedule.index')">
+                        {{ __('Schedule') }}
+                    </x-nav-link>
+                    @endhasanyrole
                     
                 </div>
             </div>
