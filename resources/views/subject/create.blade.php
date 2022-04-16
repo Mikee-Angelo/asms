@@ -29,6 +29,27 @@
 
                     <form action="{{route('subjects.store')}}" method="post" autocomplete="off">
                         @csrf
+
+                        <!-- Course -->
+                        <div class="mb-4">
+                            <x-label for="course_id" :value="__('Course')" />
+
+                            <select :value="old('course_id')"
+                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                name="course_id">
+                                <option value="">
+                                    Select an option
+                                </option>
+                                @foreach ($courses as $course)
+                                <option value="{{ $course->id }}">
+                                    {{ $course->code }} - {{ $course->course_name }}
+                                </option>
+                                @endforeach
+                            </select>
+
+
+                        </div>
+                        
                         {{-- Course Code  --}}
                         <div class="mb-4">
                             <x-label for="subject_code" :value="__('Subject Code')" />
