@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 //Models
 use App\Models\Application; 
 use App\Models\Student; 
+use App\Models\User;
 
 //Others
 use Yajra\DataTables\DataTables;
@@ -59,6 +60,9 @@ class DashboardController extends Controller
         //Get total number of accepted application this year
         $active_student = Application::whereYear('created_at', $now->year)->where('status', 'accepted')->count();
 
-        return view('dashboard',compact('total_number_of_student', 'active_student'));
+        //Fetch total number of faculty 
+        $number_of_faculty = User::doesntHave('Student')->count();
+
+        return view('dashboard',compact('total_number_of_student', 'active_student', 'number_of_faculty'));
     }
 }
