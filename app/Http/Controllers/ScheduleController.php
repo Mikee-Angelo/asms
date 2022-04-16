@@ -9,7 +9,9 @@ use Carbon\Carbon;
 //Models
 use App\Models\Schedule;
 use App\Models\User;
-
+use App\Models\CourseInstructor;
+use App\Models\Subject;
+use App\Models\CourseSubject;
 //Others
 use Yajra\DataTables\DataTables;
 use  Acaronlex\LaravelCalendar\Calendar;
@@ -24,14 +26,20 @@ class ScheduleController extends Controller
 
         if($request->ajax()){
             if(Auth::user()->hasRole('Dean')) { 
-                $users = User::role('Instructor')->get();
+                $dean = Auth::user();
+                $course_id = $dean->course_dean->course_id;
+                $users = CourseInstructor::where('course_id', $course_id)->get();
+                
                 
                 return DataTables::of($users)
                     ->addColumn('name', function($row) { 
-                        return $row->name;
+                        return $row->user->name;
+                    })
+                    ->addColumn('email', function($row) { 
+                        return $row->user->email;
                     })
                     ->addColumn('count', function($row){ 
-                        return $row->schedule->count() ?? 0;
+                        return $row->user->schedule->count() ?? 0;
                     })
                     ->addColumn('action', function($row){
                         $btn = '<a href="'.route('schedule.show', ['schedule' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
@@ -58,6 +66,7 @@ class ScheduleController extends Controller
 
     public function show(String $id) { 
         $instructors = User::role('Instructor')->get();
+        
         $days= [
             'Monday' => Carbon::MONDAY, 
             'Tuesday' => Carbon::TUESDAY, 
@@ -89,7 +98,7 @@ class ScheduleController extends Controller
         $calendar->setOptions([ 
             'displayEventTime' => true,
             'selectable' => true,
-            'firstDay' => '0',
+            'firstDay' => '1',
             'initialView' => 'timeGridWeek',
             'headerToolbar' => [
                 'left' => 'prev,next today myCustomButton',
@@ -98,8 +107,13 @@ class ScheduleController extends Controller
             ],
         ]);
 
+        $dean = Auth::user();
+        $course_id = $dean->course_dean->course_id;
+        $subjects = Subject::where('course_id', $course_id)->pluck('id');
+        
+        $course_subjects = CourseSubject::whereIn('subject_id', $subjects->toArray())->get();
 
-        return view('schedule.show', compact('instructor', 'calendar'));
+        return view('schedule.show', compact('instructor', 'calendar', 'course_subjects'));
     }
 
     public function create(Request $request) {
