@@ -1,21 +1,21 @@
-@section('title', 'Schedule | '.$instructor->name)
+@section('title', 'Schedule | '.$course_instructor->user->name)
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Schedule - '.$instructor->name) }}
+            {{ __('Schedule - '.$course_instructor->user->name) }}
         </h2>
     </x-slot>
 
     <div class="py-12">
 
         <div class="flex flex-row">
-            <div class="max-w-5xl mx-auto sm:px-4 lg:px-6">
+            <div class="mx-auto sm:px-4 lg:px-6 w-full">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
 
                         @if(session('status'))
 
-                        <div class="bg-green-200 border-green-600 text-green-600 border-l-4 p-4 mb-5" role="alert">
+                        <div class="{{session('status')['success'] ? 'bg-green-200 border-green-600 text-green-600' : 'bg-red-200 border-red-600 text-red-600'}} border-l-4 p-4 mb-5" role="alert">
                             <p class="font-bold">
                                 {{session('status')['message']}}
                             </p>
@@ -25,41 +25,55 @@
                         </div>
 
                         @endif
-
                         <!-- Validation Errors -->
                         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-                        <form action="{{route('subjects.store')}}" method="post" autocomplete="off">
+                        <form
+                            action="{{route('schedule.course.subject.store', ['schedule' => request()->schedule, 'course' => Auth::user()->course_dean->course_id ])}}"
+                            method="post" autocomplete="off">
                             @csrf
 
                             <!-- Schedule -->
-                            <div class="mb-4">
-                                <x-label for="schedule_id" :value="__('Instructor\'s Schedule')" />
+                            <h3
+                                class="w-full text-lg font-black leading-tight text-center md:text-left text-gray-800 mb-3">
+                                Instructor's Schedule
+                            </h3>
+                            @foreach ($course_instructor->user->schedule as $schedule)
+                            <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                                {{$schedule->day}}: <span
+                                    class="ml-5">{{ \Carbon\Carbon::parse($schedule->starts_at)->format('g:i A') }} -
+                                    {{ \Carbon\Carbon::parse($schedule->ends_at)->format('g:i A') }}</span>
+                            </p>
+                            @endforeach
 
-                                <select :value="old('schedule_id')"
+                            <div class="border-t border-gray-300 my-5"></div>
+                            <!-- Day Type -->
+                            <div class="mb-4">
+                                <x-label for="day_type" :value="__('Select day')" />
+
+                                <select :value="old('day_type')"
                                     class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                                    name="schedule_id">
+                                    name="day_type">
                                     <option value="">
                                         Select an option
                                     </option>
-                                    @foreach ($instructor->schedule as $schedule)
-                                    <option value="{{ $schedule->id }}">
-                                        {{ \Carbon\Carbon::parse($schedule->starts_at)->format('g:i A') }} -
-                                        {{ \Carbon\Carbon::parse($schedule->ends_at)->format('g:i A') }}
-                                        {{ $schedule->day }}
+                                    @foreach ($day_type as $k => $v)
+                                    <option value="{{$k}}">
+                                       {{$v}}
                                     </option>
                                     @endforeach
+                                    
                                 </select>
                             </div>
 
 
                             <!-- Subjects -->
                             <div class="mb-4">
-                                <x-label for="subject_id" :value="__('Subjects')" />
+                                <x-label for="course_subject_id" :value="__('Subjects')" />
 
-                                <select :value="old('course_id')"
+                                <select :value="old('course_subject_id')"
                                     class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                                    name="course_id">
+                                    name="course_subject_id">
                                     <option value="">
                                         Select an option
                                     </option>
@@ -103,7 +117,7 @@
 
             </div>
 
-            <div class="max-w-7xl mx-auto sm:px-4 lg:px-6">
+            <div class=" mx-auto sm:px-4 lg:px-6 w-full">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10">
                     {!! $calendar->calendar() !!}
                     {!! $calendar->script() !!}

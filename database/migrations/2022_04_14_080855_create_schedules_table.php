@@ -22,7 +22,6 @@ class CreateSchedulesTable extends Migration
             $table->enum('day', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
             $table->time('starts_at');
             $table->time('ends_at');
-            $table->enum('status', ['draft', 'pending', 'checking' ,'accepted', 'denied'])->default('draft');
             $table->timestamps();
         });
     }

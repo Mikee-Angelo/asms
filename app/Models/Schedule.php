@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
     use HasFactory;
+
+    public function faculty(){
+        return $this->belongsTo('App\Models\User', 'sender_id');
+    }
 }
