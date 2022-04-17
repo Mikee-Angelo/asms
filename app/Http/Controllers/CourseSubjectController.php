@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 //Models
 use App\Models\Course; 
@@ -36,7 +37,7 @@ class CourseSubjectController extends Controller
             ['year', '=', $year],
             ['semester', '=', $semester],
         ])->get(); 
-    
+        
         if($request->ajax()){ 
             return DataTables::of($datas)
                     ->addColumn('subject_code', function($data) {
@@ -48,6 +49,35 @@ class CourseSubjectController extends Controller
                     ->addColumn('action', function($row){
                         $btn = '<button type="button" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</button>';
                         return $btn;
+                    })
+                    ->addColumn('day', function($row) { 
+                        $day = null;
+
+                        if(is_null($row->schedule_course_subject)) {
+                            return 'N/A';
+                        }
+
+                        if($row->schedule_course_subject->day == 'Monday' || $row->schedule_course_subject->day == 'Wednesday') { 
+                            $day = 'MW'; 
+                        }
+
+                        if($row->schedule_course_subject->day == 'Tuesday' || $row->schedule_course_subject->day == 'Thursday') { 
+                            $day = 'TTH';
+                        }
+
+                        if($row->schedule_course_subject->day == 'Friday') { 
+                            $day = 'FRI';
+                        }
+
+                        if($row->schedule_course_subject->day == 'Saturday') { 
+                            $day = 'SAT';
+                        }
+
+                        return $day;
+
+                    })
+                    ->addColumn('time', function($row) { 
+                        return !is_null($row->schedule_course_subject) ? Carbon::parse($row->schedule_course_subject->starts_at)->format('g:i A'). '-'. Carbon::parse($row->schedule_course_subject->ends_at)->format('g:i A') : 'N/A';
                     })
                     ->rawColumns(['action'])
                     ->make(true);

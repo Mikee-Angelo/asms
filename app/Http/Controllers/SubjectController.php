@@ -21,7 +21,7 @@ class SubjectController extends Controller
     //
     public function index(Request $request) { 
         $subject = Subject::get(); 
-
+        
         if($request->ajax()){ 
             return DataTables::of($subject)
                     ->addColumn('action', function($row){

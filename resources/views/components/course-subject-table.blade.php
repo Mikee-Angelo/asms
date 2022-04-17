@@ -11,6 +11,15 @@
              </th>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Day
+             </th>
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Time
+             </th>
+             
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Actions
              </th>
          </tr>
@@ -36,6 +45,16 @@
                      data: 'description',
                      name: 'description',
                      className: 'border p-4 dark:border-dark-5',
+                 },
+                  {
+                    data: 'day',
+                    name: 'day',
+                    className: 'border p-4 dark:border-dark-5',
+                 },
+                 {
+                    data: 'time',
+                    name: 'time',
+                    className: 'border p-4 dark:border-dark-5',
                  },
                  {
                      data: 'action',
