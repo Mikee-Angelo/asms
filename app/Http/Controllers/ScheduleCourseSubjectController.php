@@ -58,6 +58,7 @@ class ScheduleCourseSubjectController extends Controller
 
         try{ 
             $vcs = Schedule::whereIn('day', $days)->where('sender_id', $ci->faculty_id)->get();
+            
 
             $cooked_day = [];
             foreach($vcs as $vc) { 

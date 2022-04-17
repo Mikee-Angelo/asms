@@ -68,8 +68,31 @@ class ScheduleController extends Controller
     public function show(String $id) { 
         $instructors = User::role('Instructor')->get();
         $course_instructor = CourseInstructor::where('id', $id)->first();
-        $schedules = ScheduleCourseSubject::get();
-        
+        $schedules = ScheduleCourseSubject::whereHas('course_subject', function($q) { 
+            return $q->where('course_id',Auth::user()->course_dean->course_id);
+        })->get();
+
+        $major = ScheduleCourseSubject::whereHas('course_subject', function($q) { 
+            return $q->whereHas('subject', function($qx) { 
+                return $qx->where('course_id', Auth::user()->course_dean->course_id);
+            });
+
+        })->get();
+
+        $cx = collect($schedules); 
+        $cy = collect($major); 
+
+        if($cx->count() < $cy->count()) { 
+            $diff = $cy->diff($cx);
+            $schedules = $cx->merge($diff);
+
+        }else { 
+            $diff = $cx->diff($cy);
+            $schedules = $cy->merge($diff);
+        }
+
+
+
         $days= [
             'Monday' => Carbon::MONDAY, 
             'Tuesday' => Carbon::TUESDAY, 
@@ -86,13 +109,13 @@ class ScheduleController extends Controller
             $day = $now->startOfWeek($days[$schedule->day])->format('Y-m-d');
           
             $events[] = Calendar::event(
-                $schedule->course_subject->subject->description . ' ( '.$schedule->faculty->name .' )',
+                $schedule->course_subject->subject->description .  ' ( ' . $schedule->course_subject->course->code . ' ) '. ' ( '.$schedule->faculty->name .' )',
                 false,
                 $day.' '.$schedule->starts_at,
                 $day.' '.$schedule->ends_at,
                 $schedule->id,
                 [
-                    'color' => '#009688'
+                    'color' => $schedule->faculty->hex
                 ]
             );
         }
