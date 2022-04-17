@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Course;
 use App\Models\CourseInstructor;
 use App\Models\Schedule;
+use App\Models\CourseSubject;
 
 //Facades
 use Illuminate\Support\Facades\Auth; 
@@ -58,9 +59,41 @@ class ScheduleCourseSubjectController extends Controller
 
         try{ 
             $vcs = Schedule::whereIn('day', $days)->where('sender_id', $ci->faculty_id)->get();
-            
+            $validated_scs = CourseSubject::where('id', $validated['course_subject_id'])->first();
 
+            $cooked_subjects = $validated_scs->where([
+                ['year', '=', $validated_scs->year],
+                ['semester', '=', $validated_scs->semester],
+                ['course_id', '=', $validated_scs->course_id]
+            ])->whereHas('schedule_course_subject', function($q) use($days){
+                return $q->whereIn('day', $days);
+            })->get(); 
+
+            dd($cooked_subjects);
+
+            $hasConflict = false;
+            
+            foreach($cooked_subjects as $cooked_subject) { 
+                $s = Carbon::createFromTimeString($cooked_subject->schedule_course_subject->starts_at);
+                $e = Carbon::createFromTimeString($cooked_subject->schedule_course_subject->ends_at);
+
+                if(($starts_at->between($s, $e) || $ends_at->between($s,$e))) { 
+                    $hasConflict = true;
+
+                    break;
+                }
+            } 
+
+            if($hasConflict) { 
+                return back()->with('status', [
+                    'success' => false, 
+                    'message' => 'Error', 
+                    'description' => 'It has conflict with other subject',
+                ]);   
+            }
+        
             $cooked_day = [];
+
             foreach($vcs as $vc) { 
                 $s = Carbon::createFromTimeString($vc->starts_at);
                 $e = Carbon::createFromTimeString($vc->ends_at);
@@ -69,6 +102,7 @@ class ScheduleCourseSubjectController extends Controller
                     $cooked_day[] = $vc->day;
                 }
             }
+
             if(count($cooked_day) == 0){ 
                 
                 return back()->with('status', [
@@ -148,7 +182,7 @@ class ScheduleCourseSubjectController extends Controller
             return back()->with('status', [
                 'success' => false, 
                 'message' => 'Error', 
-                'description' => 'Something went wrong',
+                'description' => 'Error'. $e,
             ]);
         }
 

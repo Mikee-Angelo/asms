@@ -68,6 +68,7 @@ class ScheduleController extends Controller
     public function show(String $id) { 
         $instructors = User::role('Instructor')->get();
         $course_instructor = CourseInstructor::where('id', $id)->first();
+
         $schedules = ScheduleCourseSubject::whereHas('course_subject', function($q) { 
             return $q->where('course_id',Auth::user()->course_dean->course_id);
         })->get();
@@ -106,7 +107,8 @@ class ScheduleController extends Controller
 
         foreach($schedules as $schedule) { 
             $now = Carbon::now();
-            $day = $now->startOfWeek($days[$schedule->day])->format('Y-m-d');
+            $day = $now->endOfWeek($days[$schedule->day])->format('Y-m-d');
+
           
             $events[] = Calendar::event(
                 $schedule->course_subject->subject->description .  ' ( ' . $schedule->course_subject->course->code . ' ) '. ' ( '.$schedule->faculty->name .' )',
@@ -139,6 +141,7 @@ class ScheduleController extends Controller
         $subjects = Subject::where('course_id', $course_id)->pluck('id');
         
         $course_subjects = CourseSubject::whereIn('subject_id', $subjects->toArray())->get();
+
         $cooked = collect($course_instructor->user->schedule->pluck('day'))->unique()->toArray();
 
         $day_type = [];
