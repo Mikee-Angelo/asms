@@ -72,7 +72,7 @@
                                     :value="old('starts_at')" required autofocus />
                             </div>
 
-                            {{-- Course Name  --}}
+                            {{-- Ends At --}}
                             <div class="mb-4 w-full">
                                 <x-label for="ends_at" :value="__('Ends At')" />
 

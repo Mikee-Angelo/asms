@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Models\CourseInstructor;
 use App\Models\Subject;
 use App\Models\CourseSubject;
+use App\Models\ScheduleCourseSubject;
+
 //Others
 use Yajra\DataTables\DataTables;
 use  Acaronlex\LaravelCalendar\Calendar;
@@ -29,7 +31,6 @@ class ScheduleController extends Controller
                 $dean = Auth::user();
                 $course_id = $dean->course_dean->course_id;
                 $users = CourseInstructor::where('course_id', $course_id)->get();
-                
                 
                 return DataTables::of($users)
                     ->addColumn('name', function($row) { 
@@ -66,6 +67,8 @@ class ScheduleController extends Controller
 
     public function show(String $id) { 
         $instructors = User::role('Instructor')->get();
+        $course_instructor = CourseInstructor::where('id', $id)->first();
+        $schedules = ScheduleCourseSubject::get();
         
         $days= [
             'Monday' => Carbon::MONDAY, 
@@ -78,19 +81,20 @@ class ScheduleController extends Controller
 
         $events = [];
 
-        foreach($instructors as $instructor) { 
-            foreach($instructor->schedule as $schedule) { 
-                $now = Carbon::now();
-                $day = $now->startOfWeek($days[$schedule->day])->format('Y-m-d');
-                $events[] = Calendar::event(
-                    $instructor->name, //event title
-                    false, //full day event?
-                    $day.' '.$schedule->starts_at, //start time, must be a DateTime object or valid DateTime format (http://bit.ly/1z7QWbg)
-                    $day.' '.$schedule->ends_at, //end time, must be a DateTime object or valid DateTime format (http://bit.ly/1z7QWbg),
-                    $instructor->id,
-                    
-                );
-            }
+        foreach($schedules as $schedule) { 
+            $now = Carbon::now();
+            $day = $now->startOfWeek($days[$schedule->day])->format('Y-m-d');
+          
+            $events[] = Calendar::event(
+                $schedule->course_subject->subject->description . ' ( '.$schedule->faculty->name .' )',
+                false,
+                $day.' '.$schedule->starts_at,
+                $day.' '.$schedule->ends_at,
+                $schedule->id,
+                [
+                    'color' => '#009688'
+                ]
+            );
         }
 
         $calendar = new Calendar();
@@ -99,7 +103,7 @@ class ScheduleController extends Controller
             'displayEventTime' => true,
             'selectable' => true,
             'firstDay' => '1',
-            'initialView' => 'timeGridWeek',
+            'initialView' => 'listWeek',
             'headerToolbar' => [
                 'left' => 'prev,next today myCustomButton',
                 'center' => 'title',
@@ -112,8 +116,27 @@ class ScheduleController extends Controller
         $subjects = Subject::where('course_id', $course_id)->pluck('id');
         
         $course_subjects = CourseSubject::whereIn('subject_id', $subjects->toArray())->get();
+        $cooked = collect($course_instructor->user->schedule->pluck('day'))->unique()->toArray();
 
-        return view('schedule.show', compact('instructor', 'calendar', 'course_subjects'));
+        $day_type = [];
+
+        if(in_array('Monday', $cooked) && in_array('Wednesday', $cooked)) { 
+            $day_type['MW'] = 'Monday - Wednesday';
+        }
+
+        if(in_array('Tuesday', $cooked) && in_array('Thursday', $cooked)) { 
+            $day_type['TTH'] = 'Tuesday - Thursday';
+        }
+
+        if(in_array('Friday', $cooked)) { 
+            $day_type['F'] = 'Friday';
+        }
+
+        if(in_array('Saturday', $cooked)) {
+            $day_type['S'] = 'Saturday';
+        }
+
+        return view('schedule.show', compact('course_instructor', 'calendar', 'course_subjects', 'day_type'));
     }
 
     public function create(Request $request) {
@@ -151,7 +174,6 @@ class ScheduleController extends Controller
  
         $validated = $request->validated();
 
-        
         foreach($validated['days'] as $day) { 
 
             $schedule = new Schedule;
