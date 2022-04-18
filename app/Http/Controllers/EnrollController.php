@@ -14,7 +14,7 @@ class EnrollController extends Controller
 {
     //
     public function index() { 
-        $courses = Course::get();
+        $courses = Course::has->get();
         return view('enroll.index', compact('courses'));
     }
 }
