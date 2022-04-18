@@ -10,6 +10,7 @@ use Yajra\DataTables\DataTables;
 
 //Models
 use App\Models\Subject; 
+use App\Models\Curriculum; 
 use App\Models\Course;
 
 //Request
@@ -20,9 +21,12 @@ class SubjectController extends Controller
 {
     //
     public function index(Request $request) { 
-        $subject = Subject::get(); 
         
         if($request->ajax()){ 
+
+            $curriculum = Curriculum::where('is_default', 1)->first();
+            $subject = Subject::where('curriculum_id', $curriculum->id)->get(); 
+
             return DataTables::of($subject)
                     ->addColumn('action', function($row){
                         if(request()->routeIs('courses.subjects.index')) { 
@@ -67,8 +71,10 @@ class SubjectController extends Controller
     public function store(AddSubjectRequest $request) { 
         $validated = $request->validated(); 
 
+        $curriculum = Curriculum::where('is_default', 1)->first();
+
         $subject = new Subject; 
-        
+        $subject->curriculum_id = $curriculum->id;
         $subject->course_id = $validated['course_id'];
         $subject->subject_code = $validated['subject_code']; 
         $subject->description = $validated['description']; 

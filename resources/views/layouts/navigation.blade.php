@@ -113,6 +113,10 @@
                                 </x-dropdown-link>
                                 @endhasanyrole
 
+                                 <x-dropdown-link :href="route('curriculum.index')">
+                                    {{ __('Curriculum') }}
+                                </x-dropdown-link>
+
                             </x-slot>
                         </x-dropdown>
                     </div>

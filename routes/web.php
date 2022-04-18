@@ -68,6 +68,9 @@ Route::middleware(['auth'])->group(function() {
     //Schedule Course Subject
     Route::resource('schedule.course.subject', \App\Http\Controllers\ScheduleCourseSubjectController::class);
 
+    //Curriculum
+    Route::resource('curriculum', \App\Http\Controllers\CurriculumController::class);
+
 });
 
 require __DIR__.'/auth.php';
