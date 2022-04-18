@@ -37,7 +37,7 @@
              columns: [{
                      data: 'day',
                      name: 'day',
-                     className: 'border p-4 dark:border-dark-5',
+                     className: 'border p-4 dark:border-dark-5', 
                  },
                  {
                      data: 'starts_at',
