@@ -57,11 +57,7 @@ class CurriculumController extends Controller
         DB::beginTransaction();
 
         try{ 
-            $defaults = Curriculum::where('is_default', true)->exists();
-
-            if($defaults) { 
-                $defaults->update(['is_default', false]); 
-            }
+            Curriculum::where('is_default', true)->update(['is_default' => false]); 
 
             $curriculum->update([
                 'is_default' => true
