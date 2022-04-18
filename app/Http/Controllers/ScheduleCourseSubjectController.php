@@ -68,9 +68,7 @@ class ScheduleCourseSubjectController extends Controller
             ])->whereHas('schedule_course_subject', function($q) use($days){
                 return $q->whereIn('day', $days);
             })->get(); 
-
-            dd($cooked_subjects);
-
+            
             $hasConflict = false;
             
             foreach($cooked_subjects as $cooked_subject) { 
