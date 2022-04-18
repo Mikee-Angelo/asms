@@ -51,7 +51,7 @@
                  },
                  {
                      data: 'status',
-                     name: 'status',
+                     name: 'status', 
                      className: 'border p-4 dark:border-dark-5',
                  },
                  {
