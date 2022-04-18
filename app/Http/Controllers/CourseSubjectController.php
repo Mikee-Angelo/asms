@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Models\Course; 
 use App\Models\Subject; 
 use App\Models\CourseSubject; 
+use App\Models\Curriculum; 
 
 // Requests
 use App\Http\Requests\StoreCourseSubjectRequest;
@@ -21,24 +22,30 @@ class CourseSubjectController extends Controller
 {
     //
     public function index(String $id, Request $request) {
-        $year = 1;
-        $semester = 1; 
-        
-        if(!is_null($request->query('semester'))) { 
-            $semester = $request->query('semester');
-        }
-
-        if(!is_null($request->query('year'))) { 
-            $year = $request->query('year');
-        }
-        
-        $datas = CourseSubject::with(['course', 'subject'])->where([
-            ['course_id', '=', $id],
-            ['year', '=', $year],
-            ['semester', '=', $semester],
-        ])->get(); 
+       
         
         if($request->ajax()){ 
+            $year = 1;
+            $semester = 1; 
+            
+            if(!is_null($request->query('semester'))) { 
+                $semester = $request->query('semester');
+            }
+
+            if(!is_null($request->query('year'))) { 
+                $year = $request->query('year');
+            }
+
+            $curriculum = Curriculum::where('is_default', 1)->first();
+            
+            $datas = CourseSubject::with(['course', 'subject'])->where([
+                ['course_id', '=', $id],
+                ['year', '=', $year],
+                ['semester', '=', $semester],
+            ])->whereHas('subject', function($row) use ($curriculum) { 
+                return $row->where('curriculum_id', $curriculum->id);
+            })->get(); 
+            
             return DataTables::of($datas)
                     ->addColumn('subject_code', function($data) {
                         return $data->subject->subject_code;

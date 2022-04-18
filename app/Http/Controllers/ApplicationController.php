@@ -9,6 +9,7 @@ use App\Models\Student;
 use App\Models\Application; 
 use App\Models\ApplicationSubject; 
 use App\Models\CourseSubject; 
+use App\Models\Curriculum; 
 use App\Models\User; 
 
 //Requests
@@ -129,11 +130,15 @@ class ApplicationController extends Controller
                 'allergies' => $validated['allergies'],
             ]);
 
+            $curriculum = Curriculum::where('is_default', 1)->first();
+
             $ids = CourseSubject::where([
                 ['course_id', '=', $validated['course_id']],
                 ['year', '=', $validated['year_level']],
                 ['semester', '=', 1]
-            ])->pluck('subject_id');
+            ])->whereHas('subject', function($row) use ($curriculum) { 
+                return $row->where('curriculum_id', $curriculum->id);
+            })->pluck('subject_id');
             
             foreach($ids as $id){ 
                 $as = new ApplicationSubject;

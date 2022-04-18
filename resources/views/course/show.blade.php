@@ -31,11 +31,11 @@
                         Dean: <span class="ml-5">{{ $course_dean->user->name ?? 'N/A' }}</span>
                     </p>
 
-                    @if ($course_subjects->count() == 0)
-                    <p class="text-center">No data found</p>
+                    {{-- @if ($course_subjects->count() == 0)
+                        <p class="text-center">No data found</p>
                     @else
 
-                    @endif
+                    @endif --}}
                 </div>
             </div>
 
