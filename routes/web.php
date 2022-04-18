@@ -74,6 +74,9 @@ Route::middleware(['auth'])->group(function() {
     //School Year
     Route::resource('school-year', \App\Http\Controllers\SchoolYearController::class);
 
+    //Enrollment
+    Route::resource('school-year.enrollment', \App\Http\Controllers\EnrollmentController::class);
+
 });
 
 require __DIR__.'/auth.php';

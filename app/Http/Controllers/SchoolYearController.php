@@ -65,4 +65,8 @@ class SchoolYearController extends Controller
             'description' => 'School Year successfully added',
         ]);
     }
+
+    public function show(SchoolYear $school_year){
+        return view('school-year.show', compact('school_year'));
+    }
 }
