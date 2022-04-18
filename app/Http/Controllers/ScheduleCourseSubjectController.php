@@ -68,7 +68,7 @@ class ScheduleCourseSubjectController extends Controller
             ])->whereHas('schedule_course_subject', function($q) use($days){
                 return $q->whereIn('day', $days);
             })->get(); 
-            
+
             $hasConflict = false;
             
             foreach($cooked_subjects as $cooked_subject) { 
@@ -100,9 +100,8 @@ class ScheduleCourseSubjectController extends Controller
                     $cooked_day[] = $vc->day;
                 }
             }
-
-            if(count($cooked_day) == 0){ 
-                
+            
+            if(count($cooked_day) == 0){         
                 return back()->with('status', [
                     'success' => false, 
                     'message' => 'Error', 
