@@ -9,8 +9,9 @@ use App\Models\Student;
 use App\Models\Application; 
 use App\Models\ApplicationSubject; 
 use App\Models\CourseSubject; 
-use App\Models\Curriculum; 
+use App\Models\SchoolYear; 
 use App\Models\User; 
+use App\Models\Curriculum; 
 
 //Requests
 use App\Http\Requests\Application\StoreApplicationRequest; 
@@ -80,8 +81,7 @@ class ApplicationController extends Controller
 
     public function store(StoreApplicationRequest $request) {
         $validated = $request->validated(); 
-
-
+     
         DB::transaction(function () use ($validated) {
             
             $student = Student::create([
@@ -115,7 +115,10 @@ class ApplicationController extends Controller
                 'status' => 1,
             ]);
 
+            $school_year = SchoolYear::first();
+
             $application = Application::create([
+                'school_year_id' => $school_year->id,
                 'ticket_no' => Str::uuid()->toString(),
                 'student_id' => $student->id,
                 'course_id' => $validated['course_id'],
