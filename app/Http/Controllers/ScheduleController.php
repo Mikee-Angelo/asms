@@ -90,9 +90,7 @@ class ScheduleController extends Controller
         }else { 
             $diff = $cx->diff($cy);
             $schedules = $cy->merge($diff);
-        }
-
-
+        }     
 
         $days= [
             'Monday' => Carbon::MONDAY, 
@@ -107,7 +105,7 @@ class ScheduleController extends Controller
 
         foreach($schedules as $schedule) { 
             $now = Carbon::now();
-            $day = $now->endOfWeek($days[$schedule->day])->format('Y-m-d');
+            $day = $now->startOfWeek($days[$schedule->day])->format('Y-m-d');
 
           
             $events[] = Calendar::event(
@@ -143,7 +141,7 @@ class ScheduleController extends Controller
         $course_subjects = CourseSubject::whereIn('subject_id', $subjects->toArray())->get();
 
         $cooked = collect($course_instructor->user->schedule->pluck('day'))->unique()->toArray();
-
+        
         $day_type = [];
 
         if(in_array('Monday', $cooked) && in_array('Wednesday', $cooked)) { 

@@ -78,6 +78,13 @@
 
             table.ajax.url('{{ route("courses.subjects.index", ["course" => request()->course ])}}?semester=' + semester + '&year=' + this.value).load();
         });
+        
+        $('#subject_school_year').on('change', function() {
+            var year = $('#year_level :selected').val();
+            var semester = $('#semester :selected').val();
+
+            table.ajax.url('{{ route("courses.subjects.index", ["course" => request()->course ])}}?semester=' + semester + '&year=' + year + '&school_year=' + this.value ).load();
+        });
 
          $('.dataTables_paginate').addClass(
              'px-4 py-2 border-t border-b text-base text-indigo-500 bg-white hover:bg-gray-100');

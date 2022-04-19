@@ -45,12 +45,34 @@
                     <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
                         Instructors
                     </h2>
-                    
+
                     <x-course-instructor-table></x-course-instructor-table>
                 </div>
             </div>
 
             <div class="flex flex-row mt-5">
+                <!-- School Year -->
+
+                @if (count($school_years) > 0)
+                <div class="mb-4 mr-4">
+                    <x-label for="subject_school_year" :value="__('School Year')" />
+                    <select id="subject_school_year"
+                        class="block w-full mt-1 text-gray-700 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                        name="subject_school_year">
+                        @foreach ($school_years as $school_year)
+                        <option value="{{ $school_year->id }}">
+                            {{ $school_year->year_start }} - {{ $school_year->year_ends }}
+                        </option>
+                        @endforeach
+
+                         <option value="2">
+                            2023 - 2024
+                        </option>
+
+                    </select>
+                </div>
+                @endif
+
                 <!-- Year Level -->
                 <div class="mb-4 mr-4">
                     <x-label for="year_level" :value="__('Year')" />
@@ -102,6 +124,22 @@
             </div>
 
             <div class="flex flex-row mt-5">
+                <!-- School Year -->
+                @if (count($school_years) > 0)
+                <div class="mb-4 mr-4">
+                    <x-label for="student_school_year" :value="__('School Year')" />
+                    <select id="student_school_year"
+                        class="block w-full mt-1 text-gray-700 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                        name="student_school_year">
+                        @foreach ($school_years as $school_year)
+                        <option value="{{ $school_year->id }}">
+                            {{ $school_year->year_start }} - {{ $school_year->year_ends }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                @endif
+
                 <!-- Year Level -->
                 <div class="mb-4 mr-4">
                     <x-label for="student_year_level" :value="__('Year')" />
@@ -121,6 +159,8 @@
                         <option value="4">
                             4
                         </option>
+
+                        
                     </select>
                 </div>
 
