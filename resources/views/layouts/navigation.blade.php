@@ -16,7 +16,6 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-
                     @role('Super Admin')
                     <x-nav-link :href="route('application.index')" :active="request()->routeIs('application.index')">
                         {{ __('Applications') }}
@@ -130,6 +129,10 @@
 
                     <x-nav-link :href="route('schedule.index')" :active="request()->routeIs('schedule.index')">
                         {{ __('Schedule') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('subjects.index')" :active="request()->routeIs('subjects.index')">
+                        {{ __('Subjects') }}
                     </x-nav-link>
                     @endhasanyrole
                     
