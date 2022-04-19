@@ -141,6 +141,7 @@ class ScheduleCourseSubjectController extends Controller
             if(in_array('Tuesday', $cooked_day) && in_array('Thursday', $cooked_day)) { 
                  foreach($fd as $day) { 
                     $scs = new ScheduleCourseSubject;
+                    $scs->school_year_id = $school_year->id;
                     $scs->faculty_id = $ci->faculty_id;
                     $scs->user_id = Auth::id(); 
                     $scs->course_subject_id = $validated['course_subject_id'];
@@ -157,6 +158,7 @@ class ScheduleCourseSubjectController extends Controller
             if(in_array('Friday', $cooked_day)) { 
                 foreach($fd as $day) { 
                     $scs = new ScheduleCourseSubject;
+                    $scs->school_year_id = $school_year->id;
                     $scs->faculty_id = $ci->faculty_id;
                     $scs->user_id = Auth::id(); 
                     $scs->course_subject_id = $validated['course_subject_id'];
@@ -173,6 +175,7 @@ class ScheduleCourseSubjectController extends Controller
                  foreach($fd as $day) { 
                     $scs = new ScheduleCourseSubject;
                     $scs->faculty_id = $ci->faculty_id;
+                    $scs->school_year_id = $school_year->id;
                     $scs->user_id = Auth::id(); 
                     $scs->course_subject_id = $validated['course_subject_id'];
                     $scs->day = $day;
