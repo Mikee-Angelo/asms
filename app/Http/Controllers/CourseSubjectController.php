@@ -10,6 +10,7 @@ use App\Models\Course;
 use App\Models\Subject; 
 use App\Models\CourseSubject; 
 use App\Models\Curriculum; 
+use App\Models\SchoolYear; 
 
 // Requests
 use App\Http\Requests\StoreCourseSubjectRequest;
@@ -25,6 +26,7 @@ class CourseSubjectController extends Controller
        
         
         if($request->ajax()){ 
+            $school_year = null;
             $year = 1;
             $semester = 1; 
             
@@ -36,6 +38,16 @@ class CourseSubjectController extends Controller
                 $year = $request->query('year');
             }
 
+            if(!is_null($request->query('school_year'))) { 
+                $sy = SchoolYear::orderBy('id', 'DESC')->where('id', $request->query('school_year'))->first();
+
+                $school_year = $sy->id ?? 0 ;
+            }else{ 
+                $sy = SchoolYear::orderBy('id', 'DESC')->first();
+
+                $school_year = $sy->id ?? 0;
+            }
+
             $curriculum = Curriculum::where('is_default', 1)->first();
             
             $datas = CourseSubject::with(['course', 'subject'])->where([
@@ -43,7 +55,12 @@ class CourseSubjectController extends Controller
                 ['year', '=', $year],
                 ['semester', '=', $semester],
             ])->whereHas('subject', function($row) use ($curriculum) { 
-                return $row->where('curriculum_id', $curriculum->id);
+                if(!is_null($curriculum)) { 
+                    return $row->where('curriculum_id', $curriculum->id);
+                }
+            })->with('schedule_course_subject', function($row) use ($school_year) { 
+                return $row->where('school_year_id', $school_year);
+ 
             })->get(); 
             
             return DataTables::of($datas)
@@ -83,8 +100,14 @@ class CourseSubjectController extends Controller
                         return $day;
 
                     })
-                    ->addColumn('time', function($row) { 
-                        return !is_null($row->schedule_course_subject) ? Carbon::parse($row->schedule_course_subject->starts_at)->format('g:i A'). '-'. Carbon::parse($row->schedule_course_subject->ends_at)->format('g:i A') : 'N/A';
+                    ->addColumn('time', function($row){ 
+                        if(!is_null($row->schedule_course_subject)) { 
+                          
+                            return Carbon::parse($row->schedule_course_subject->starts_at)->format('g:i A'). '-'. Carbon::parse($row->schedule_course_subject->ends_at)->format('g:i A');
+                        }
+
+                        return 'N/A';
+                        
                     })
                     ->rawColumns(['action'])
                     ->make(true);

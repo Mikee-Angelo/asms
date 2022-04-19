@@ -14,6 +14,7 @@ use App\Models\Course;
 use App\Models\CourseInstructor;
 use App\Models\Schedule;
 use App\Models\CourseSubject;
+use App\Models\SchoolYear;
 
 //Facades
 use Illuminate\Support\Facades\Auth; 
@@ -110,11 +111,21 @@ class ScheduleCourseSubjectController extends Controller
             }
 
             $fd = collect($cooked_day)->unique()->toArray();
+            $school_year = SchoolYear::orderBy('id', 'DESC')->first();
+
+            if(is_null($school_year)) { 
+                return back()->with('status', [
+                    'success' => false, 
+                    'message' => 'Error', 
+                    'description' => 'School Year was not set. Please set school year before adding data',
+                ]);
+            }
 
             if(in_array('Monday', $cooked_day) && in_array('Wednesday', $cooked_day)) { 
                 
                 foreach($fd as $day) { 
                     $scs = new ScheduleCourseSubject;
+                    $scs->school_year_id = $school_year->id;
                     $scs->faculty_id = $ci->faculty_id;
                     $scs->user_id = Auth::id(); 
                     $scs->course_subject_id = $validated['course_subject_id'];
