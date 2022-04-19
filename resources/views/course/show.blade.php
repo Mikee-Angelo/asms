@@ -64,11 +64,6 @@
                             {{ $school_year->year_start }} - {{ $school_year->year_ends }}
                         </option>
                         @endforeach
-
-                         <option value="2">
-                            2023 - 2024
-                        </option>
-
                     </select>
                 </div>
                 @endif
