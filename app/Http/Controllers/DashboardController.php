@@ -77,8 +77,12 @@ class DashboardController extends Controller
 
                 $total_units += $lec + $lab;
             }
-
-            $gwa = ($total_grades / $total_units) / 100;
+            
+            if($total_grades > 0) { 
+                $gwa = ($total_grades / $total_units) / 100;
+            }else{ 
+                $gwa = 0;
+            }
 
             return view('student.dashboard.index', compact('student', 'gwa'));
         }
