@@ -10,9 +10,15 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
-                        Enrolled Subjects
-                    </h2>
+                    <div class="flex flex-row justify-between">
+                        <h2 class= "my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                            Enrolled Subjects
+                        </h2>
+
+                         <h2 class=" my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                            GWA: {{ $gwa }}
+                        </h2>
+                    </div>
 
                     <x-dashboard-subject-table></x-dashboard-subject-table>
                 </div>

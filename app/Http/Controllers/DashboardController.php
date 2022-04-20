@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Application; 
 use App\Models\Student; 
 use App\Models\User;
+use App\Models\Curriculum;
 
 //Others
 use Yajra\DataTables\DataTables;
@@ -23,10 +24,11 @@ class DashboardController extends Controller
         $students = Student::get(); 
 
         if(Auth::user()->hasRole('Student')) { 
-            if($request->ajax()){ 
-               $subject = Auth::user()->student->application->last()->application_subject ;
+            $subjects = Auth::user()->student->application->last()->application_subject ;
             
-                return DataTables::of($subject)
+            if($request->ajax()){  
+
+                return DataTables::of($subjects)
                     ->addColumn('subject_code', function($row) { 
                         return $row->subject->subject_code;
                     })
@@ -39,12 +41,46 @@ class DashboardController extends Controller
                     ->addColumn('lab', function($row) { 
                         return $row->subject->lab;
                     })
+                    ->addColumn('prelim', function($row) { 
+                        if(is_null($row->prelim)) return 'N/A';
+
+                        return ($row->prelim / 100) ;
+                    })
+                     ->addColumn('midterm', function($row) { 
+                        if(is_null($row->midterm)) return 'N/A';
+
+                        return $row->midterm / 100;
+                    })
+                     ->addColumn('prefinal', function($row) { 
+                        if(is_null($row->prefinal)) return 'N/A';
+
+                        return $row->prefinal / 100;
+                    })
+                     ->addColumn('final', function($row) { 
+                        if(is_null($row->final)) return 'N/A';
+
+                        return $row->final / 100;
+                    })
                     ->make(true);
             }
 
             $student = Auth::user()->student;
 
-            return view('student.dashboard.index', compact('student'));
+            $total_units = 0;
+            $total_grades = 0;
+            
+            foreach($subjects as $subject) { 
+                $lec = $subject->subject->lec;
+                $lab = $subject->subject->lab; 
+
+                $total_grades += ($lec + $lab) * $subject->final;
+
+                $total_units += $lec + $lab;
+            }
+
+            $gwa = ($total_grades / $total_units) / 100;
+
+            return view('student.dashboard.index', compact('student', 'gwa'));
         }
 
         if(Auth::user()->hasRole('Instructor')) { 

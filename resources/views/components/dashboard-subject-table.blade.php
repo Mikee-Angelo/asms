@@ -17,6 +17,23 @@
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Lab
              </th>
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Prelim
+             </th>
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Midterm
+             </th>
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Prefinal
+             </th>
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Final
+             </th>
+             
             
          </tr>
      </thead>
@@ -50,6 +67,26 @@
                   {
                      data: 'lab',
                      name: 'lab',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+                  {
+                     data: 'prelim',
+                     name: 'prelim',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+                  {
+                     data: 'midterm',
+                     name: 'midterm',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+                  {
+                     data: 'prefinal',
+                     name: 'prefinal',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+                  {
+                     data: 'final',
+                     name: 'final',
                      className: 'border p-4 dark:border-dark-5',
                  },
              ]
