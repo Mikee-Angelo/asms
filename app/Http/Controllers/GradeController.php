@@ -109,8 +109,7 @@ class GradeController extends Controller
                 'description' => 'Grade successfully added',
             ]);
         }
-
-        
+  
         return back()->with('status', [
             'success' => true, 
             'message' => 'Success', 

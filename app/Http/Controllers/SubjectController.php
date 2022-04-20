@@ -23,7 +23,6 @@ class SubjectController extends Controller
 {
     //
     public function index(Request $request) { 
-        
         if($request->ajax()){ 
 
             $curriculum = Curriculum::where('is_default', 1)->first();
