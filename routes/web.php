@@ -28,7 +28,12 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('courses.subjects', \App\Http\Controllers\CourseSubjectController::class);
 
     Route::post('/subjects/search', [\App\Http\Controllers\SubjectController::class, 'search'])->name('subjects.search');
+
+    //Subjects
     Route::resource('subjects', \App\Http\Controllers\SubjectController::class)->only(['index', 'show', 'create', 'store', 'destroy']);
+
+    //Grades
+    Route::resource('subject.student.grades', \App\Http\Controllers\GradeController::class);
     
     //Application
     Route::put('application/accept', [ \App\Http\Controllers\ApplicationController::class, 'accept']);
@@ -76,6 +81,7 @@ Route::middleware(['auth'])->group(function() {
 
     //Enrollment
     Route::resource('school-year.enrollment', \App\Http\Controllers\EnrollmentController::class);
+
 
 });
 
