@@ -85,6 +85,9 @@ Route::middleware(['auth'])->group(function() {
     //Building
     Route::resource('building', \App\Http\Controllers\BuildingController::class);
 
+    //Rooms
+    Route::resource('building.rooms', \App\Http\Controllers\RoomController::class);
+
 
 });
 

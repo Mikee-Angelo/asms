@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Building;
+namespace App\Http\Requests\Room;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 
-class StoreBuildingRequest extends FormRequest
+class StoreRoomRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,9 @@ class StoreBuildingRequest extends FormRequest
         return [
             //
             'name' => 'required|string', 
-            'address' => 'required|string',
-            'no_of_floors' => 'required|integer',
+            'type' => 'required|in:lecture,laboratory',
+            'floor' => 'required|integer',
+            'capacity' => 'required|integer', 
         ];
     }
 }
