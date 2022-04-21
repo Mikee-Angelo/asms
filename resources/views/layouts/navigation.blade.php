@@ -120,6 +120,10 @@
                                     {{ __('School Year') }}
                                 </x-dropdown-link>
 
+                                 <x-dropdown-link :href="route('building.index')">
+                                    {{ __('Buildings') }}
+                                </x-dropdown-link>
+
                             </x-slot>
                         </x-dropdown>
                     </div>
