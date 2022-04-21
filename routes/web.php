@@ -73,6 +73,9 @@ Route::middleware(['auth'])->group(function() {
     //Schedule Course Subject
     Route::resource('schedule.course.subject', \App\Http\Controllers\ScheduleCourseSubjectController::class);
 
+    //Course Subject Room
+    Route::resource('course.subject.room', \App\Http\Controllers\ScheduleRoomController::class);
+
     //Curriculum
     Route::resource('curriculum', \App\Http\Controllers\CurriculumController::class);
 
