@@ -1,7 +1,7 @@
 @section('title', 'Schedule | '.$course_instructor->user->name)
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-white leading-tight">
             {{ __('Schedule - '.$course_instructor->user->name) }}
         </h2>
     </x-slot>

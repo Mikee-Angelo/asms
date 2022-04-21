@@ -79,9 +79,8 @@
             <div class="pl-4 flex items-center">
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <img src="{{asset('img/logo.png')}}" class="h-12" alt="SBCI Logo">
+                        <img src="{{asset('img/logo.png')}}" class="h-20" alt="SBCI Logo">
                     </a>
-                    <p class="ml-3 text-2xl">Subic Bay Colleges, Inc.</p>
                 </div>
             </div>
 
@@ -112,7 +111,7 @@
     <div class="container mx-auto h-screen">
         <div class="text-center px-3 lg:px-0">
             <h1 class="my-4 text-2xl md:text-3xl lg:text-5xl font-black text-white leading-tight">
-                Academic Student Management System
+                Subic Colleges Colleges, Inc.
             </h1>
             <p class="leading-normal text-white text-base md:text-xl lg:text-2xl mb-8">
                 Global competency, our aim!
