@@ -73,11 +73,11 @@ class CourseSubjectController extends Controller
                     ->addColumn('room', function($row) {
                         $data = null;
 
-                        if((!is_null($row->schedule_course_subject))){ 
+                        if((!is_null($row->schedule_course_subject) && !is_null($row->schedule_course_subject->schedule_room))){ 
                             $data = $row->schedule_course_subject->schedule_room->room->name;
                         }
 
-                        return $data;
+                        return $data ?? 'N/A';
 
                     })
                     ->addColumn('action', function($row){
