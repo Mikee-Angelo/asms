@@ -17,4 +17,8 @@ class ScheduleCourseSubject extends Model
     public function faculty() {
         return $this->belongsTo('App\Models\User', 'faculty_id');
     }
+
+    public function schedule_room() {
+        return $this->hasOne('App\Models\ScheduleRoom', 'schedule_course_subject_id');
+    }
 }

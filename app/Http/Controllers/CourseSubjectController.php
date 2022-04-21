@@ -70,8 +70,23 @@ class CourseSubjectController extends Controller
                     ->addColumn('description', function($data) {
                         return $data->subject->description;
                     })
+                    ->addColumn('room', function($row) {
+                        $data = null;
+
+                        if((!is_null($row->schedule_course_subject))){ 
+                            $data = $row->schedule_course_subject->schedule_room->room->name;
+                        }
+
+                        return $data;
+
+                    })
                     ->addColumn('action', function($row){
-                        $btn = '<button type="button" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</button>';
+                        $btn = null ;
+
+                        if(!is_null($row->schedule_course_subject)) { 
+                            $btn = '<a href="'.route('course.subject.room.create', ['course' => $row->course_id, 'subject' => $row->subject_id ]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Assign Room</a>';
+                        }
+            
                         return $btn;
                     })
                     ->addColumn('day', function($row) { 
