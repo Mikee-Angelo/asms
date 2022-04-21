@@ -1,7 +1,7 @@
 @section('title', 'School Year '.$school_year->year_start. ' - '. $school_year->year_ends)
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-white leading-tight">
             {{ __('School Year '.$school_year->year_start. ' - '. $school_year->year_ends) }}
         </h2>
     </x-slot>
