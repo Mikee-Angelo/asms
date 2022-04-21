@@ -17,6 +17,7 @@ class CreateBuildingsTable extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('address', 255);
+            $table->smallInteger('no_of_floors');
             $table->timestamps();
         });
     }
