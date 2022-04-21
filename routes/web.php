@@ -82,6 +82,9 @@ Route::middleware(['auth'])->group(function() {
     //Enrollment
     Route::resource('school-year.enrollment', \App\Http\Controllers\EnrollmentController::class);
 
+    //Building
+    Route::resource('building', \App\Http\Controllers\BuildingController::class);
+
 
 });
 
