@@ -9,12 +9,27 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" id="profile-container">
 
+            @role('Accounting Head')
+            <div class="flex flex-row-reverse mb-3">
+                <a href="#"
+                    class="justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Register Student</a>
+            </div>
+            @endrole
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800">
-                        {{ $application->student->last_name }}, {{ $application->student->given_name }}
-                        {{ $application->student->middle_name }}
-                    </h2>
+                    <div class="flex flex-row justify-between">
+                        <h2 class="my-2 text-3xl font-black leading-tight text-gray-800">
+                            {{ $application->student->last_name }}, {{ $application->student->given_name }}
+                            {{ $application->student->middle_name }}
+                        </h2>
+
+                        @role('Accounting Head')
+                        <h2 class=" my-2 text-3xl font-black leading-tight text-gray-800">
+                            ₱ {{ $total }}
+                        </h2>
+                        @endrole
+                    </div>
 
                     <h1 class="text-gray-800 dark:text-white text-xl font-medium">
                         {{ $application->course->course_name }}
@@ -31,7 +46,7 @@
             </div>
         </div>
 
-           <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
@@ -42,6 +57,20 @@
                 </div>
             </div>
         </div>
+
+        @role('Accounting Head')
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                        Miscellaneous
+                    </h2>
+
+                    <x-miscellaneous-table></x-miscellaneous-table>
+                </div>
+            </div>
+        </div>
+        @endrole
 
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
@@ -142,19 +171,21 @@
                 </div>
             </div>
 
+            @unlessrole('Accounting Head')
             @if ($application->status == 'pending')
-             <button type="button" id="accept_button"
-                    class="justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 mt-5">Accept</button>
-                      
+            <button type="button" id="accept_button"
+                class="justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 mt-5">Accept</button>
+
             @endif
-      
+            @endunlessrole
+
         </div>
 
     </div>
 
     <script type="text/javascript">
-        $(function(){ 
-            $('#accept_button').click(function(){ 
+        $(function () {
+            $('#accept_button').click(function () {
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -170,24 +201,27 @@
                         id: '{{ $application->id }}'
                     }
                 }).always(function (data) {
-                    if(data.success) {
+                    if (data.success) {
                         $('#profile-container').prepend(`
                             <div class="bg-green-200 border-green-600 text-green-600 border-l-4 p-4 mb-5" role="alert">
                                 <p class="font-bold">
                                    Success
                                 </p>
                                 <p>
-                                    `+ data.message +`
+                                    ` + data.message + `
                                 </p>
                             </div>
                         `);
 
-                        $("html, body").animate({scrollTop: 0}, 300);
+                        $("html, body").animate({
+                            scrollTop: 0
+                        }, 300);
                         $('#accept_button').remove();
 
                     }
                 });
             });
         });
+
     </script>
 </x-app-layout>

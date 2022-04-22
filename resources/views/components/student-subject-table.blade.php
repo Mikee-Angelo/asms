@@ -1,4 +1,4 @@
- <table class="application-subject-datatable w-full rounded-lg leading-normal">
+ <table class="student-subject-datatable w-full rounded-lg leading-normal">
      <thead>
          <tr>
              <th
@@ -26,10 +26,10 @@
  <script type="text/javascript">
      $(function () {
 
-         var table = $('.application-subject-datatable').DataTable({
+         var table = $('.student-subject-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax: "{{ url()->current() }}",
+             ajax: "{{ route('students.show', ['student' => request()->student ]) }}",
              columns: [
                  {
                      data: 'subject',
@@ -41,18 +41,11 @@
                      name: 'leclab',
                      className: 'border p-4 dark:border-dark-5',
                  },
-                {
+                  {
                      data: 'pricing',
                      name: 'pricing',
                      className: 'border p-4 dark:border-dark-5',
                  },
-                //  {
-                //      data: 'action',
-                //      name: 'action',
-                //      orderable: true,
-                //      searchable: true,
-                //      className: 'border p-4 dark:border-dark-5',
-                //  },
              ]
          });
 

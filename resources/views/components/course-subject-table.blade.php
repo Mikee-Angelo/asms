@@ -9,7 +9,16 @@
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Description
              </th>
+            
              <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Lec
+             </th>
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Lab
+             </th>
+              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Day
              </th>
@@ -20,8 +29,11 @@
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Room
-             </th>
-             
+             </th>  
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Unit Price
+             </th>  
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
                  Actions
@@ -51,6 +63,16 @@
                      className: 'border p-4 dark:border-dark-5',
                  },
                   {
+                    data: 'lec',
+                    name: 'lec',
+                    className: 'border p-4 dark:border-dark-5',
+                 },
+                 {
+                    data: 'lab',
+                    name: 'lab',
+                    className: 'border p-4 dark:border-dark-5',
+                 },
+                 {
                     data: 'day',
                     name: 'day',
                     className: 'border p-4 dark:border-dark-5',
@@ -60,9 +82,14 @@
                     name: 'time',
                     className: 'border p-4 dark:border-dark-5',
                  },
-                   {
+                 {
                     data: 'room',
                     name: 'room',
+                    className: 'border p-4 dark:border-dark-5',
+                 },
+                 {
+                    data: 'pricing',
+                    name: 'pricing',
                     className: 'border p-4 dark:border-dark-5',
                  },
                  {

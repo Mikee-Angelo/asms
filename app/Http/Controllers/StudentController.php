@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+
+//Models
 use App\Models\Student; 
+use App\Models\Subject; 
+use App\Models\Miscellaneous; 
+use App\Models\Other; 
 
 class StudentController extends Controller
 {
@@ -43,8 +48,53 @@ class StudentController extends Controller
         return view('student.index');
     }
 
-    public function show(Student $student) {
-        return view('student.show',compact('student')); 
+    public function show(Student $student, Request $request) {
+
+        $application = $student->application->where('status', 'accepted')->last();
+        $pricing = $application->course->pricing;
+
+        if($request->ajax()){ 
+            $subjects = $application->application_subject;
+
+            return DataTables::of($subjects)
+                ->addColumn('subject', function($row){
+                    return $row->subject->description;
+                })
+                ->addColumn('leclab', function($row){
+                    return $row->subject->lec.' / '.$row->subject->lab;
+                })
+                ->addColumn('pricing', function($data) use ($pricing) {
+                        $lab_price = $pricing->lab_price / 100;
+                        $lec_price = $pricing->lec_price / 100;
+                        $lab = $data->subject->lab;
+                        $lec = $data->subject->lec;
+
+                        return '₱ '.($lab_price * $lab) + ($lec_price * $lec);
+                })
+                ->make(true);
+        }
+
+        $miscellaneous  = Miscellaneous::get();
+        $other = Other::get();
+        
+        $miscellaneous_total = $miscellaneous->sum('price') / 100;
+        $other_total = $other->sum('price') / 100;
+        $course_total = 0;
+
+        foreach($application->application_subject as $data) { 
+            $lec_price = $pricing->lec_price / 100; 
+            $lab_price = $pricing->lab_price / 100;
+            $lec = $data->subject->lec;
+            $lab = $data->subject->lab;
+
+            
+            $course_total += ($lec_price * $lec) + ($lab_price * $lab);
+        }
+        
+        $total = $course_total + $miscellaneous_total + $course_total;
+        
+
+        return view('student.show',compact('student', 'application', 'total')); 
     }
 }
 

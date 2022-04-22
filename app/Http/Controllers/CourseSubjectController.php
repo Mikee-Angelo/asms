@@ -70,6 +70,20 @@ class CourseSubjectController extends Controller
                     ->addColumn('description', function($data) {
                         return $data->subject->description;
                     })
+                    ->addColumn('lec', function($data) {
+                        return $data->subject->lec;
+                    })
+                    ->addColumn('lab', function($data) {
+                        return $data->subject->lab;
+                    })
+                    ->addColumn('pricing', function($data) {
+                        $lab_price = $data->course->pricing->lab_price / 100;
+                        $lec_price = $data->course->pricing->lec_price / 100;
+                        $lab = $data->subject->lab;
+                        $lec = $data->subject->lec;
+
+                        return '₱ '.($lab_price * $lab) + ($lec_price * $lec);
+                    })
                     ->addColumn('room', function($row) {
                         $data = null;
 
