@@ -8,6 +8,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            @unlessrole('Accounting Head')
             <div class="flex flex-row-reverse mb-3">
                 <a href="{{route('courses.subjects.index', ['course' => $course->id])}}"
                     class="justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Manage
@@ -21,6 +23,8 @@
                     class="mr-2 justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Assign
                     Instructor</a>
             </div>
+            @endunlessrole
+            
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
@@ -31,14 +35,10 @@
                         Dean: <span class="ml-5">{{ $course_dean->user->name ?? 'N/A' }}</span>
                     </p>
 
-                    {{-- @if ($course_subjects->count() == 0)
-                        <p class="text-center">No data found</p>
-                    @else
-
-                    @endif --}}
                 </div>
             </div>
 
+            @unlessrole('Accounting Head')
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-5">
 
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -49,6 +49,7 @@
                     <x-course-instructor-table></x-course-instructor-table>
                 </div>
             </div>
+            @endunlessrole
 
             <div class="flex flex-row mt-5">
                 <!-- School Year -->
@@ -186,6 +187,19 @@
                     <x-course-student-table></x-course-student-table>
                 </div>
             </div>
+
+            @role('Accounting Head')
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-5">
+
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                        Instructors
+                    </h2>
+
+                    <x-course-instructor-table></x-course-instructor-table>
+                </div>
+            </div>
+            @endunlessrole
         </div>
     </div>
 
