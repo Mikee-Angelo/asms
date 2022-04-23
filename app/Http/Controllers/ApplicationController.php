@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\Curriculum; 
 use App\Models\Miscellaneous; 
 use App\Models\Other; 
+use App\Models\ApplicationTransaction; 
 
 //Requests
 use App\Http\Requests\Application\StoreApplicationRequest; 
@@ -61,7 +62,7 @@ class ApplicationController extends Controller
 
      public function show(Application $application, Request $request) {
         $datas = ApplicationSubject::with(['application', 'subject'])->where('application_id', $application->id)->get(); 
-
+        
         if($request->ajax()){ 
         
             return DataTables::of($datas)
@@ -91,6 +92,7 @@ class ApplicationController extends Controller
 
         $miscellaneous  = Miscellaneous::get();
         $other = Other::get();
+        $transaction = ApplicationTransaction::where('application_id', $application->id)->sum('amount') / 100;
         
         $miscellaneous_total = $miscellaneous->sum('price') / 100;
         $other_total = $other->sum('price') / 100;
@@ -107,7 +109,7 @@ class ApplicationController extends Controller
             $course_total += ($lec_price * $lec) + ($lab_price * $lab);
         }
         
-        $total = $course_total + $miscellaneous_total + $course_total;
+        $total =($course_total + $miscellaneous_total + $course_total) - $transaction;
 
         return view('application.show', compact('application', 'total'));
      }

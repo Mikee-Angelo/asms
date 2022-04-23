@@ -39,6 +39,9 @@ Route::middleware(['auth'])->group(function() {
     Route::put('application/accept', [ \App\Http\Controllers\ApplicationController::class, 'accept']);
     Route::resource('application', \App\Http\Controllers\ApplicationController::class)->only(['index', 'show']);
 
+    //Application Payment
+    Route::resource('application.payment', \App\Http\Controllers\ApplicationTransactionController::class);
+
     Route::resource('pricings', \App\Http\Controllers\PricingController::class)->only(['index', 'create', 'store', 'show']);
     Route::resource('roles', \App\Http\Controllers\SuperAdmin\ManageController::class);
 
