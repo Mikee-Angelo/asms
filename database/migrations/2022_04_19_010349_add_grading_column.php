@@ -15,10 +15,10 @@ class AddGradingColumn extends Migration
     {
         Schema::table('application_subjects', function (Blueprint $table) {
             //
-            $table->integer('prelim')->nullable()->after('subject_id');
-            $table->integer('midterm')->nullable()->after('prelim');
-            $table->integer('prefinal')->nullable()->after('midterm');
-            $table->integer('final')->nullable()->after('prefinal');
+            $table->string('prelim',255)->nullable()->after('subject_id');
+            $table->string('midterm',255)->nullable()->after('prelim');
+            $table->string('prefinal',255)->nullable()->after('midterm');
+            $table->string('final',255)->nullable()->after('prefinal');
         });
     }
 
