@@ -28,7 +28,7 @@ class CreateApplicationsTable extends Migration
             $table->boolean('chronic_illness');
             $table->boolean('interfering_illness');
             $table->boolean('allergies');
-            $table->enum('status', ['pending', 'accepted', 'rejected']);
+            $table->enum('status', ['pending', 'accepted', 'paid', 'enrolled', 'rejected']);
             $table->timestamps();
         });
     }
