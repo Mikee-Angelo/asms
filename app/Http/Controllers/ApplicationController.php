@@ -264,7 +264,7 @@ class ApplicationController extends Controller
 
                      return response()->json([
                         'success' => false,
-                        'message' => 'Something went wrong', 
+                        'message' => $e, 
                     ]);
 
                 }
