@@ -251,9 +251,9 @@ class ApplicationController extends Controller
                     Application::where([
                         'id' => $validated['id'],
                         'status' => 'pending',
-                        'accepted_at' => Carbon::now(),
                     ])->update([
                         'status' => 'accepted',
+                        'accepted_at' => Carbon::now(),
                     ]);
 
                     $user->assignRole('Student');
