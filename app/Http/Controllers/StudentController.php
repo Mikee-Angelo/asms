@@ -34,7 +34,7 @@ class StudentController extends Controller
                     $query->where('course_id', $request->input('year'));
                 }
 
-                $query->where('status', '==', 'enrolled');
+                $query->where('status', '=', 'enrolled');
                 
             })->whereNotNull('student_number')->get(); 
   
@@ -52,7 +52,7 @@ class StudentController extends Controller
 
     public function show(Student $student, Request $request) {
 
-        $application = $student->application->where('status', 'accepted')->last();
+        $application = $student->application->where('status', 'enrolled')->last();
         $pricing = $application->course->pricing;
 
         if($request->ajax()){ 

@@ -35,4 +35,8 @@ class Application extends Model
     public function application_subject() { 
         return $this->hasMany('App\Models\ApplicationSubject', 'application_id');
     }
+
+    public function application_transaction() { 
+        return $this->hasMany('App\Models\ApplicationTransaction', 'application_id');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 //Models
 use App\Models\Student; 
@@ -77,6 +78,11 @@ class ApplicationController extends Controller
                     if(Auth::user()->hasRole('Accounting Head')) { 
 
                         $pricing = $row->application->course->pricing;
+
+                        if(is_null($pricing)) {
+                            return 'N/A';
+                        }
+
                         $lec_price = $pricing->lec_price / 100; 
                         $lab_price = $pricing->lab_price / 100;
 
@@ -101,22 +107,24 @@ class ApplicationController extends Controller
             $other = Other::get();
             $transaction = ApplicationTransaction::where('application_id', $application->id)->sum('amount') / 100;
             
-            $miscellaneous_total = $miscellaneous->sum('price') / 100;
-            $other_total = $other->sum('price') / 100;
-            $course_total = 0;
+            if(count($miscellaneous) > 0 && count($other)) { 
+                $miscellaneous_total = $miscellaneous->sum('price') / 100;
+                $other_total = $other->sum('price') / 100;
+                $course_total = 0;
 
-            foreach($datas as $data) { 
-                $pricing = $data->application->course->pricing;
-                $lec_price = $pricing->lec_price / 100; 
-                $lab_price = $pricing->lab_price / 100;
-                $lec = $data->subject->lec;
-                $lab = $data->subject->lab;
+                foreach($datas as $data) { 
+                    $pricing = $data->application->course->pricing;
+                    $lec_price = $pricing->lec_price / 100; 
+                    $lab_price = $pricing->lab_price / 100;
+                    $lec = $data->subject->lec;
+                    $lab = $data->subject->lab;
 
+                    
+                    $course_total += ($lec_price * $lec) + ($lab_price * $lab);
+                }
                 
-                $course_total += ($lec_price * $lec) + ($lab_price * $lab);
+                $total = ($course_total + $miscellaneous_total + $course_total) - $transaction;
             }
-            
-            $total = ($course_total + $miscellaneous_total + $course_total) - $transaction;
         }
 
         return view('application.show', compact('application', 'total'));
@@ -243,6 +251,7 @@ class ApplicationController extends Controller
                     Application::where([
                         'id' => $validated['id'],
                         'status' => 'pending',
+                        'accepted_at' => Carbon::now(),
                     ])->update([
                         'status' => 'accepted',
                     ]);
