@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 //Others
@@ -19,7 +20,6 @@ class ApplicationTransactionController extends Controller
 {
     //
     public function index(Application $application, Request $request) {
-
         if($request->ajax()){ 
 
             $transactions = ApplicationTransaction::where('application_id', $application->id )->get(); 
@@ -49,12 +49,34 @@ class ApplicationTransactionController extends Controller
     public function store(Application $application, StoreApplicationTranscationRequest $request) { 
         $validated = $request->validated(); 
 
-        $at = new ApplicationTransaction; 
-        $at->application_id = $application->id;
-        $at->type = $validated['type'];
-        $at->description = $validated['description']; 
-        $at->amount = $validated['amount'] * 100; 
-        $at->save(); 
+        DB::beginTransaction();
+
+        try { 
+            $at = new ApplicationTransaction; 
+            $at->application_id = $application->id;
+            $at->type = $validated['type'];
+            $at->description = $validated['description']; 
+            $at->amount = $validated['amount'] * 100; 
+            $at->save(); 
+
+            if($application->has('application_transaction')->count() > 0) { 
+                Application::where('id', $application->id)->update([
+                    'status' => 'enrolled',
+                    'enrolled_at' => Carbon::now(),
+                ]);
+            } 
+
+        }catch(\Exception $e) { 
+            DB::rollback();
+
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Oops', 
+                'description' => $e->getMessage(),
+            ]);
+        }
+
+        DB::commit();
 
         return back()->with('status', [
             'success' => true, 

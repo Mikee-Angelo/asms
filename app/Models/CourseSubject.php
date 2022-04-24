@@ -18,6 +18,6 @@ class CourseSubject extends Model
     }
 
     public function schedule_course_subject(){ 
-        return $this->hasMany('App\Models\ScheduleCourseSubject', 'course_subject_id');
+        return $this->hasOne('App\Models\ScheduleCourseSubject', 'course_subject_id');
     }
 }
