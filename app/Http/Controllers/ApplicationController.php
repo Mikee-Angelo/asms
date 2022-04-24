@@ -38,7 +38,14 @@ class ApplicationController extends Controller
     //
     public function index(Request $request) {
 
-        $datas = Application::with(['student', 'course'])->where('status' , 'pending')->get(); 
+        $pending = 'pending';
+
+        if(Auth::user()->hasRole('Accounting Head')) { 
+            $pending = 'accepted';
+        }
+
+
+        $datas = Application::with(['student', 'course'])->where('status' , $pending)->get(); 
 
         if($request->ajax()){ 
             return DataTables::of($datas)
@@ -257,7 +264,6 @@ class ApplicationController extends Controller
                     ]);
 
                     $user->assignRole('Student');
-
 
                 }catch(\Exception $e){
                     DB::rollback();
