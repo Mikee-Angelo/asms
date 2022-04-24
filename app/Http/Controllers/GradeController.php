@@ -17,7 +17,7 @@ class GradeController extends Controller
     //
     public function create(Subject $subject, Student $student) { 
         $application = Application::orderBy('id', 'DESC')->where([
-            ['status', '=', 'accepted'],
+            ['status', '=', 'enrolled'],
             ['student_id', '=', $student->id ]
         ])->first();
         
