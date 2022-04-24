@@ -34,7 +34,7 @@ class StudentController extends Controller
                     $query->where('course_id', $request->input('year'));
                 }
 
-                $query->where('status', '=', 'enrolled');
+                 $query->where('status', '=', 'enrolled');
                 
             })->whereNotNull('student_number')->get(); 
   
