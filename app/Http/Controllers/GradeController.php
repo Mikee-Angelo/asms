@@ -48,7 +48,7 @@ class GradeController extends Controller
         $validated = $request->validated(); 
         
         $application = Application::orderBy('id', 'DESC')->where([
-            ['status', '=', 'accepted'],
+            ['status', '=', 'enrolled'],
             ['student_id', '=', $student->id ]
         ])->first();
 
