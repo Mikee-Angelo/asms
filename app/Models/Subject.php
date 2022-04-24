@@ -12,4 +12,8 @@ class Subject extends Model
     public function application_subject() { 
         return $this->hasOne('App\Models\ApplicationSubject', 'subject_id');
     }
+
+    public function course_subject() {
+        return $this->hasMany('App\Models\CourseSubject', 'subject_id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 //Models
 use App\Models\Student; 
@@ -73,14 +74,17 @@ class ApplicationController extends Controller
                     return $row->subject->lec.' / '.$row->subject->lab;
                 })
                 ->addColumn('pricing', function($row){ 
-                    $pricing = $row->application->course->pricing;
-                    $lec_price = $pricing->lec_price / 100; 
-                    $lab_price = $pricing->lab_price / 100;
+                    if(Auth::user()->hasRole('Accounting Head')) { 
 
-                    $lec = $row->subject->lec;
-                    $lab = $row->subject->lab;
+                        $pricing = $row->application->course->pricing;
+                        $lec_price = $pricing->lec_price / 100; 
+                        $lab_price = $pricing->lab_price / 100;
 
-                    return '₱ '.($lec_price * $lec) + ($lab_price * $lab);
+                        $lec = $row->subject->lec;
+                        $lab = $row->subject->lab;
+
+                        return '₱ '.($lec_price * $lec) + ($lab_price * $lab);
+                    }
                 })
                 ->addColumn('action', function($row){
                     $btn = '<a href="'.route('application.show', ['application' => $row->id ]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
@@ -89,27 +93,31 @@ class ApplicationController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-
-        $miscellaneous  = Miscellaneous::get();
-        $other = Other::get();
-        $transaction = ApplicationTransaction::where('application_id', $application->id)->sum('amount') / 100;
         
-        $miscellaneous_total = $miscellaneous->sum('price') / 100;
-        $other_total = $other->sum('price') / 100;
-        $course_total = 0;
-
-        foreach($datas as $data) { 
-            $pricing = $data->application->course->pricing;
-            $lec_price = $pricing->lec_price / 100; 
-            $lab_price = $pricing->lab_price / 100;
-            $lec = $data->subject->lec;
-            $lab = $data->subject->lab;
-
+        $total = 0;
+        
+        if(Auth::user()->hasRole('Accounting Head')) { 
+            $miscellaneous  = Miscellaneous::get();
+            $other = Other::get();
+            $transaction = ApplicationTransaction::where('application_id', $application->id)->sum('amount') / 100;
             
-            $course_total += ($lec_price * $lec) + ($lab_price * $lab);
+            $miscellaneous_total = $miscellaneous->sum('price') / 100;
+            $other_total = $other->sum('price') / 100;
+            $course_total = 0;
+
+            foreach($datas as $data) { 
+                $pricing = $data->application->course->pricing;
+                $lec_price = $pricing->lec_price / 100; 
+                $lab_price = $pricing->lab_price / 100;
+                $lec = $data->subject->lec;
+                $lab = $data->subject->lab;
+
+                
+                $course_total += ($lec_price * $lec) + ($lab_price * $lab);
+            }
+            
+            $total = ($course_total + $miscellaneous_total + $course_total) - $transaction;
         }
-        
-        $total =($course_total + $miscellaneous_total + $course_total) - $transaction;
 
         return view('application.show', compact('application', 'total'));
      }
