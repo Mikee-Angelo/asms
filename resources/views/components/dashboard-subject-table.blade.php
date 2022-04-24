@@ -11,11 +11,19 @@
              </th>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                 Lec
+                 Lec/Lab
              </th>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
-                 Lab
+                 Day
+             </th>
+             <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Time
+             </th>
+              <th
+                 class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                 Faculty
              </th>
              <th
                  class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
@@ -47,6 +55,7 @@
          var table = $('.dashboard-subjects-datatable').DataTable({
              processing: true,
              serverSide: true,
+             scrollX: true,
              ajax: "{{ route('dashboard') }}",
              columns: [
                  {
@@ -60,13 +69,23 @@
                      className: 'border p-4 dark:border-dark-5',
                  },
                  {
-                     data: 'lec',
-                     name: 'lec',
+                     data: 'leclab',
+                     name: 'leclab',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+                 {
+                     data: 'day',
+                     name: 'day',
                      className: 'border p-4 dark:border-dark-5',
                  },
                   {
-                     data: 'lab',
-                     name: 'lab',
+                     data: 'time',
+                     name: 'time',
+                     className: 'border p-4 dark:border-dark-5',
+                 },
+                  {
+                     data: 'faculty',
+                     name: 'faculty',
                      className: 'border p-4 dark:border-dark-5',
                  },
                   {

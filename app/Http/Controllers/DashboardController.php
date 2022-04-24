@@ -35,11 +35,68 @@ class DashboardController extends Controller
                     ->addColumn('description', function($row) { 
                         return $row->subject->description;
                     })
-                    ->addColumn('lec', function($row) { 
-                        return $row->subject->lec;
+                    ->addColumn('leclab', function($row) { 
+                        return $row->subject->lec. ' / ' . $row->subject->lab;
                     })
-                    ->addColumn('lab', function($row) { 
-                        return $row->subject->lab;
+                    ->addColumn('day', function($row) { 
+                        $course_subjects = $row->subject->course_subject;
+                        $schedule = null;
+
+                        foreach($course_subjects as $course_subject) { 
+                            $day = $course_subject->schedule_course_subject->pluck('day');
+                            
+                            if(in_array('Monday', $day->toArray()) && in_array('Wednesday', $day->toArray())) {
+                                $schedule = 'MW';
+                            } elseif(in_array('Tuesday', $day->toArray()) && in_array('Thursday', $day->toArray())) {
+                                $schedule = 'TTH';
+                            } elseif(in_array('Friday', $day->toArray())) { 
+                                $schedule = 'FRI';
+                            } elseif(in_array('Saturday', $day->toArray())) { 
+                                $schedule = 'SAT';
+                            } 
+                        }
+
+                        return $schedule ?? 'N/A';
+                    })
+                    ->addColumn('faculty', function($row) { 
+                        $course_subjects = $row->subject->course_subject->first();
+                        $faculty = $course_subjects->schedule_course_subject->first();
+
+                        return $faculty->faculty->name ?? 'N/A';
+                    })
+                     ->addColumn('time', function($row) { 
+                        $course_subjects = $row->subject->course_subject;
+                        $schedule = null;
+
+                        foreach($course_subjects as $course_subject) { 
+                            $time = $course_subject->schedule_course_subject->unique('starts_at')->first();
+                            
+                            if(!is_null($time) && (!is_null($time->starts_at) && !is_null($time->ends_at))) { 
+                                $schedule = Carbon::parse( $time->starts_at)->format('g:i A'). ' - '. Carbon::parse($time->ends_at)->format('g:i A');
+                            }
+                        }
+
+                        return $schedule ?? 'N/A';
+                    })
+                    ->addColumn('day', function($row) { 
+                        $course_subjects = $row->subject->course_subject;
+                        $schedule = null;
+
+                        foreach($course_subjects as $course_subject) { 
+                            $day = $course_subject->schedule_course_subject->pluck('day');
+                            
+                            if(in_array('Monday', $day->toArray()) && in_array('Wednesday', $day->toArray())) {
+                                $schedule = 'MW';
+                            } elseif(in_array('Tuesday', $day->toArray()) && in_array('Thursday', $day->toArray())) {
+                                $schedule = 'TTH';
+                            } elseif(in_array('Friday', $day->toArray())) { 
+                                $schedule = 'FRI';
+                            } elseif(in_array('Saturday', $day->toArray())) { 
+                                $schedule = 'SAT';
+                            } 
+                        }
+
+                        return $schedule ?? 'N/A';
                     })
                     ->addColumn('prelim', function($row) { 
                         if(is_null($row->prelim)) return 'N/A';

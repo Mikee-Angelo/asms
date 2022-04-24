@@ -1,4 +1,4 @@
-@section('title', 'Profile | '. $student->given_name.' '.$student->last_name)
+@section('title', 'Profile | '. $application->student->given_name.' '.$application->student->last_name)
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
@@ -14,8 +14,8 @@
 
                     <div class="flex flex-row justify-between">
                         <h2 class=" my-2 text-3xl font-black leading-tight text-gray-800">
-                            {{ $student->last_name }}, {{ $student->given_name }}
-                            {{ $student->middle_name }}
+                            {{ $application->student->last_name }}, {{ $application->student->given_name }}
+                            {{ $application->student->middle_name }}
                         </h2>
 
                         @role('Accounting Head')
@@ -60,94 +60,201 @@
                         Personal Information
                     </h2>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->gender }}
-                    </p>
+                    <div class="grid grid-cols-2 gap-3 grid-flow-row-dense col-end-2">
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->register_email }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Gender:
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->facebook_link }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->gender }}
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->home_address }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Registered Email:
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->present_address }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->register_email }}
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->mother }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Facebook:
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->mother_occupation }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->facebook_link }}
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->father }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Home Address:
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->father_occupation }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->home_address }}
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->guardian }}
-                    </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->guardian_contact_no }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Present Address:
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->guardian_relationship }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->present_address }}
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->primary_school }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Mother:
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->primary_graduated }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->mother }}
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->secondary_school }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Occupation:
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->secondary_graduated }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->mother_occupation }}
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->senior_school_name }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Father:
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->strand }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->father }}
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->senior_graduated }}
-                    </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->tertiary_school }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Occupation:
+                        </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->tertiary_graduated }}
-                    </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
-                        {{ $application->student->last_school_date }}
-                    </p>
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->father_occupation }}
+                        </p>
 
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Guardian Name:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->guardian }}
+                        </p>
+
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Guardian Contact No.:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->guardian_contact_no }}
+                        </p>
+
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Relationship:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->guardian_relationship }}
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Primary School:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->primary_school }}
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Graduated At:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->primary_graduated }}
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Secondary School:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->secondary_school }}
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Graduated At:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->secondary_graduated }}
+                        </p>
+
+                        @if (!is_null($application->student->senior_school_name))
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Senior High School:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->senior_school_name }}
+                        </p>
+                        @endif
+
+                        @if (!is_null($application->student->strand))
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Strand:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->strand }}
+                        </p>
+                        @endif
+
+                        @if (!is_null($application->student->senior_graduated))
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Graduated At:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ Carbon\Carbon::parse($application->student->senior_graduated)->format('F Y') }}
+                        </p>
+                        @endif
+
+                        @if (!is_null($application->student->tertiary_school))
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Tertiary School:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ $application->student->tertiary_school }}
+                        </p>
+                        @endif
+
+                        @if (!is_null($application->student->tertiary_graduated))
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Graduated At:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ Carbon\Carbon::parse($application->student->tertiary_graduated)->format('F Y') }}
+                        </p>
+
+                        @endif
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                            Last School Date:
+                        </p>
+
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            {{ Carbon\Carbon::parse($application->student->last_school_date)->format('F Y') }}
+                        </p>
+
+                    </div>
                 </div>
             </div>
 

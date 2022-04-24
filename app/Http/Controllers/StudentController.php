@@ -19,6 +19,7 @@ class StudentController extends Controller
         if($request->ajax()){ 
 
             $students = Student::whereHas('application' ,function($query) use ($request) { 
+
                 if ($request->has('course')) {
                     $query->where('course_id', $request->input('course'));
                 }
@@ -31,8 +32,9 @@ class StudentController extends Controller
                 if($request->has('year')) { 
                     $year = $request->input('year');
                     $query->where('course_id', $request->input('year'));
-
                 }
+
+                $query->where('status', '==', 'enrolled');
                 
             })->whereNotNull('student_number')->get(); 
   
@@ -64,35 +66,44 @@ class StudentController extends Controller
                     return $row->subject->lec.' / '.$row->subject->lab;
                 })
                 ->addColumn('pricing', function($data) use ($pricing) {
-                        $lab_price = $pricing->lab_price / 100;
-                        $lec_price = $pricing->lec_price / 100;
-                        $lab = $data->subject->lab;
-                        $lec = $data->subject->lec;
 
-                        return '₱ '.($lab_price * $lab) + ($lec_price * $lec);
+                    if(is_null($pricing)) { 
+                        return 'N/A';
+                    }
+                    
+                    $lab_price = $pricing->lab_price / 100;
+                    $lec_price = $pricing->lec_price / 100;
+                    $lab = $data->subject->lab;
+                    $lec = $data->subject->lec;
+
+                    return '₱ '.($lab_price * $lab) + ($lec_price * $lec);
                 })
                 ->make(true);
         }
 
-        $miscellaneous  = Miscellaneous::get();
-        $other = Other::get();
+        $total = 0;
         
-        $miscellaneous_total = $miscellaneous->sum('price') / 100;
-        $other_total = $other->sum('price') / 100;
-        $course_total = 0;
+        if(!is_null($pricing)) { 
 
-        foreach($application->application_subject as $data) { 
-            $lec_price = $pricing->lec_price / 100; 
-            $lab_price = $pricing->lab_price / 100;
-            $lec = $data->subject->lec;
-            $lab = $data->subject->lab;
-
+            $miscellaneous  = Miscellaneous::get();
+            $other = Other::get();
             
-            $course_total += ($lec_price * $lec) + ($lab_price * $lab);
+            $miscellaneous_total = $miscellaneous->sum('price') / 100;
+            $other_total = $other->sum('price') / 100;
+            $course_total = 0;
+
+            foreach($application->application_subject as $data) { 
+                $lec_price = $pricing->lec_price / 100; 
+                $lab_price = $pricing->lab_price / 100;
+                $lec = $data->subject->lec;
+                $lab = $data->subject->lab;
+
+                
+                $course_total += ($lec_price * $lec) + ($lab_price * $lab);
+            }
+            
+            $total = $course_total + $miscellaneous_total + $course_total;
         }
-        
-        $total = $course_total + $miscellaneous_total + $course_total;
-        
 
         return view('student.show',compact('student', 'application', 'total')); 
     }

@@ -77,8 +77,8 @@ class CourseSubjectController extends Controller
                         return $data->subject->lab;
                     })
                     ->addColumn('pricing', function($data) {
-                        $lab_price = $data->course->pricing->lab_price / 100;
-                        $lec_price = $data->course->pricing->lec_price / 100;
+                        $lab_price = ($data->course->pricing->lab_price ?? 0) / 100;
+                        $lec_price = ($data->course->pricing->lec_price ?? 0) / 100;
                         $lab = $data->subject->lab;
                         $lec = $data->subject->lec;
 
