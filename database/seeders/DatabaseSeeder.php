@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             PermissionsSeeder::class,
             CurriculumSeeder::class,
-            CoursesSeeder::class,
+            // CoursesSeeder::class,
             MailContentSeeder::class,
-            SubjectsSeeder::class,
+            // SubjectsSeeder::class,
         ]);
     }
 }
