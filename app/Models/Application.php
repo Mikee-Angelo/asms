@@ -22,6 +22,9 @@ class Application extends Model
         'chronic_illness',
         'interfering_illness',
         'allergies',
+        'accepted_at',
+        'enrolled_at',
+        'rejected_at'
     ];
 
     public function student() { 
