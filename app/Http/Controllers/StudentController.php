@@ -101,10 +101,11 @@ class StudentController extends Controller
                 
                 $course_total += ($lec_price * $lec) + ($lab_price * $lab);
             }
-            
-            $total = $course_total + $miscellaneous_total + $course_total;
-        }
+            $transactions = $application->application_transaction->sum('amount') / 100;
 
+            $total = ($course_total + $miscellaneous_total + $course_total) - $transactions;
+        }
+        
         return view('student.show',compact('student', 'application', 'total')); 
     }
 }

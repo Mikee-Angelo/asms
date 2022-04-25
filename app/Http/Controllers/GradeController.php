@@ -22,7 +22,7 @@ class GradeController extends Controller
         ])->first();
         
         $terms = [];
-
+        
         $subject = $application->application_subject->where('subject_id', $subject->id)->first();
         
         if($subject->prelim == null) { 
@@ -40,7 +40,7 @@ class GradeController extends Controller
         if($subject->final == null) { 
             $terms[] = 'Final';
         }
-
+        
         return view('grade.create', compact('terms'));
     }
 
