@@ -113,8 +113,8 @@ class ApplicationController extends Controller
             $miscellaneous  = Miscellaneous::get();
             $other = Other::get();
             $transaction = ApplicationTransaction::where('application_id', $application->id)->sum('amount') / 100;
-            
-            if(count($miscellaneous) > 0 && count($other)) { 
+
+            if(count($miscellaneous) > 0 && count($other) > 0) { 
                 $miscellaneous_total = $miscellaneous->sum('price') / 100;
                 $other_total = $other->sum('price') / 100;
                 $course_total = 0;

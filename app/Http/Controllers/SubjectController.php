@@ -87,25 +87,28 @@ class SubjectController extends Controller
                 // dd($query);
                 return $query->where('subject_id', $subject->id);
             })->whereNotNull('student_number')->get(); 
-  
+
+              
             return DataTables::of($students)
-                    ->addColumn('name', function($row) { 
+                    ->addColumn('name', function($row) use ($subject) { 
                         return $row->last_name.', '.$row->given_name;
                     })
                     ->addColumn('prelim', function($row) { 
-                        $application = $row->application->where('status', 'accepted')->last();
-
+                        $application = $row->application->where('status', 'enrolled')->first();
                         if(!is_null($application)) { 
+                            
                             if(is_null($application->application_subject[0]->prelim)) { 
                                 return 'N/A';
                             }
-
+                            
                             return $application->application_subject[0]->prelim / 100;
                         }
+
+                        return 'N/A'; 
                     })
 
                     ->addColumn('midterm', function($row) { 
-                        $application = $row->application->where('status', 'accepted')->last();
+                        $application = $row->application->where('status', 'enrolled')->last();
 
                         if(!is_null($application)) { 
                             if(is_null($application->application_subject[0]->midterm)) { 
@@ -114,10 +117,12 @@ class SubjectController extends Controller
 
                             return ($application->application_subject[0]->midterm / 100) ?? 'N/A';
                         }
+
+                        return 'N/A';
                     })
 
                     ->addColumn('prefinal', function($row) { 
-                        $application = $row->application->where('status', 'accepted')->last();
+                        $application = $row->application->where('status', 'enrolled')->last();
 
                         if(!is_null($application)) { 
                             if(is_null($application->application_subject[0]->prefinal)) { 
@@ -126,10 +131,11 @@ class SubjectController extends Controller
 
                             return ($application->application_subject[0]->prefinal / 100) ?? 'N/A';
                         }
-                    })
 
+                        return 'N/A';
+                    })
                     ->addColumn('final', function($row) { 
-                        $application = $row->application->where('status', 'accepted')->last();
+                        $application = $row->application->where('status', 'enrolled')->last();
 
                         if(!is_null($application)) { 
                             if(is_null($application->application_subject[0]->final)) { 
@@ -138,8 +144,9 @@ class SubjectController extends Controller
 
                             return ($application->application_subject[0]->final / 100) ?? 'N/A';
                         }
+
+                        return 'N/A'; 
                     })
-                    
                     ->addColumn('action', function($row) use ($subject){
                         $btn = '<a href="'.route('subject.student.grades.create', ['subject' => $subject->id ,'student' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
                         return $btn;

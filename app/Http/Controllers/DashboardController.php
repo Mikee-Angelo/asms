@@ -42,10 +42,6 @@ class DashboardController extends Controller
                         $course_subjects = $row->subject->course_subject;
                         $schedule = null;
 
-                        if(is_null($course_subject->schedule_course_subject)) { 
-                            return 'N/A';
-                        }
-                        
                         foreach($course_subjects as $course_subject) { 
                             $day = $course_subject->schedule_course_subject->pluck('day');
                             
