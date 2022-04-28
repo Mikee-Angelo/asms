@@ -42,4 +42,8 @@ class Application extends Model
     public function application_transaction() { 
         return $this->hasMany('App\Models\ApplicationTransaction', 'application_id');
     }
+
+    public function school_year() { 
+        return $this->belongsTo('App\Models\SchoolYear', 'school_year_id'); 
+    }
 }
