@@ -36,7 +36,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('subject.student.grades', \App\Http\Controllers\GradeController::class);
     
     //Application
-    Route::put('application/accept', [ \App\Http\Controllers\ApplicationController::class, 'accept']);
+    Route::post('application/{application}/accept', [ \App\Http\Controllers\ApplicationController::class, 'accept'])->name('application.accept');
     Route::resource('application', \App\Http\Controllers\ApplicationController::class)->only(['index', 'show']);
 
     //Application Payment

@@ -21,7 +21,7 @@ class CreateApplicationsTable extends Migration
             $table->foreign('student_id')->references('id')->on('students');
             $table->enum('year_level', [1, 2, 3, 4]);
             $table->enum('semester', [1, 2, 3]);
-            $table->enum('application_type', [1, 2]);
+            $table->enum('application_type', [1, 2, 3, 4]);
             $table->boolean('mental_illness');
             $table->boolean('hearing_defects');
             $table->boolean('physical_disability');

@@ -220,73 +220,78 @@ class ApplicationController extends Controller
             
     }
 
-    public function accept(UpdateApplicationRequest $request) { 
+    public function accept(Application $application, UpdateApplicationRequest $request) { 
         $validated = $request->validated();
 
-        if($request->ajax()){ 
-            $application = Application::with('student')->find($validated['id']);
-         
-            if(!is_null($application)){ 
-
-                $firstName = $application->student->given_name;
-                $lastName = $application->student->last_name;
-                $parsedLastName = str_replace(' ', '_', $lastName);
-                $customEmail = strtolower( $firstName[0].$parsedLastName).'@subicbaycollege.com'; 
-                $customPassword = Str::random(8);
-
-                //Year Enrolled + Semester + Last ID Enrolled
-                $now = \Carbon\Carbon::now();
-
-                $studentCount = Student::count();
-
-                DB::beginTransaction();
-
-                try{ 
-                    $user = User::create([
-                        'name' => $firstName.' '.$lastName,
-                        'password' =>  bcrypt($customPassword),
-                        'email' => $customEmail,
-                    ]);
-
-                    Student::where('id', $application->student_id)->update([
-                        'user_id' =>  $user->id,
-                        'student_number' => $now->year.$application->semester.$studentCount
-                    ]);     
-                    
-                    Mail::to($application->student->register_email)->send(new ApplicationMail($user, $customPassword));
-
-                    Application::where([
-                        'id' => $validated['id'],
-                        'status' => 'pending',
-                    ])->update([
-                        'status' => 'accepted',
-                        'accepted_at' => Carbon::now(),
-                    ]);
-
-                    $user->assignRole('Student');
-
-                }catch(\Exception $e){
-                    DB::rollback();
-
-                     return response()->json([
-                        'success' => false,
-                        'message' => $e, 
-                    ]);
-
-                }
-
-                DB::commit();
-               
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Application accepted', 
-                ]);
-            } 
+        if(($application->application_type == 1 || $application->application_type == 3) && (!$request->has('psa') || $validated['psa'] != 1)) { 
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Oops!', 
+                'description' => 'Authenticated PSA Birth Certificate',
+            ]);
         }
 
-        return response()->json([
-            'success' => false, 
-            'message' => 'Application declined', 
+        $firstName = $application->student->given_name;
+        $lastName = $application->student->last_name;
+        $parsedLastName = str_replace(' ', '_', $lastName);
+        $customEmail = strtolower( $firstName[0].$parsedLastName).'@subicbaycollege.com'; 
+        $customPassword = Str::random(8);
+
+        //Year Enrolled + Semester + Last ID Enrolled
+        $now = \Carbon\Carbon::now();
+
+        $studentCount = Student::count();
+
+        DB::beginTransaction();
+
+        try{ 
+            $user = User::create([
+                'name' => $firstName.' '.$lastName,
+                'password' =>  bcrypt($customPassword),
+                'email' => $customEmail,
+            ]);
+
+            Student::where('id', $application->student_id)->update([
+                'psa' => $validated['psa'],
+                'sf9' => $request->has('sf9') ? $validated['sf9'] : null,
+                'good_moral' => $request->has('good_moral') ? $validated['good_moral'] : null,
+                'colored_pictures' => $request->has('colored_pictures') ? $validated['colored_pictures'] : null,
+                'honorable_dismissal' => $request->has('honorable_dismissal') ? $validated['honorable_dismissal'] : null,
+                'transcript_records' => $request->has('transcript_records') ? $validated['transcript_records'] : null,
+                'clearance' => $request->has('clearance') ? $validated['clearance'] : null,
+                'user_id' =>  $user->id,
+                'student_number' => $now->year.$application->semester.$studentCount
+            ]);     
+            
+            Mail::to($application->student->register_email)->send(new ApplicationMail($user, $customPassword));
+
+            Application::where([
+                'id' => $application->id,
+                'status' => 'pending',
+            ])->update([
+                'status' => 'accepted',
+                'accepted_at' => Carbon::now(),
+            ]);
+
+            $user->assignRole('Student');
+
+        }catch(\Exception $e){
+            DB::rollback();
+
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Oops!', 
+                'description' => 'Error '.$e,
+            ]);
+
+        }
+
+        DB::commit();
+
+        return back()->with('status', [
+            'success' => true, 
+            'message' => 'Success', 
+            'description' => 'Application accepted',
         ]);
 
     }
