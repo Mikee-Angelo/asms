@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 //Models
 use App\Models\RegistrationFee;
+use App\Models\SchoolYear;
+use App\Models\Enrollment;
 
 //Others
 use Yajra\DataTables\DataTables;
@@ -45,7 +47,28 @@ class RegistrationFeeController extends Controller
     public function store(StoreRegistrationFeeController $request) { 
         $validated = $request->validated();
 
+        $school_year = SchoolYear::orderBy('id', 'DESC')->first();
+
+        if(is_null($school_year)) { 
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Error', 
+                'description' => 'School Year was not found. Please contact the administrator',
+            ]);
+        }
+
+        $semester = Enrollment::where('school_year_id', $school_year->id)->orderBy('id', 'DESC')->first();
+
+        if(is_null($semester)) { 
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Error', 
+                'description' => 'No Semester schedule yet. Please contact the administrator',
+            ]);
+        }
+
         $registration_fee = new RegistrationFee; 
+        $registration_fee->semester_id = $semester->id;
         $registration_fee->user_id = Auth::id();
         $registration_fee->amount = $validated['amount'] * 100;
         $registration_fee->save();

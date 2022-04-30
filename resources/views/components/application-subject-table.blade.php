@@ -36,7 +36,7 @@
          var table = $('.application-subject-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax: "{{ url()->current() }}",
+             ajax: "{{ route('application.subject.index', ['application' => request()->application ]) }}",
              columns: [{
                      data: 'subject',
                      name: 'subject',
@@ -98,7 +98,7 @@
          var table = $('.application-subject-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax: "{{ route('application.subject', ['application' => request()->application ]) }}",
+             ajax: "{{ route('application.show', ['application' => request()->application ]) }}",
              columns: [{
                      data: 'subject',
                      name: 'subject',

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 //Models
 use App\Models\Other;
+use App\Models\SchoolYear;
+use App\Models\Enrollment;
 
 //Request
 use App\Http\Requests\Other\StoreOtherController;
@@ -44,11 +46,31 @@ class OtherController extends Controller
 
     public function store(StoreOtherController $request) {
         $validated = $request->validated(); 
+        $school_year = SchoolYear::orderBy('id', 'DESC')->first();
+
+        if(is_null($school_year)) { 
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Error', 
+                'description' => 'School Year was not found. Please contact the administrator',
+            ]);
+        }
+
+        $semester = Enrollment::where('school_year_id', $school_year->id)->orderBy('id', 'DESC')->first();
+
+        if(is_null($semester)) { 
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Error', 
+                'description' => 'No Semester schedule yet. Please contact the administrator',
+            ]);
+        }
 
         $str_lower = strtolower($validated['name']);
         $cooked = str_replace(' ', '-', $str_lower);
 
         $other = new Other;
+        $other->semester_id = $semester->id;
         $other->user_id = Auth::id();
         $other->tag = $cooked;
         $other->name = $validated['name'];

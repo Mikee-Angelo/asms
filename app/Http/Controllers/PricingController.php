@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use App\Models\Pricing;
 use App\Models\Course; 
 use App\Models\CourseSubject; 
+use App\Models\Enrollment; 
+use App\Models\SchoolYear; 
 
 //Facades
 use Illuminate\Support\Facades\Auth;
@@ -34,12 +36,6 @@ class PricingController extends Controller
                     })
                     ->addColumn('lab_price', function($data){
                         return '₱ '. $data->lab_price / 100;
-                    })
-                    ->addColumn('discount', function($data){
-                        return $data->discount.' %';
-                    })
-                     ->addColumn('scheduled_date', function($data){
-                        return Carbon::parse($data->scheduled_date)->format('F d, Y');
                     })
                     ->addColumn('action', function($row){
                         $btn = '<a href="'.route('pricings.show', ['pricing' => $row]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
@@ -106,17 +102,35 @@ class PricingController extends Controller
         $validated = $request->validated();
         
         $courses = array_keys($validated['course']);
+        $school_year = SchoolYear::orderBy('id', 'DESC')->first();
+
+        if(is_null($school_year)) { 
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Error', 
+                'description' => 'School Year was not found. Please contact the administrator',
+            ]);
+        }
+
+        $semester = Enrollment::where('school_year_id', $school_year->id)->orderBy('id', 'DESC')->first();
+
+        if(is_null($semester)) { 
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Error', 
+                'description' => 'No Semester schedule yet. Please contact the administrator',
+            ]);
+        }
 
         $payload = [];
 
         foreach($courses as $course) { 
             $payload[] = [
+                'semester_id' => $semester->id,
                 'user_id' => Auth::id(),
                 'course_id' => $course, 
                 'lec_price' => $validated['lec_price'] * 100,
                 'lab_price' =>  $validated['lab_price'] * 100,
-                'discount' => $validated['discount'],
-                'scheduled_date' => $validated['scheduled_date'],
             ];
         }
 

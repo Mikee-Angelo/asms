@@ -40,6 +40,7 @@ class ApplicationSubjectController extends Controller
             $suggested = null ;
         
             if($request->has('suggested')) { 
+                // dd($request->query('semester')); 
                 $subjects = CourseSubject::where([
                     [ 'course_id', '=', $application->course_id],
                     [ 'year', '=', $year],
