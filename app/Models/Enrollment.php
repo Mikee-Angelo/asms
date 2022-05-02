@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Enrollment extends Model
 {
     use HasFactory;
+
+    public function pricing() { 
+        return $this->hasMany('App\Models\Pricing', 'id');
+    }
 }

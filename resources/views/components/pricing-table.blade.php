@@ -26,11 +26,12 @@
  </table>
  <script type="text/javascript">
      $(function () {
+         let url = "{{ route('pricings.index') }}";
 
          var table = $('.pricing-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax: "{{ route('pricings.index') }}",
+             ajax: url,
              columns: [{
                      data: 'course.course_name',
                      name: 'course',
@@ -59,6 +60,20 @@
 
          $('.dataTables_paginate').addClass(
              'px-4 py-2 border-t border-b text-base text-indigo-500 bg-white hover:bg-gray-100');
+
+             $('#semester').on('change', function () {
+             var year = $('#year_level :selected').val();
+
+             table.ajax.url(
+                 url + '&semester=' + this.value + '&year=' + year).load();
+         });
+
+         $('#year_level').on('change', function () {
+             var semester = $('#semester :selected').val();
+
+             table.ajax.url(
+                 url + '&semester=' + semester + '&year=' + this.value).load();
+         });
 
      });
 

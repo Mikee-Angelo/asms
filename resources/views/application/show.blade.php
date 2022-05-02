@@ -462,46 +462,4 @@
 
         </div>
     </div>
-
-    <script type="text/javascript">
-        $(function () {
-            // $('#accept_button').click(function () {
-            //     $.ajaxSetup({
-            //         headers: {
-            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         }
-            //     });
-
-            //     $.ajax({
-            //         url: 'accept',
-            //         type: 'PUT',
-            //         dataType: 'json',
-            //         data: {
-            //             method: '_PUT',
-            //             id: '{{ $application->id }}'
-            //         }
-            //     }).always(function (data) {
-            //         if (data.success) {
-            //             $('#profile-container').prepend(`
-            //                 <div class="bg-green-200 border-green-600 text-green-600 border-l-4 p-4 mb-5" role="alert">
-            //                     <p class="font-bold">
-            //                        Success
-            //                     </p>
-            //                     <p>
-            //                         ` + data.message + `
-            //                     </p>
-            //                 </div>
-            //             `);
-
-            //             $("html, body").animate({
-            //                 scrollTop: 0
-            //             }, 300);
-            //             $('#accept_button').remove();
-
-            //         }
-            //     });
-            // });
-        });
-
-    </script>
 </x-app-layout>

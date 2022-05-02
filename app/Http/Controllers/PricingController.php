@@ -28,6 +28,18 @@ class PricingController extends Controller
     public function index(Request $request) {
 
         if($request->ajax()){ 
+
+            $year = 1;
+            $semester = 1;
+            
+            if(!is_null($request->query('semester'))) { 
+                $semester = $request->query('semester');
+            }
+
+            if(!is_null($request->query('year'))) { 
+                $year = $request->query('year');
+            }
+
             $datas = Pricing::with('course')->get(); 
 
             return DataTables::of($datas)
