@@ -12,4 +12,8 @@ class Pricing extends Model
     public function course() { 
         return $this->belongsTo('App\Models\Course', 'course_id');
     }
+
+    public function semester(){ 
+        return $this->belongsTo('App\Models\Enrollment');
+    }
 }
