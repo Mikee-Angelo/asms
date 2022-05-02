@@ -1,4 +1,4 @@
-@section('title', 'Profile | '. $application->student->given_name.' '.$application->student->last_name)
+@section('title', 'Profile | '. $student->given_name.' '.$student->last_name)
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
@@ -8,14 +8,18 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" id="profile-container">
+             <div class="flex flex-row-reverse mb-3">
+                <a href="{{route('students.application.index', ['student' => $student->id])}}"
+                    class="justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Print Reg Form</a>
+            </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
                     <div class="flex flex-row justify-between">
                         <h2 class=" my-2 text-3xl font-black leading-tight text-gray-800">
-                            {{ $application->student->last_name }}, {{ $application->student->given_name }}
-                            {{ $application->student->middle_name }}
+                            {{ $student->last_name }}, {{ $student->given_name }}
+                            {{ $student->middle_name }}
                         </h2>
 
                         @role('Accounting Head')
@@ -53,7 +57,7 @@
         </div>
 
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
+       \ <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
