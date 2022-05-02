@@ -98,7 +98,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('building.rooms', \App\Http\Controllers\RoomController::class);
 
     //Rooms
-    Route::resource('pdf', \App\Http\Controllers\PdfController::class);
+    Route::resource('students.application', \App\Http\Controllers\StudentApplicationController::class);
 });
 
 require __DIR__.'/auth.php';

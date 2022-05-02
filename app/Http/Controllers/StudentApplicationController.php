@@ -6,17 +6,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use setasign\Fpdi\Fpdi;
 
-//Models 
-use App\Models\User;
-use App\Models\Student;
-use App\Models\Application;
+//Others
+use Yajra\DataTables\DataTables;
 
-class PdfController extends Controller
+//Models
+use App\Models\Student; 
+use App\Models\Application; 
+
+class StudentApplicationController extends Controller
 {
-    //
+    public function index(Student $student, Request $request) {
+        
+        if($request->ajax()){ 
+            return DataTables::of($student->application)
+                    ->addColumn('course', function($row) { 
+                        return $row->course->course_name;
+                    })
+                    ->addColumn('action', function($row) use ($student) {
+                        $btn = '<a href="'.route('students.application.show', ['student' => $student->id, 'application' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">PRINT</a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        
+        return view('student-application.index');
+    }
 
-    public function show(String $id) { 
-        $application = Application::findOrFail($id);
+    public function show(Student $student, Application $application) { 
 
         $outputFile = Storage::disk('local')->path('output.pdf');
         $file = Storage::disk('local')->path('reg-form.pdf');
