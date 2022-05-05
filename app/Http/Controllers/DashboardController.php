@@ -43,8 +43,9 @@ class DashboardController extends Controller
                         $schedule = null;
 
                         foreach($course_subjects as $course_subject) { 
-                            $day = $course_subject->schedule_course_subject->pluck('day');
                             
+                            $day = $course_subject->schedule_course_subject->pluck('day');
+
                             if(in_array('Monday', $day->toArray()) && in_array('Wednesday', $day->toArray())) {
                                 $schedule = 'MW';
                             } elseif(in_array('Tuesday', $day->toArray()) && in_array('Thursday', $day->toArray())) {

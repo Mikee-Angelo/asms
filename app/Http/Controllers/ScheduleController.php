@@ -29,8 +29,7 @@ class ScheduleController extends Controller
         if($request->ajax()){
             if(Auth::user()->hasRole('Dean')) { 
                 $dean = Auth::user();
-                $course_id = $dean->course_dean->course_id;
-                $users = CourseInstructor::where('course_id', $course_id)->get();
+                $users = CourseInstructor::where('course_id', session('id'))->get();
                 
                 return DataTables::of($users)
                     ->addColumn('name', function($row) { 
@@ -70,12 +69,12 @@ class ScheduleController extends Controller
         $course_instructor = CourseInstructor::where('id', $id)->first();
 
         $schedules = ScheduleCourseSubject::whereHas('course_subject', function($q) { 
-            return $q->where('course_id',Auth::user()->course_dean->course_id);
+            return $q->where('course_id', session('id'));
         })->get();
 
         $major = ScheduleCourseSubject::whereHas('course_subject', function($q) { 
             return $q->whereHas('subject', function($qx) { 
-                return $qx->where('course_id', Auth::user()->course_dean->course_id);
+                return $qx->where('course_id', session('id'));
             });
 
         })->get();
@@ -135,8 +134,7 @@ class ScheduleController extends Controller
         ]);
 
         $dean = Auth::user();
-        $course_id = $dean->course_dean->course_id;
-        $subjects = Subject::where('course_id', $course_id)->pluck('id');
+        $subjects = Subject::where('course_id', session('id'))->pluck('id');
         
         $course_subjects = CourseSubject::whereIn('subject_id', $subjects->toArray())->get();
 

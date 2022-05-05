@@ -93,56 +93,32 @@ class SubjectController extends Controller
                     ->addColumn('name', function($row) use ($subject) { 
                         return $row->last_name.', '.$row->given_name;
                     })
-                    ->addColumn('prelim', function($row) { 
-                        $application = $row->application->where('status', 'enrolled')->first();
-                        if(!is_null($application)) { 
-                            
-                            if(is_null($application->application_subject[0]->prelim)) { 
-                                return 'N/A';
-                            }
-                            
-                            return $application->application_subject[0]->prelim / 100;
+                    ->addColumn('prelim', function($row) use ($subject) { 
+
+                        if(!is_null($subject->application_subject->prelim)) { 
+                            return $subject->application_subject->prelim / 100;
                         }
 
                         return 'N/A'; 
                     })
-
-                    ->addColumn('midterm', function($row) { 
-                        $application = $row->application->where('status', 'enrolled')->last();
-
-                        if(!is_null($application)) { 
-                            if(is_null($application->application_subject[0]->midterm)) { 
-                                return 'N/A';
-                            }
-
-                            return ($application->application_subject[0]->midterm / 100) ?? 'N/A';
+                    ->addColumn('midterm', function($row) use ($subject) { 
+                         if(!is_null($subject->application_subject->midterm)) { 
+                            return $subject->application_subject->midterm / 100;
                         }
 
                         return 'N/A';
                     })
 
-                    ->addColumn('prefinal', function($row) { 
-                        $application = $row->application->where('status', 'enrolled')->last();
-
-                        if(!is_null($application)) { 
-                            if(is_null($application->application_subject[0]->prefinal)) { 
-                                return 'N/A';
-                            }
-
-                            return ($application->application_subject[0]->prefinal / 100) ?? 'N/A';
+                    ->addColumn('prefinal', function($row) use ($subject) { 
+                         if(!is_null($subject->application_subject->prefinal)) { 
+                            return $subject->application_subject->prefinal / 100;
                         }
 
-                        return 'N/A';
+                        return 'N/A'; 
                     })
-                    ->addColumn('final', function($row) { 
-                        $application = $row->application->where('status', 'enrolled')->last();
-
-                        if(!is_null($application)) { 
-                            if(is_null($application->application_subject[0]->final)) { 
-                                return 'N/A';
-                            }
-
-                            return ($application->application_subject[0]->final / 100) ?? 'N/A';
+                    ->addColumn('final', function($row) use ($subject) { 
+                        if(!is_null($subject->application_subject->final)) { 
+                            return $subject->application_subject->final / 100;
                         }
 
                         return 'N/A'; 
