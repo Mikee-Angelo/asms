@@ -12,24 +12,26 @@
             <div class="mx-auto sm:px-4 lg:px-6 w-full">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
+                        
+                        @if(gettype(session('status')) != 'integer')
+                            @if(session('status'))
 
-                        @if(session('status'))
+                            <div class="{{session('status')['success'] ? 'bg-green-200 border-green-600 text-green-600' : 'bg-red-200 border-red-600 text-red-600'}} border-l-4 p-4 mb-5" role="alert">
+                                <p class="font-bold">
+                                    {{session('status')['message']}}
+                                </p>
+                                <p>
+                                    {{session('status')['description']}}
+                                </p>
+                            </div>
 
-                        <div class="{{session('status')['success'] ? 'bg-green-200 border-green-600 text-green-600' : 'bg-red-200 border-red-600 text-red-600'}} border-l-4 p-4 mb-5" role="alert">
-                            <p class="font-bold">
-                                {{session('status')['message']}}
-                            </p>
-                            <p>
-                                {{session('status')['description']}}
-                            </p>
-                        </div>
-
+                            @endif
                         @endif
                         <!-- Validation Errors -->
                         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
                         <form
-                            action="{{route('schedule.course.subject.store', ['schedule' => request()->schedule, 'course' => Auth::user()->course_dean->course_id ])}}"
+                            action="{{route('schedule.course.subject.store', ['schedule' => request()->schedule, 'course' => session('id') ])}}"
                             method="post" autocomplete="off">
                             @csrf
 

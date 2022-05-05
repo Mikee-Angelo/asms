@@ -32,7 +32,7 @@ class CourseDeanController extends Controller
     }
 
     public function create(Course $course) { 
-        $courseDeans = User::role('Dean')->get();
+        $courseDeans = User::role('Dean')->doesntHave('course_dean')->get();
 
         $id = $course->id;
 
