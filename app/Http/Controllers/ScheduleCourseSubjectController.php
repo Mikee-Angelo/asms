@@ -60,28 +60,21 @@ class ScheduleCourseSubjectController extends Controller
 
         try{ 
             $vcs = Schedule::whereIn('day', $days)->where('sender_id', $ci->faculty_id)->get();
-            $validated_scs = CourseSubject::where('id', $validated['course_subject_id'])->first();
 
-            $cooked_subjects = $validated_scs->where([
-                ['year', '=', $validated_scs->year],
-                ['semester', '=', $validated_scs->semester],
-                ['course_id', '=', $validated_scs->course_id]
-            ])->whereHas('schedule_course_subject', function($q) use($days){
-                return $q->whereIn('day', $days);
-            })->get(); 
+            $schedule_course_subjects = ScheduleCourseSubject::where('course_subject_id', $validated['course_subject_id'])->whereIn('day', $days)->get();
 
             $hasConflict = false;
-            
-            foreach($cooked_subjects as $cooked_subject) { 
-                $s = Carbon::createFromTimeString($cooked_subject->schedule_course_subject->starts_at);
-                $e = Carbon::createFromTimeString($cooked_subject->schedule_course_subject->ends_at);
+
+            foreach($schedule_course_subjects as $schedule_course_subject) { 
+                $s = Carbon::createFromTimeString($schedule_course_subject->starts_at);
+                $e = Carbon::createFromTimeString($schedule_course_subject->ends_at);
 
                 if(($starts_at->between($s, $e) || $ends_at->between($s,$e))) { 
                     $hasConflict = true;
 
                     break;
-                }
-            } 
+                }                
+            }
 
             if($hasConflict) { 
                 return back()->with('status', [
