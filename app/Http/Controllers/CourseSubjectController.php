@@ -88,7 +88,11 @@ class CourseSubjectController extends Controller
                         $data = null;
 
                         if((!is_null($row->schedule_course_subject) && count($row->schedule_course_subject) > 0)){ 
-                            $data = $row->schedule_course_subject->first()->schedule_room->room->name;
+                                $schedule_room = $row->schedule_course_subject->first()->schedule_room;
+
+                            if(!is_null($data)) { 
+                               $data = $schedule_room->room->name;
+                            }
 
                         }
 
