@@ -87,8 +87,7 @@ class CourseSubjectController extends Controller
                     ->addColumn('room', function($row) {
                         $data = null;
 
-
-                        if((!is_null($row->schedule_course_subject) && !is_null($row->schedule_course_subject->first()->schedule_room))){ 
+                        if((!is_null($row->schedule_course_subject) && count($row->schedule_course_subject) > 0)){ 
                             $data = $row->schedule_course_subject->first()->schedule_room->room->name;
 
                         }
@@ -128,7 +127,8 @@ class CourseSubjectController extends Controller
 
                     })
                     ->addColumn('time', function($row){ 
-                        if(!is_null($row->schedule_course_subject)) { 
+
+                        if(!is_null($row->schedule_course_subject) && count($row->schedule_course_subject) > 0) { 
                           
                             return Carbon::parse($row->schedule_course_subject->first()->starts_at)->format('g:i A'). '-'. Carbon::parse($row->schedule_course_subject->first()->ends_at)->format('g:i A');
                         }
