@@ -65,14 +65,14 @@
              var year = $('#year_level :selected').val();
 
              table.ajax.url(
-                 url + '&semester=' + this.value + '&year=' + year).load();
+                 url + '?semester=' + this.value + '&year=' + year).load();
          });
 
          $('#year_level').on('change', function () {
              var semester = $('#semester :selected').val();
 
              table.ajax.url(
-                 url + '&semester=' + semester + '&year=' + this.value).load();
+                 url + '?semester=' + semester + '&year=' + this.value).load();
          });
 
      });

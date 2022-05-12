@@ -12,4 +12,8 @@ class Enrollment extends Model
     public function pricing() { 
         return $this->hasMany('App\Models\Pricing', 'id');
     }
+
+    public function school_year(){ 
+        return $this->belongsTo('App\Models\SchoolYear');
+    }
 }
