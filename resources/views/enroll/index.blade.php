@@ -4,7 +4,7 @@
 <x-guest-layout>
     <form action="{{ route('application.store') }}" method="post">
         @csrf
-        @if (is_null($school_year) || $is_ended)
+        @if (is_null($school_year) || !$is_ended)
         <div class="py-12 h-screen" style="background-color: #000038">
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col items-center mb-4">

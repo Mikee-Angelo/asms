@@ -11,7 +11,7 @@ use App\Models\Student;
 use App\Models\Application; 
 use App\Models\ApplicationSubject; 
 use App\Models\CourseSubject; 
-use App\Models\SchoolYear; 
+use App\Models\Enrollment; 
 use App\Models\User; 
 use App\Models\Curriculum; 
 use App\Models\Miscellaneous; 
@@ -73,7 +73,7 @@ class ApplicationController extends Controller
         $datas = ApplicationSubject::with(['application', 'subject'])->where('application_id', $application->id)->get(); 
         
         if($request->ajax()){ 
-        
+            
             return DataTables::of($datas)
                 ->addColumn('subject', function($row){ 
                     return $row->subject->description;
@@ -81,10 +81,10 @@ class ApplicationController extends Controller
                 ->addColumn('leclab', function($row){ 
                     return $row->subject->lec.' / '.$row->subject->lab;
                 })
-                ->addColumn('pricing', function($row){ 
+                ->addColumn('pricing', function($row) use ($application) { 
                     if(Auth::user()->hasRole('Accounting Head')) { 
 
-                        $pricing = $row->application->course->pricing;
+                        $pricing = $row->application->course->pricing->where('id', $application->semester_id)->first();
 
                         if(is_null($pricing)) {
                             return 'N/A';
@@ -110,30 +110,29 @@ class ApplicationController extends Controller
         $total = 0;
         
         if(Auth::user()->hasRole('Accounting Head')) { 
+            
             $miscellaneous  = Miscellaneous::get();
             $other = Other::get();
             $transaction = ApplicationTransaction::where('application_id', $application->id)->sum('amount') / 100;
 
-            if(count($miscellaneous) > 0 && count($other) > 0) { 
-                $miscellaneous_total = $miscellaneous->sum('price') / 100;
-                $other_total = $other->sum('price') / 100;
-                $course_total = 0;
+            $miscellaneous_total = count($miscellaneous) == 0 ? 0 :  $miscellaneous->sum('price') / 100;
+            $other_total = count($other) == 0 ? 0 :  $other->sum('price') / 100;
+            $course_total = 0;
 
-                foreach($datas as $data) { 
-                    $pricing = $data->application->course->pricing;
-                    $lec_price = $pricing->lec_price / 100; 
-                    $lab_price = $pricing->lab_price / 100;
-                    $lec = $data->subject->lec;
-                    $lab = $data->subject->lab;
-
-                    
-                    $course_total += ($lec_price * $lec) + ($lab_price * $lab);
-                }
+            foreach($datas as $data) { 
+                $pricing = $data->application->course->pricing->where('id', $application->semester_id)->first();
+                $lec_price = $pricing->lec_price / 100; 
+                $lab_price = $pricing->lab_price / 100;
+                $lec = $data->subject->lec;
+                $lab = $data->subject->lab;
                 
-                $total = ($course_total + $miscellaneous_total + $course_total) - $transaction;
+                $course_total += ($lec_price * $lec) + ($lab_price * $lab);
             }
+            
+            $total = ($other_total + $miscellaneous_total + $course_total) - $transaction;
+            
         }
-
+ 
         return view('application.show', compact('application', 'total'));
      }
 
@@ -173,10 +172,10 @@ class ApplicationController extends Controller
                 'status' => 1,
             ]);
 
-            $school_year = SchoolYear::first();
+            $enrollment = Enrollment::where('is_active', 1)->first();
 
             $application = Application::create([
-                'school_year_id' => $school_year->id,
+                'semester_id' => $enrollment->id,
                 'ticket_no' => Str::uuid()->toString(),
                 'student_id' => $student->id,
                 'course_id' => $validated['course_id'],

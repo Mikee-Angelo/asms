@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Models\Subject; 
 use App\Models\Miscellaneous; 
 use App\Models\Other; 
+use App\Models\SchoolYear;
 
 class StudentController extends Controller
 {
@@ -53,7 +54,10 @@ class StudentController extends Controller
     public function show(Student $student, Request $request) {
 
         $application = $student->application->where('status', 'enrolled')->last();
-        $pricing = $application->course->pricing;
+        $sy = SchoolYear::orderByDesc('id')->first();
+        $now = \Carbon\Carbon::now();
+        $semester = $sy->enrollment->where('is_active', 1)->first();
+        $pricing = $application->course->pricing->where('semester_id', $semester->id)->first();
 
         if($request->ajax()){ 
             $subjects = $application->application_subject;
@@ -71,6 +75,7 @@ class StudentController extends Controller
                         return 'N/A';
                     }
                     
+                
                     $lab_price = $pricing->lab_price / 100;
                     $lec_price = $pricing->lec_price / 100;
                     $lab = $data->subject->lab;
@@ -101,9 +106,12 @@ class StudentController extends Controller
                 
                 $course_total += ($lec_price * $lec) + ($lab_price * $lab);
             }
+
             $transactions = $application->application_transaction->sum('amount') / 100;
 
-            $total = ($course_total + $miscellaneous_total + $course_total) - $transactions;
+            $total = ($other_total + $miscellaneous_total + $course_total) - $transactions;
+            
+            // dd($course_total);
         }
         
         return view('student.show',compact('student', 'application', 'total')); 

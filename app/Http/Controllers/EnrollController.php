@@ -19,14 +19,17 @@ class EnrollController extends Controller
     public function index() { 
         $courses = Course::get();
         $school_year = SchoolYear::orderBy('id', 'DESC')->first();
-        $is_ended = false;
+        $is_ended = true;
 
         if(!is_null($school_year)) { 
-            $enrollment = Enrollment::where('school_year_id', $school_year->id)->orderBy('id', 'DESC')->first();
+            $enrollment = Enrollment::where([
+                ['school_year_id', '=' ,$school_year->id],
+                ['is_active', '=' , 1],
+            ])->orderBy('id', 'DESC')->first();
 
             if(!is_null($enrollment)) {
                 if(Carbon::now()->gt(Carbon::parse($enrollment->restricted_date))) { 
-                    $is_ended = true;
+                    $is_ended = false;
                 }
             }
         }

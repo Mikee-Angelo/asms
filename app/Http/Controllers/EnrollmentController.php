@@ -52,7 +52,7 @@ class EnrollmentController extends Controller
 
         $count = $school_year->enrollment->count();
 
-        if($count < 3) { 
+        if($count < 2) { 
             $s = Carbon::parse($school_year->starts_at);
             $e = Carbon::parse($school_year->ends_at);
             $starts_at = Carbon::parse($validated['starts_at']);

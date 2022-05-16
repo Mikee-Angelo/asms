@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusColumnApplication extends Migration
+class AddActiveColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class AddStatusColumnApplication extends Migration
      */
     public function up()
     {
-        Schema::table('applications', function (Blueprint $table) {
+        Schema::table('enrollments', function (Blueprint $table) {
             //
-            $table->bigInteger('semester_id')->unsigned()->after('id');
-            $table->foreign('semester_id')->references('id')->on('enrollments')->onDelete('cascade');
+            $table->boolean('is_active')->default(false)->after('school_year_id');
         });
     }
 
@@ -27,7 +26,7 @@ class AddStatusColumnApplication extends Migration
      */
     public function down()
     {
-        Schema::table('applications', function (Blueprint $table) {
+        Schema::table('enrollments', function (Blueprint $table) {
             //
         });
     }
