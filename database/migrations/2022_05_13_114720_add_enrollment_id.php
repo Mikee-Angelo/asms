@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusColumnApplication extends Migration
+class AddEnrollmentId extends Migration
 {
     /**
      * Run the migrations.
@@ -15,8 +15,8 @@ class AddStatusColumnApplication extends Migration
     {
         Schema::table('applications', function (Blueprint $table) {
             //
-            $table->bigInteger('semester_id')->unsigned()->after('id');
-            $table->foreign('semester_id')->references('id')->on('enrollments')->onDelete('cascade');
+            // $table->bigInteger('pricing_id')->unsigned()->after('school_year_id');
+            // $table->foreign('pricing_id')->references('id')->on('pricings')->onDelete('cascade');
         });
     }
 

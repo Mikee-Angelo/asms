@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 //Models
 use App\Models\Course; 
@@ -48,9 +49,11 @@ class CourseSubjectController extends Controller
                 $school_year = $sy->id ?? 0;
             }
 
+            // dd($sy);
+
             $curriculum = Curriculum::where('is_default', 1)->first();
             
-            $datas = CourseSubject::with(['course', 'subject'])->where([
+            $datas = CourseSubject::where([
                 ['course_id', '=', $id],
                 ['year', '=', $year],
                 ['semester', '=', $semester],
@@ -76,9 +79,22 @@ class CourseSubjectController extends Controller
                     ->addColumn('lab', function($data) {
                         return $data->subject->lab;
                     })
-                    ->addColumn('pricing', function($data) {
-                        $lab_price = ($data->course->pricing->lab_price ?? 0) / 100;
-                        $lec_price = ($data->course->pricing->lec_price ?? 0) / 100;
+                    ->addColumn('pricing', function($data) use($semester) {
+
+                        if(is_null($data)) return 'N/A';
+
+                        $pricing = null;
+
+                        if($semester == 1) { 
+                           $pricing = $data->course->pricing->first();
+                        }else{ 
+                            $pricing = $data->course->pricing->last();
+                        }
+                        
+
+                        $lab_price = ($pricing->lab_price ?? 0) / 100;
+                        $lec_price = ($pricing->lec_price ?? 0) / 100;
+
                         $lab = $data->subject->lab;
                         $lec = $data->subject->lec;
 
@@ -97,7 +113,7 @@ class CourseSubjectController extends Controller
                     ->addColumn('action', function($row){
                         $btn = null ;
 
-                        if(!is_null($row->schedule_course_subject)) { 
+                        if(!is_null($row->schedule_course_subject) && Auth::user()->hasRole('Super Admin')) { 
                             $btn = '<a href="'.route('course.subject.room.create', ['course' => $row->course_id, 'subject' => $row->subject_id ]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Assign Room</a>';
                         }
             

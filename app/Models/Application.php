@@ -10,7 +10,7 @@ class Application extends Model
     use HasFactory;
 
     protected $fillable = [ 
-        'school_year_id',
+        'semester_id',
         'ticket_no',
         'student_id',
         'course_id',

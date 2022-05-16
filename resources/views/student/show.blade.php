@@ -20,7 +20,7 @@
 
                         @role('Accounting Head')
                         <h2 class=" my-2 text-3xl font-black leading-tight text-gray-800">
-                            ₱ {{ $total }}
+                           Balance:  ₱ {{ $total }}
                         </h2>
                         @endrole
                     </div>
