@@ -41,7 +41,7 @@ class StudentController extends Controller
   
             return DataTables::of($students)
                     ->addColumn('action', function($row){
-                        $btn = '<a href="'.route('students.show', ['student' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
+                        $btn = '<a href="'.route('students.show', ['student' => $row->id]).'" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">View</a>';
                         return $btn;
                     })
                     ->rawColumns(['action'])
@@ -74,7 +74,6 @@ class StudentController extends Controller
                     if(is_null($pricing)) { 
                         return 'N/A';
                     }
-                    
                 
                     $lab_price = $pricing->lab_price / 100;
                     $lec_price = $pricing->lec_price / 100;
@@ -108,10 +107,12 @@ class StudentController extends Controller
             }
 
             $transactions = $application->application_transaction->sum('amount') / 100;
-
-            $total = ($other_total + $miscellaneous_total + $course_total) - $transactions;
             
-            // dd($course_total);
+            $discount = is_null($application->discount) ? 0 : ($application->discount->discount / 100);
+            $payable = ($other_total + $miscellaneous_total + $course_total);
+            $discounted = $payable * $discount;
+            $total = ($payable - $transactions) - $discounted;
+            
         }
         
         return view('student.show',compact('student', 'application', 'total')); 

@@ -46,4 +46,8 @@ class Application extends Model
     public function school_year() { 
         return $this->belongsTo('App\Models\SchoolYear', 'school_year_id'); 
     }
+
+    public function discount() { 
+        return $this->belongsTo('App\Models\Discount', 'discount_id');
+    }
 }
