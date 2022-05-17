@@ -12,6 +12,9 @@ use App\Models\Application;
 use App\Models\Student; 
 use App\Models\User;
 use App\Models\Curriculum;
+use App\Models\Miscellaneous;
+use App\Models\Other;
+
 
 //Others
 use Yajra\DataTables\DataTables;
@@ -24,7 +27,8 @@ class DashboardController extends Controller
         $students = Student::get(); 
 
         if(Auth::user()->hasRole('Student')) { 
-            $subjects = Auth::user()->student->application->last()->application_subject ;
+            $application = Auth::user()->student->application->last() ;
+            $subjects = $application->application_subject;
             
             if($request->ajax()){  
 
@@ -123,17 +127,28 @@ class DashboardController extends Controller
             }
 
             $student = Auth::user()->student;
+            $miscellaneous  = Miscellaneous::get();
+            $other = Other::get();
+            $transaction = $application->application_transaction->where('paid', 1)->sum('amount') / 100;
+
+            $miscellaneous_total = count($miscellaneous) == 0 ? 0 :  $miscellaneous->sum('price') / 100;
+            $other_total = count($other) == 0 ? 0 :  $other->sum('price') / 100;
+            $course_total = 0;
 
             $total_units = 0;
             $total_grades = 0;
             
             foreach($subjects as $subject) { 
+                $pricing = $subject->application->course->pricing->where('id', $application->semester_id)->first();
+                $lec_price = $pricing->lec_price / 100; 
+                $lab_price = $pricing->lab_price / 100;
                 $lec = $subject->subject->lec;
                 $lab = $subject->subject->lab; 
 
                 $total_grades += ($lec + $lab) * $subject->final;
-
                 $total_units += $lec + $lab;
+                $course_total += ($lec_price * $lec) + ($lab_price * $lab);
+
             }
             
             if($total_grades > 0) { 
@@ -141,8 +156,13 @@ class DashboardController extends Controller
             }else{ 
                 $gwa = 0;
             }
+            
+            $discount = is_null($application->discount) ? 0 : ($application->discount->discount / 100);
+            $payable = $other_total + $miscellaneous_total + $course_total;
+            $discounted = $payable * $discount;
+            $total = ($payable - $transaction) - $discounted;
 
-            return view('student.dashboard.index', compact('student', 'gwa'));
+            return view('student.dashboard.index', compact('student', 'gwa', 'total', 'application'));
         }
 
         if(Auth::user()->hasRole('Instructor')) { 

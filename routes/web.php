@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('application', \App\Http\Controllers\ApplicationController::class)->only(['index', 'show']);
 
     //Application Payment
+    Route::get('application/{application}/pay', [\App\Http\Controllers\ApplicationTransactionController::class, 'pay'])->name('application.payment.pay');
     Route::resource('application.payment', \App\Http\Controllers\ApplicationTransactionController::class);
 
     //Application Subject

@@ -20,6 +20,9 @@ class CreateApplicationTransactionsTable extends Migration
             $table->enum('type', ['Registration', 'Payment']);
             $table->text('description')->nullable();
             $table->bigInteger('amount');
+            $table->string('source_id', 255)->nullable();
+            $table->boolean('paid')->default(false);
+            $table->enum('source', ['cash', 'gcash', 'paymaya', 'card']);
             $table->timestamps();
         });
     }
