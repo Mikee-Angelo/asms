@@ -82,7 +82,6 @@
                     </h2>
 
                     <x-application-transaction-table></x-application-transaction-table>
-                    {{-- <x-application-subject-table></x-application-subject-table> --}}
                 </div>
             </div>
         </div>

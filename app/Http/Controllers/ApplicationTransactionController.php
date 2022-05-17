@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 //Others
 use Yajra\DataTables\DataTables;
+use Luigel\Paymongo\Facades\Paymongo;
 
 //Models
 use App\Models\ApplicationTransaction; 
@@ -26,7 +28,10 @@ class ApplicationTransactionController extends Controller
     public function index(Application $application, Request $request) {
         if($request->ajax()){ 
 
-            $transactions = ApplicationTransaction::where('application_id', $application->id )->get(); 
+            $transactions = ApplicationTransaction::where([
+                ['application_id', '=', $application->id],
+                ['paid', '=', 1]
+            ])->get(); 
             
             return DataTables::of($transactions)
                 ->addColumn('amount', function($row){
@@ -105,7 +110,7 @@ class ApplicationTransactionController extends Controller
         $transactions = $application->application_transaction->sum('amount') / 100;
         $discount = is_null($application->discount) ? 0 : ($application->discount->discount / 100);
         $payable = ($other_total + $miscellaneous_total + $course_total);
-        $discounted = $payable * $discount;
+        $discounted = $course_total * $discount;
         $total = ($payable - $transactions) - $discounted;
         
         if($amount > ($total * 100)) { 
@@ -115,6 +120,9 @@ class ApplicationTransactionController extends Controller
                 'description' => 'Payment exceeds the remaining balance.',
             ]);
         }
+
+        $id = null;
+        $redirect_url = null;
         
         DB::beginTransaction();
 
@@ -127,13 +135,41 @@ class ApplicationTransactionController extends Controller
                 ]);
             } 
             
-            $at = new ApplicationTransaction; 
-            $at->application_id = $application->id;
-            $at->type = $validated['type'];
-            $at->description = $validated['description']; 
-            $at->amount = $amount; 
-            $at->save(); 
 
+            if(Auth::user()->hasRole('Student')) { 
+                
+                $source = Paymongo::source()->create([
+                    'type' => 'gcash',
+                    'amount' => $validated['amount'],
+                    'currency' => 'PHP',
+                    'redirect' => [
+                        'success' => route('application.payment.pay', ['application' => $application->id]),
+                        'failed' => route('dashboard')
+                    ]
+                ]);
+
+                $at = new ApplicationTransaction; 
+                $at->application_id = $application->id;
+                $at->type = $validated['type'];
+                $at->description = $validated['description']; 
+                $at->amount = $amount;
+                $at->source_id = $source->id; 
+                $at->paid = 0; 
+                $at->source = 'gcash';
+                $at->save(); 
+                
+                $redirect_url = $source->redirect['checkout_url'];
+            }else{ 
+                $at = new ApplicationTransaction; 
+                $at->application_id = $application->id;
+                $at->type = $validated['type'];
+                $at->description = $validated['description']; 
+                $at->amount = $amount; 
+                $at->paid = 1; 
+                $at->source = 'cash';
+                $at->save(); 
+            }
+          
         }catch(\Exception $e) { 
             DB::rollback();
 
@@ -146,10 +182,58 @@ class ApplicationTransactionController extends Controller
 
         DB::commit();
 
+        if(Auth::user()->hasRole('Student')){ 
+            return redirect($redirect_url);
+            
+        }
+        
         return back()->with('status', [
             'success' => true, 
             'message' => 'Success', 
             'description' => 'Payment successfully added',
         ]);
+        
+    }
+    
+    public function pay(Application $application, Request $request) { 
+        $transaction = $application->application_transaction->where('paid', 0)->last();
+
+        DB::beginTransaction();
+        
+        try{ 
+            ApplicationTransaction::where('application_id', $application->id)->update([
+                'paid' => 1,    
+            ]);
+
+            Paymongo::payment()
+                ->create([
+                    'amount' => $transaction->amount / 100,
+                    'currency' => 'PHP',
+                    'description' => $transaction->description,
+                    'statement_descriptor' => 'Payment',
+                    'source' => [
+                        'id' => $transaction->source_id,
+                        'type' => 'source'
+                    ]
+                ]);
+
+        }catch(\Exception $e) { 
+            DB::rollback();
+
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Oops', 
+                'description' => 'Something went wrong to your payment',
+            ]);
+        }
+        
+        DB::commit();
+        
+        return redirect('dashboard')->with('status', [
+            'success' => true, 
+            'message' => 'Success', 
+            'description' => 'Payment successfully added',
+        ]);
+        
     }
 }
