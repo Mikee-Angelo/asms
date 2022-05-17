@@ -34,7 +34,7 @@ class EnrollmentController extends Controller
                         return Carbon::parse($row->restricted_date)->format('F d, Y');
                     }) 
                     ->addColumn('action', function($row) use ($school_year) {
-                        $btn = '<a href="'.route('school-year.enrollment.show', ['school_year' => $school_year->id, 'enrollment' => $row->id]).'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">View</a>';
+                        $btn = '<a href="'.route('school-year.enrollment.show', ['school_year' => $school_year->id, 'enrollment' => $row->id]).'" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">View</a>';
                         return $btn;
                     })
                     ->rawColumns(['action'])
@@ -65,6 +65,7 @@ class EnrollmentController extends Controller
             $enrollment->school_year_id = $school_year->id;
             $enrollment->starts_at = $validated['starts_at'];
             $enrollment->ends_at = $validated['ends_at'];
+            $enrollment->is_active = 1;
             $enrollment->restricted_date = $validated['restricted_date'];
 
             $enrollment->save();

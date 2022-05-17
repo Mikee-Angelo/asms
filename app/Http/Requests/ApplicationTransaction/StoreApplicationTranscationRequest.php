@@ -29,6 +29,7 @@ class StoreApplicationTranscationRequest extends FormRequest
             'type' => 'required|string|in:Payment,Registration',
             'description' => 'string|nullable',
             'amount' => 'required|integer',
+            'discount' => 'nullable|integer|exists:discounts,id'
         ];
     }
 }

@@ -1,29 +1,29 @@
 @section('title', 'Application')
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-white leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-white">
             {{ __('Application') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" id="profile-container">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8" id="profile-container">
 
             @role('Accounting Head')
             <div class="flex flex-row-reverse mb-3">
                 <a href="{{ route('application.payment.create', ['application' => request()->application ]) }}"
-                    class="justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Register
+                    class="inline-flex items-center justify-end px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">Register
                     Student</a>
             </div>
             @else
             <div class="flex flex-row-reverse mb-3">
                 <a href="{{route('application.subject.index', ['application' => request()->application ])}}"
-                    class="justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Manage
+                    class="inline-flex items-center justify-end px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">Manage
                     Subjects</a>
             </div>
             @endrole
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     @if(session('status'))
 
@@ -48,31 +48,36 @@
                         </h2>
 
                         @role('Accounting Head')
-                        <h2 class=" my-2 text-3xl font-black leading-tight text-gray-800">
+                        <h2 class="my-2 text-3xl font-black leading-tight text-gray-800 ">
                             ₱ {{ $total }}
                         </h2>
                         @endrole
                     </div>
 
-                    <h1 class="text-gray-800 dark:text-white text-xl font-medium">
+                    <h1 class="text-xl font-medium text-gray-800 dark:text-white">
                         {{ $application->course->course_name }}
                     </h1>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                    <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                         Year Level: {{ $application->year_level }}
                     </p>
 
-                    <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                    <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                         Semester: {{ $application->semester }}
+                    </p>
+
+                    <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
+                        Discount: {{ is_null($application->discount) ? 'N/A' : $application->discount->name .'
+                        ('.$application->discount->discount.'%)' }}
                     </p>
                 </div>
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-auto mt-5 max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                    <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                         Transactions
                     </h2>
 
@@ -82,11 +87,11 @@
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
+        <div class="mx-auto mt-5 max-w-7xl sm:px-6 lg:px-8">
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                    <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                         Subjects
                     </h2>
 
@@ -96,10 +101,10 @@
         </div>
 
         @role('Accounting Head')
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-auto mt-5 max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                    <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                         Miscellaneous
                     </h2>
 
@@ -107,13 +112,25 @@
                 </div>
             </div>
         </div>
-        @endrole
-        
-        @unlessrole('Accounting Head')
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+        <div class="mx-auto mt-5 max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                    <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
+                        Other
+                    </h2>
+                    
+                    <x-other-table></x-other-table>
+                </div>
+            </div>
+        </div>
+        @endrole
+
+        @unlessrole('Accounting Head')
+        <div class="mx-auto mt-5 max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                         Requirements
                     </h2>
 
@@ -128,10 +145,10 @@
 
                                 @if ($application->student->clearance != true)
                                 <input id="clearance" type="checkbox"
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    name="clearance" value="1">      
+                                    class="text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    name="clearance" value="1">
                                 @endif
-                              
+
                                 <span
                                     class="{{$application->student->clearance != true ? 'ml-2' : ''}} text-gray-600 text-md md:text-lg">{{ __('Accomplished Clearance from Last Semester') }}</span>
                             </label>
@@ -146,7 +163,7 @@
 
                                 @if ($application->student->psa != true)
                                 <input id="psa" type="checkbox"
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    class="text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     name="psa" value="1">
                                 @endif
 
@@ -161,9 +178,9 @@
                         <div class="block mt-4">
                             <label for="honorable_dismissal" class="inline-flex items-center">
 
-                                @if ($application->student->honorable_dismissal != true)    
+                                @if ($application->student->honorable_dismissal != true)
                                 <input id="honorable_dismissal" type="checkbox"
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    class="text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     name="honorable_dismissal" value="1">
                                 @endif
                                 <span
@@ -174,9 +191,9 @@
                         <!-- Transcript of Record -->
                         <div class="block mt-4">
                             <label for="transcript_records" class="inline-flex items-center">
-                                @if ($application->student->transcript_records != true)    
+                                @if ($application->student->transcript_records != true)
                                 <input id="transcript_records" type="checkbox"
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    class="text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     name="transcript_records" value="1">
                                 @endif
 
@@ -190,9 +207,9 @@
                         {{-- Good Moral --}}
                         <div class="block mt-4">
                             <label for="good_moral" class="inline-flex items-center">
-                                @if ($application->student->good_moral != true)    
+                                @if ($application->student->good_moral != true)
                                 <input id="good_moral" type="checkbox"
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    class="text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     name="good_moral" value="1">
                                 @endif
 
@@ -206,9 +223,9 @@
                         <!-- SF9 -->
                         <div class="block mt-4">
                             <label for="sf9" class="inline-flex items-center">
-                                @if ($application->student->sf9 != true)    
+                                @if ($application->student->sf9 != true)
                                 <input id="sf9" type="checkbox"
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    class="text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     name="sf9" value="1">
                                 @endif
 
@@ -222,9 +239,9 @@
                         {{-- 1x1 Pictures --}}
                         <div class="block mt-4">
                             <label for="colored_pictures" class="inline-flex items-center">
-                                @if ($application->student->colored_pictures != true)    
+                                @if ($application->student->colored_pictures != true)
                                 <input id="colored_pictures" type="checkbox"
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    class="text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     name="colored_pictures" value="1">
                                 @endif
 
@@ -236,7 +253,7 @@
 
 
                         {{-- <button type="submit"
-                            class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                            class="w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ">
                             Add
                         </button> --}}
 
@@ -246,204 +263,204 @@
         </div>
         @endunlessrole
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-5">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-auto mt-5 max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                    <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                         Personal Information
                     </h2>
 
-                    <div class="grid grid-cols-2 gap-3 grid-flow-row-dense col-end-2">
+                    <div class="grid grid-flow-row-dense grid-cols-2 col-end-2 gap-3">
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Gender:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->gender }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Registered Email:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->register_email }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Facebook:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->facebook_link }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Home Address:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->home_address }}
                         </p>
 
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Present Address:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->present_address }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Mother:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->mother }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Occupation:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->mother_occupation }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Father:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->father }}
                         </p>
 
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Occupation:
                         </p>
 
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->father_occupation }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Guardian Name:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->guardian }}
                         </p>
 
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Guardian Contact No.:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->guardian_contact_no }}
                         </p>
 
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Relationship:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->guardian_relationship }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Primary School:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->primary_school }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Graduated At:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->primary_graduated }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Secondary School:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->secondary_school }}
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Graduated At:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->secondary_graduated }}
                         </p>
 
                         @if (!is_null($application->student->senior_school_name))
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Senior High School:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->senior_school_name }}
                         </p>
                         @endif
 
                         @if (!is_null($application->student->strand))
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Strand:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->strand }}
                         </p>
                         @endif
 
                         @if (!is_null($application->student->senior_graduated))
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Graduated At:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ Carbon\Carbon::parse($application->student->senior_graduated)->format('F Y') }}
                         </p>
                         @endif
 
                         @if (!is_null($application->student->tertiary_school))
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Tertiary School:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ $application->student->tertiary_school }}
                         </p>
                         @endif
 
                         @if (!is_null($application->student->tertiary_graduated))
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Graduated At:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ Carbon\Carbon::parse($application->student->tertiary_graduated)->format('F Y') }}
                         </p>
 
                         @endif
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg font-bold">
+                        <p class="w-full font-bold text-gray-600 indent-96 text-md md:text-lg">
                             Last School Date:
                         </p>
 
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             {{ Carbon\Carbon::parse($application->student->last_school_date)->format('F Y') }}
                         </p>
 
@@ -455,7 +472,7 @@
             @unlessrole('Accounting Head')
             @if ($application->status == 'pending')
             <button type="submit" id="accept_button" form="requirements-form"
-                class="justify-end inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 mt-5">Accept</button>
+                class="inline-flex items-center justify-end px-4 py-2 mt-5 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">Accept</button>
 
             @endif
             @endunlessrole
