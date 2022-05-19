@@ -1,5 +1,6 @@
 <div>
     <p>{{ $description }}</p>
-    Email: {{ $email }}
-    Password: {{ $password }}
+
+    <p>Email: {{ $email }}</p><br/>
+    <p>Password: {{ $password }}</p><br/>
 </div>

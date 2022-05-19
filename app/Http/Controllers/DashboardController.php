@@ -159,7 +159,7 @@ class DashboardController extends Controller
             
             $discount = is_null($application->discount) ? 0 : ($application->discount->discount / 100);
             $payable = $other_total + $miscellaneous_total + $course_total;
-            $discounted = $payable * $discount;
+            $discounted = $course_total * $discount;
             $total = ($payable - $transaction) - $discounted;
 
             return view('student.dashboard.index', compact('student', 'gwa', 'total', 'application'));
