@@ -26,7 +26,7 @@
          var table = $('#miscellaneous-item-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax: "{{ route('miscellaneous.item.index', ['miscellaneou' => request()->application->fees->id ]) }}",
+             ajax: "{{ route('miscellaneous.item.index', ['miscellaneou' => request()->application->course_miscellaneous_id ]) }}",
              columns: [{
                      data: 'name',
                      name: 'name',
