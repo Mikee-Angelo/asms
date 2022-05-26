@@ -139,7 +139,7 @@ class DashboardController extends Controller
             $total_grades = 0;
             
             foreach($subjects as $subject) { 
-                $pricing = $subject->application->course->pricing->where('id', $application->semester_id)->first();
+                $pricing = $subject->application->course->pricing->where('semester_id', $application->semester_id)->first();
                 $lec_price = $pricing->lec_price / 100; 
                 $lab_price = $pricing->lab_price / 100;
                 $lec = $subject->subject->lec;
