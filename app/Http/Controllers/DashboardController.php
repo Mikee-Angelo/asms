@@ -128,11 +128,11 @@ class DashboardController extends Controller
 
             $student = Auth::user()->student;
             $miscellaneous  = Miscellaneous::where('course_miscellaneous_id', $application->course_miscellaneous_id)->get();
-            $other = Other::get();
+            $other =  $application->course_other;
             $transaction = $application->application_transaction->where('paid', 1)->sum('amount') / 100;
 
             $miscellaneous_total = count($miscellaneous) == 0 ? 0 :  $miscellaneous->sum('price') / 100;
-            $other_total = count($other) == 0 ? 0 :  $other->sum('price') / 100;
+            $other_total =  $other->other_item->sum('price') / 100;
             $course_total = 0;
 
             $total_units = 0;

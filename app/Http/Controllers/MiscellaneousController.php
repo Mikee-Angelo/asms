@@ -25,7 +25,6 @@ class MiscellaneousController extends Controller
     public function index(CourseMiscellaneous $miscellaneou, Request $request) { 
         if($request->ajax()){ 
 
-
             return DataTables::of($miscellaneou->fees)
                     ->addColumn('price', function($row){
                         return '₱ '.$row->price / 100;
@@ -77,7 +76,7 @@ class MiscellaneousController extends Controller
         return back()->with('status', [
             'success' => true, 
             'message' => 'Success', 
-            'description' => 'Miscellaneous successfully added',
+            'description' => 'Miscellaneous Item successfully added',
         ]);
     }
 

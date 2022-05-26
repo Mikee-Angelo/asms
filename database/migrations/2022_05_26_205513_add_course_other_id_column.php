@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSemesterColumnOthers extends Migration
+class AddCourseOtherIdColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,8 @@ class AddSemesterColumnOthers extends Migration
     public function up()
     {
         Schema::table('others', function (Blueprint $table) {
-            //
-            $table->bigInteger('semester_id')->unsigned()->after('id');
-            $table->foreign('semester_id')->references('id')->on('enrollments')->onDelete('cascade');
+            $table->bigInteger('course_other_id')->unsigned()->after('id'); 
+            $table->foreign('course_other_id')->references('id')->on('others')->onDelete('cascade');
         });
     }
 

@@ -90,10 +90,10 @@ class StudentController extends Controller
         if(!is_null($pricing)) { 
 
             $miscellaneous  = Miscellaneous::where('course_miscellaneous_id', $application->course_miscellaneous_id)->get();
-            $other = Other::get();
+            $other = $application->course_other;
             
             $miscellaneous_total = $miscellaneous->sum('price') / 100;
-            $other_total = $other->sum('price') / 100;
+            $other_total = $other->other_item->sum('price') / 100;
             $course_total = 0;
 
             foreach($application->application_subject as $data) { 
