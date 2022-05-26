@@ -17,6 +17,7 @@ use App\Models\Curriculum;
 use App\Models\Miscellaneous; 
 use App\Models\Other; 
 use App\Models\ApplicationTransaction; 
+use App\Models\CourseMiscellaneous; 
 
 //Requests
 use App\Http\Requests\Application\StoreApplicationRequest; 
@@ -111,7 +112,7 @@ class ApplicationController extends Controller
         
         if(Auth::user()->hasRole('Accounting Head')) { 
             
-            $miscellaneous  = Miscellaneous::get();
+            $miscellaneous  = Miscellaneous::where('course_miscellaneous_id', $application->course_miscellaneous_id)->get();
             $other = Other::get();
             $transaction = ApplicationTransaction::where('application_id', $application->id)->sum('amount') / 100;
 
@@ -176,14 +177,24 @@ class ApplicationController extends Controller
             ]);
 
             $enrollment = Enrollment::where('is_active', 1)->first();
-
+            
+            $semester = $enrollment->school_year->enrollment->count();
+            
+            $miscellaneous = CourseMiscellaneous::where([ 
+                'status' => true, 
+                'course_id' => $validated['course_id'],
+                'year' => $validated['year_level'], 
+                'semester' => $semester,
+            ])->first();
+            
             $application = Application::create([
                 'semester_id' => $enrollment->id,
+                'course_miscellaneous_id' => $miscellaneous->id,
                 'ticket_no' => Str::uuid()->toString(),
                 'student_id' => $student->id,
                 'course_id' => $validated['course_id'],
                 'year_level' => $validated['year_level'],
-                'semester' => 1, 
+                'semester' => $semester, 
                 'application_type' => $validated['application_type'],
                 'mental_illness' => $validated['mental_illness'],
                 'hearing_defects' => $validated['hearing_defects'],

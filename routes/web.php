@@ -65,8 +65,11 @@ Route::middleware(['auth'])->group(function() {
     Route::post('schedule/submit', [\App\Http\Controllers\ScheduleController::class, 'submit'])->name('schedule.submit');
     Route::resource('schedule', \App\Http\Controllers\ScheduleController::class);
 
-    //Miscellaneous
-    Route::resource('miscellaneous', \App\Http\Controllers\MiscellaneousController::class);
+    //Course Miscellaneous
+    Route::resource('miscellaneous', \App\Http\Controllers\CourseMiscellaneousController::class);
+
+    //Miscellaneous Items
+    Route::resource('miscellaneous.item', \App\Http\Controllers\MiscellaneousController::class);
 
     //Others
     Route::resource('other', \App\Http\Controllers\OtherController::class);

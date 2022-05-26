@@ -13,14 +13,14 @@
                 <a href="{{ route('application.payment.create', ['application' => $application ]) }}"
                     class="inline-flex items-center justify-end px-4 py-2 ml-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">Add
                     Payment</a>
-               
+
             </div>
-        
+
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
                     @if(session('status'))
-                    
+
                     <div class="p-4 mb-5 {{ session('status')['success'] ? 'text-green-600 bg-green-200 border-green-600' : 'text-red-600 bg-red-200 border-red-600'}}"
                         role="alert">
                         <p class="font-bold">
@@ -30,35 +30,35 @@
                             {{session('status')['description']}}
                         </p>
                     </div>
-                    
+
                     @endif
-        
+
                     <div class="flex flex-row justify-between">
                         <h2 class="my-2 text-3xl font-black leading-tight text-gray-800 ">
                             {{ $student->last_name }}, {{ $student->given_name }}
                             {{ $student->middle_name }}
                         </h2>
-        
+
                         <h2 class="my-2 text-3xl font-black leading-tight text-gray-800 ">
                             Balance: ₱ {{ $total }}
                         </h2>
                     </div>
-        
+
                     <div class="flex flex-row justify-between">
                         <h1 class="text-xl font-medium text-gray-800 dark:text-white">
                             {{ $application->course->course_name }}
                         </h1>
-        
+
                     </div>
-        
+
                     <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                         Year Level: {{ $application->year_level }}
                     </p>
-        
+
                     <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                         Semester: {{ $application->semester }}
                     </p>
-        
+
                     <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                         Discount: {{ is_null($application->discount) ? 'N/A' : $application->discount->name .'
                         ('.$application->discount->discount.'%)' }}
@@ -74,12 +74,12 @@
                         <h2 class="my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                             Enrolled Subjects
                         </h2>
-        
+
                         <h2 class="my-2 mb-5 text-3xl font-black leading-tight text-gray-800 ">
                             GWA: {{ $gwa }}
                         </h2>
                     </div>
-        
+
                     <x-dashboard-subject-table></x-dashboard-subject-table>
                 </div>
             </div>
@@ -93,6 +93,18 @@
                     </h2>
 
                     <x-application-transaction-table></x-application-transaction-table>
+                </div>
+            </div>
+        </div>
+
+        <div class="mx-auto mt-5 max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
+                        Miscellaneous
+                    </h2>
+
+                    <x-miscellaneous-item-table></x-miscellaneous-item-table>
                 </div>
             </div>
         </div>

@@ -107,7 +107,7 @@
                         Miscellaneous
                     </h2>
 
-                    <x-miscellaneous-table></x-miscellaneous-table>
+                    <x-miscellaneous-item-table></x-miscellaneous-item-table>
                 </div>
             </div>
         </div>
