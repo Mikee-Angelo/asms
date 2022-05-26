@@ -121,7 +121,7 @@ class ApplicationController extends Controller
             $course_total = 0;
 
             foreach($datas as $data) { 
-                $pricing = $data->application->course->pricing->where('id', $application->semester_id)->first();
+                $pricing = $application->course->pricing->where('id', $application->semester_id)->first();
                 $lec_price = $pricing->lec_price / 100; 
                 $lab_price = $pricing->lab_price / 100;
                 $lec = $data->subject->lec;
