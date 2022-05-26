@@ -113,7 +113,7 @@ class CourseMiscellaneousController extends Controller
             return back()->with('status', [
                 'success' => true, 
                 'message' => 'Success', 
-                'description' => 'Application accepted',
+                'description' => 'Miscellaneous draft created',
             ]);
 
         }

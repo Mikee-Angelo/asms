@@ -72,7 +72,10 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('miscellaneous.item', \App\Http\Controllers\MiscellaneousController::class);
 
     //Others
-    Route::resource('other', \App\Http\Controllers\OtherController::class);
+    Route::resource('other', \App\Http\Controllers\CourseOtherController::class);
+
+    //Other Items
+    Route::resource('other.item', \App\Http\Controllers\OtherController::class);
 
     //Registration Fee
     Route::resource('registration-fee',\App\Http\Controllers\RegistrationFeeController::class);

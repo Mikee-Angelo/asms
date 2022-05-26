@@ -12,6 +12,7 @@ class Application extends Model
     protected $fillable = [ 
         'semester_id',
         'course_miscellaneous_id',
+        'course_other_id',
         'ticket_no',
         'student_id',
         'course_id',
@@ -54,5 +55,9 @@ class Application extends Model
 
     public function fees() { 
         return $this->hasOne('App\Models\Miscellaneous', 'course_miscellaneous_id');
+    }
+
+    public function course_other() { 
+        return $this->belongsTo('App\Models\CourseOther', 'course_other_id');
     }
 }

@@ -18,6 +18,7 @@ use App\Models\Miscellaneous;
 use App\Models\Other; 
 use App\Models\ApplicationTransaction; 
 use App\Models\CourseMiscellaneous; 
+use App\Models\CourseOther;
 
 //Requests
 use App\Http\Requests\Application\StoreApplicationRequest; 
@@ -113,11 +114,12 @@ class ApplicationController extends Controller
         if(Auth::user()->hasRole('Accounting Head')) { 
             
             $miscellaneous  = Miscellaneous::where('course_miscellaneous_id', $application->course_miscellaneous_id)->get();
-            $other = Other::get();
+            $other = $application->course_other;
+
             $transaction = ApplicationTransaction::where('application_id', $application->id)->sum('amount') / 100;
 
             $miscellaneous_total = count($miscellaneous) == 0 ? 0 :  $miscellaneous->sum('price') / 100;
-            $other_total = count($other) == 0 ? 0 :  $other->sum('price') / 100;
+            $other_total = $other->other_item->sum('price') / 100;
             $course_total = 0;
 
             foreach($datas as $data) { 
@@ -187,10 +189,18 @@ class ApplicationController extends Controller
                 'year' => $validated['year_level'], 
                 'semester' => $semester,
             ])->first();
+
+            $other = CourseOther::where([ 
+                'status' => true, 
+                'course_id' => $validated['course_id'],
+                'year' => $validated['year_level'], 
+                'semester' => $semester,
+            ])->first();
             
             $application = Application::create([
                 'semester_id' => $enrollment->id,
                 'course_miscellaneous_id' => $miscellaneous->id,
+                'course_other_id' => $other->id,
                 'ticket_no' => Str::uuid()->toString(),
                 'student_id' => $student->id,
                 'course_id' => $validated['course_id'],
