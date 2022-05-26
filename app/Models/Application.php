@@ -51,4 +51,8 @@ class Application extends Model
     public function discount() { 
         return $this->belongsTo('App\Models\Discount', 'discount_id');
     }
+
+    public function fees() { 
+        return $this->hasOne('App\Models\Miscellaneous', 'course_miscellaneous_id');
+    }
 }

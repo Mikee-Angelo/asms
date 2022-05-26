@@ -26,7 +26,7 @@
          var table = $('#miscellaneous-item-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax: "{{ route('miscellaneous.item.index', ['miscellaneou' => request()->miscellaneou ]) }}",
+             ajax: "{{ route('miscellaneous.item.index', ['miscellaneou' => request()->application->fees->id ]) }}",
              columns: [{
                      data: 'name',
                      name: 'name',
@@ -139,7 +139,7 @@
 </script>
 @endrole
 
- @role('Student')
+@role('Student')
  <script type="text/javascript">
      $(function () {
 
