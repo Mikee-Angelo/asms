@@ -84,6 +84,16 @@ class MiscellaneousController extends Controller
     public function destroy(CourseMiscellaneous $miscellaneou, String $id){ 
         $miscellaneous = Miscellaneous::find($id);
 
+        $miscellaneousExists = $miscellaneou->has('application')->exists(); 
+
+        if($miscellaneousExists) { 
+            return back()->with('status', [
+                'success' => false, 
+                'message' => 'Error', 
+                'description' => 'Couldn\'t update due to student already used this fee',
+            ]);
+        }
+        
         try { 
             $miscellaneous->delete();
 
