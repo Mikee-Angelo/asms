@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSemesterColumnMiscellaneouses extends Migration
+class AddMiscellaneousFee extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class AddSemesterColumnMiscellaneouses extends Migration
      */
     public function up()
     {
-        Schema::table('miscellaneouses', function (Blueprint $table) {
+        Schema::table('applications', function (Blueprint $table) {
             //
-            $table->bigInteger('semester_id')->unsigned()->after('id');
-            $table->foreign('semester_id')->references('id')->on('enrollments')->onDelete('cascade');
+            $table->bigInteger('course_miscellaneous_id')->unsigned()->after('semester_id');
+            $table->foreign('course_miscellaneous_id')->references('id')->on('course_miscellaneouses')->onDelete('cascade');
         });
     }
 
@@ -27,7 +27,7 @@ class AddSemesterColumnMiscellaneouses extends Migration
      */
     public function down()
     {
-        Schema::table('miscellaneouses', function (Blueprint $table) {
+        Schema::table('applications', function (Blueprint $table) {
             //
         });
     }

@@ -11,6 +11,7 @@ class Application extends Model
 
     protected $fillable = [ 
         'semester_id',
+        'course_miscellaneous_id',
         'ticket_no',
         'student_id',
         'course_id',
