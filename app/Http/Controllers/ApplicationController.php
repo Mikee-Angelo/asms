@@ -85,7 +85,7 @@ class ApplicationController extends Controller
                 ->addColumn('pricing', function($row) use ($application) { 
                     if(Auth::user()->hasRole('Accounting Head')) { 
 
-                        $pricing = $row->application->course->pricing->where('id', $application->semester_id)->first();
+                        $pricing = $row->application->course->pricing->where('semester_id', $application->semester_id)->first();
 
                         if(is_null($pricing)) {
                             return 'N/A';
@@ -121,9 +121,8 @@ class ApplicationController extends Controller
             $course_total = 0;
 
             foreach($datas as $data) { 
-                $pricing = $application->course->pricing->where('id', $application->semester_id)->first();
+                $pricing = $application->course->pricing->where('semester_id', $application->semester_id)->first();
 
-                dd($application->course->pricing);
                 $lec_price = $pricing->lec_price / 100; 
                 $lab_price = $pricing->lab_price / 100;
                 $lec = $data->subject->lec;
