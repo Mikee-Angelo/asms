@@ -25,9 +25,8 @@ class MiscellaneousController extends Controller
     public function index(CourseMiscellaneous $miscellaneou, Request $request) { 
         if($request->ajax()){ 
 
-            $miscellaneous = Miscellaneous::get(); 
 
-            return DataTables::of($miscellaneous)
+            return DataTables::of($miscellaneou->fees)
                     ->addColumn('price', function($row){
                         return '₱ '.$row->price / 100;
                     })
@@ -44,7 +43,10 @@ class MiscellaneousController extends Controller
                     })
                     ->make(true);
         }
-        return view('miscellaneous-item.index');
+
+        $hasEnrolled = $miscellaneou->has('application')->exists();
+        
+        return view('miscellaneous-item.index', compact('hasEnrolled'));
     }
 
     public function create() {
