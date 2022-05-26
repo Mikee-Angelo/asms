@@ -127,7 +127,7 @@ class DashboardController extends Controller
             }
 
             $student = Auth::user()->student;
-            $miscellaneous  = Miscellaneous::where('id', $application->course_miscellaneous_id)->get();
+            $miscellaneous  = Miscellaneous::where('course_miscellaneous_id', $application->course_miscellaneous_id)->get();
             $other = Other::get();
             $transaction = $application->application_transaction->where('paid', 1)->sum('amount') / 100;
 
