@@ -25,7 +25,7 @@
         var table = $('#other-item-datatable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('other.item.index', ['other' => request()->other ]) }}",
+            ajax: "{{ route('other.item.index', ['other' =>request()->route()->getName() == 'application.show' ? request()->application->course_other_id : request()->other ]) }}",
             columns: [{
                     data: 'name',
                     name: 'name',
