@@ -54,7 +54,7 @@ class OtherController extends Controller
 
     public function store(CourseOther $other, StoreOtherItemRequest $request) {
         $validated = $request->validated(); 
-        
+
         $str_lower = strtolower($validated['name']);
         $cooked = str_replace(' ', '-', $str_lower);
 
