@@ -15,7 +15,7 @@ class AddCourseOtherIdColumn extends Migration
     {
         Schema::table('others', function (Blueprint $table) {
             $table->bigInteger('course_other_id')->unsigned()->after('id'); 
-            $table->foreign('course_other_id')->references('id')->on('others');
+            $table->foreign('course_other_id')->references('id')->on('others')->onDelete('cascade');
         });
     }
 
