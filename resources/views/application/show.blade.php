@@ -119,7 +119,7 @@
                         Other
                     </h2>
                     
-                    <x-other-table></x-other-table>
+                    <x-other-item-table></x-other-item-table>
                 </div>
             </div>
         </div>

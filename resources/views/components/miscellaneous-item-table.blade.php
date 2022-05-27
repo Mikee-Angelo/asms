@@ -19,6 +19,7 @@
 
      </tbody>
  </table>
+
  @role('Accounting Head')
  <script type="text/javascript">
      $(function () {
@@ -26,7 +27,7 @@
          var table = $('#miscellaneous-item-datatable').DataTable({
              processing: true,
              serverSide: true,
-             ajax: "{{ route('miscellaneous.item.index', ['miscellaneou' => request()->application->course_miscellaneous_id]) }}",
+             ajax: "{{ route('miscellaneous.item.index', ['miscellaneou' => request()->route()->getName() == 'application.show' ? request()->application->course_miscellaneous_id : request()->route('miscellaneou') ]) }}",
              columns: [{
                      data: 'name',
                      name: 'name',
