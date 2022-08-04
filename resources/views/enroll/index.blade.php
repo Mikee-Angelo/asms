@@ -4,7 +4,25 @@
 <x-guest-layout>
     <form action="{{ route('application.store') }}" method="post">
         @csrf
-
+        @if (is_null($school_year) || !$is_ended)
+        <div class="py-12 h-screen" style="background-color: #000038">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+                <div class="flex flex-col items-center mb-4">
+                    <img src="{{asset('img/logo.png')}}" class="h-36" alt="SBCI Logo">
+                    <h1 class="my-4 text-2xl md:text-3xl lg:text-5xl font-black text-white leading-tight">
+                        Application for Enrollment
+                    </h1>
+                </div>
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                            Enrollment is currently closed. Please try again later.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @else
         <div class="py-12" style="background-color: #000038">
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
@@ -34,6 +52,7 @@
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
+
                         <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
                             Application
                         </h2>
@@ -341,7 +360,7 @@
                                 <x-label for="senior_school_name" :value="__('Name of Senior High School')" />
 
                                 <x-input id="senior_school_name" class="block mt-1 w-full" type="text"
-                                    name="senior_school_name" :value="old('senior_school_name')"   />
+                                    name="senior_school_name" :value="old('senior_school_name')" />
                             </div>
 
                             <!-- Strand / Track -->
@@ -349,7 +368,7 @@
                                 <x-label for="strand" :value="__('Strand / Track')" />
 
                                 <x-input id="strand" class="block mt-1 w-full" type="text" name="strand"
-                                    :value="old('strand')"  />
+                                    :value="old('strand')" />
                             </div>
 
                             <!-- Year Graduated -->
@@ -357,7 +376,7 @@
                                 <x-label for="senior_graduated" :value="__('Year Graduated')" />
 
                                 <x-input id="senior_graduated" class="block mt-1 w-full" type="month"
-                                    name="senior_graduated" :value="old('senior_graduated')"   />
+                                    name="senior_graduated" :value="old('senior_graduated')" />
                             </div>
                         </div>
 
@@ -367,7 +386,7 @@
                                 <x-label for="tertiary_school" :value="__('Tertiary School (College)')" />
 
                                 <x-input id="tertiary_school" class="block mt-1 w-full" type="text"
-                                    name="tertiary_school" :value="old('tertiary_school')"  />
+                                    name="tertiary_school" :value="old('tertiary_school')" />
                             </div>
 
                             <!-- Year Graduated -->
@@ -563,6 +582,11 @@
                                     class="ml-2 text-sm text-gray-600">{{ __("All the information given are will evaluate by the registrar kindly wait for confirmation of your enrollment in your email address or text message. Thank you for enrolling in Subic Bay Colleges Inc. ") }}</span>
                             </label>
                         </div>
+                        <div class="mt-3 w-full">
+
+                            {!! NoCaptcha::display() !!}
+                        </div>
+
                         <x-button id="application-submit-button" class="mt-5" disabled>
                             {{ __('Enroll') }}
                         </x-button>
@@ -570,10 +594,12 @@
                     </div>
                 </div>
             </div>
-
         </div>
+        @endif
+
     </form>
 
+    {!! NoCaptcha::renderJs() !!}
     <script type="text/javascript">
         $(function () {
 
@@ -620,8 +646,8 @@
 
                     $('#senior_graduated').prop('required', true);
                     $('#senior_graduated').prop('autofocus', true);
-                    
-                    
+
+
                 } else {
                     $('.senior_high_container').addClass('hidden');
 
@@ -637,26 +663,26 @@
             });
 
             $('#application_type').change(function () {
-                let value = $(this).val(); 
+                let value = $(this).val();
 
                 console.log(value);
 
-                if(value == 3 || value == 4) { 
+                if (value == 3 || value == 4) {
                     $('.tertiary-container').removeClass('hidden');
                     $('#tertiary_school').prop('required', true);
                     $('#tertiary_school').prop('autofocus', true);
 
                     $('#tertiary_graduated').prop('required', true);
                     $('#tertiary_graduated').prop('autofocus', true);
-                    
-                }else{ 
+
+                } else {
                     $('.tertiary-container').addClass('hidden');
                     $('#tertiary_school').removeAttr('required');
                     $('#tertiary_school').removeAttr('autofocus');
 
                     $('#tertiary_graduated').removeAttr('required');
                     $('#tertiary_graduated').removeAttr('autofocus');
-        
+
 
                 }
             });

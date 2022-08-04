@@ -28,8 +28,6 @@ class StorePricingRequest extends FormRequest
             'course' => 'required|array',
             'lec_price' => 'required|integer', 
             'lab_price' => 'required|integer', 
-            'discount' => 'required|integer',
-            'scheduled_date' => 'required|date', 
         ];
     }
 }

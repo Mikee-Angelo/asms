@@ -11,6 +11,8 @@ use Yajra\DataTables\DataTables;
 //Models
 use App\Models\Course; 
 use App\Models\CourseSubject; 
+use App\Models\CourseDean; 
+use App\Models\SchoolYear;
 
 //Requests
 use App\Http\Requests\AddCourseRequest;
@@ -32,13 +34,16 @@ class CourseController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
+        
         return view('course.index');
     }
 
     public function show(Course $course) {
         $course_subjects = CourseSubject::where('course_id', $course->id)->get();
-        
-        return view('course.show', compact('course', 'course_subjects'));
+        $course_dean = CourseDean::where('course_id', $course->id)->first();
+        $school_years = SchoolYear::orderBy('id', 'DESC')->get();
+
+        return view('course.show', compact('course', 'course_subjects', 'course_dean', 'school_years'));
     }
 
 

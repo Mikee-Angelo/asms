@@ -1,7 +1,7 @@
 @section('title', 'Add Subject')
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-white leading-tight">
             {{ __('Add Subject') }}
         </h2>
     </x-slot>
@@ -27,14 +27,37 @@
                     <!-- Validation Errors -->
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-                    <form action="{{route('subjects.store')}}" method="post">
+                    <form action="{{route('subjects.store')}}" method="post" autocomplete="off">
                         @csrf
+
+                        <!-- Course -->
+                        <div class="mb-4">
+                            <x-label for="course_id" :value="__('Course')" />
+
+                            <select :value="old('course_id')"
+                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                name="course_id">
+                                <option value="">
+                                    Select an option
+                                </option>
+                                @foreach ($courses as $course)
+                                <option value="{{ $course->id }}">
+                                    {{ $course->code }} - {{ $course->course_name }}
+                                </option>
+                                @endforeach
+                            </select>
+
+
+                        </div>
+                        
                         {{-- Course Code  --}}
                         <div class="mb-4">
                             <x-label for="subject_code" :value="__('Subject Code')" />
 
                             <x-input id="subject_code" class="block mt-1 w-full" type="text" name="subject_code"
                                 :value="old('subject_code')" required autofocus />
+
+                            <div id="search-container" class="bg-gray-100 mt-3 py-6 rounded hidden"></div>
                         </div>
 
                         {{-- Description  --}}
@@ -77,4 +100,68 @@
 
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(function() { 
+            $('#subject_code').on('keyup', function(){ 
+                var subject_code = $(this).val();
+
+                if(subject_code == undefined || subject_code == '' || subject_code.length < 3) { 
+                    $('#search-container').addClass('hidden');
+
+                    return; 
+                }
+                
+                
+                console.log(subject_code);
+
+                $('#search-container').removeClass('hidden');
+                $('#search-container').html('<p id="verify-text" class="w-full indent-96 text-gray-600 text-md md:text-lg px-6"> Verifying Subject Code ... </p>');
+                
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: 'search',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        method: '_POST',
+                        subject_code: subject_code
+                    }
+                }).always(function (data) {
+                    if(data.status) { 
+
+                        $('.search-item').remove();
+                        $('#verify-text').remove();
+
+
+                        if (data.data != undefined) { 
+                            if(data.data.length == 0 || subject_code == undefined) {
+                                $('#search-container').addClass('hidden');
+                            }else{ 
+                                $('#search-container').html('<p id="verify-text" class="w-full indent-96 text-gray-600 text-md md:text-lg px-6 pb-3"> Found ' + data.data.length + ' results ...</p>');
+
+
+                                for(let x = 0; x < data.data.length; ++x){ 
+                                    console.log(data.data[x].subject_code);
+
+                                    $('#search-container').append('<p class="search-item w-full indent-96 text-gray-600 text-md md:text-lg px-6">' + data.data[x].subject_code + ' - ' + data.data[x].description + '</p>');
+                                }
+                            }
+
+                        }else{ 
+                            $('#search-container').addClass('hidden');
+                        }
+                        
+                        
+                    }
+
+                });
+            });
+        });
+    </script>
 </x-app-layout>

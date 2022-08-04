@@ -21,8 +21,6 @@ class CreatePricingsTable extends Migration
             $table->foreign('course_id')->references('id')->on('courses');
             $table->bigInteger('lec_price');
             $table->bigInteger('lab_price');
-            $table->integer('discount');
-            $table->dateTime('scheduled_date');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

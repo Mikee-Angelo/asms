@@ -1,4 +1,26 @@
 <?php return array (
+  'acaronlex/laravel-calendar' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Acaronlex\\LaravelCalendar\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Calendar' => 'Acaronlex\\LaravelCalendar\\Facades\\Calendar',
+    ),
+  ),
+  'anhskohbo/no-captcha' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Anhskohbo\\NoCaptcha\\NoCaptchaServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'NoCaptcha' => 'Anhskohbo\\NoCaptcha\\Facades\\NoCaptcha',
+    ),
+  ),
   'barryvdh/laravel-debugbar' => 
   array (
     'providers' => 
@@ -8,6 +30,13 @@
     'aliases' => 
     array (
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
+    ),
+  ),
+  'consoletvs/charts' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'ConsoleTVs\\Charts\\ChartsServiceProvider',
     ),
   ),
   'facade/ignition' => 

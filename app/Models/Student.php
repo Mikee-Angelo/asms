@@ -40,4 +40,7 @@ class Student extends Model
         'status',
     ];
     
+    public function application() { 
+      return $this->hasMany('App\Models\Application', 'student_id');
+    }
 }

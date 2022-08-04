@@ -24,6 +24,7 @@ class AddSubjectRequest extends FormRequest
     public function rules()
     {
         return [
+            'course_id' => 'required|integer|exists:courses,id',
             'subject_code' => 'required|string', 
             'description' => 'required|string', 
             'lec' => 'nullable|integer', 

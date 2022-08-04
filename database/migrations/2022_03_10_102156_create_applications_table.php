@@ -21,14 +21,17 @@ class CreateApplicationsTable extends Migration
             $table->foreign('student_id')->references('id')->on('students');
             $table->enum('year_level', [1, 2, 3, 4]);
             $table->enum('semester', [1, 2, 3]);
-            $table->enum('application_type', [1, 2]);
+            $table->enum('application_type', [1, 2, 3, 4]);
             $table->boolean('mental_illness');
             $table->boolean('hearing_defects');
             $table->boolean('physical_disability');
             $table->boolean('chronic_illness');
             $table->boolean('interfering_illness');
             $table->boolean('allergies');
-            $table->enum('status', ['pending', 'accepted', 'rejected']);
+            $table->enum('status', ['pending', 'accepted', 'enrolled', 'rejected']);
+            $table->dateTime('accepted_at')->nullable();
+            $table->dateTime('enrolled_at')->nullable();
+            $table->dateTime('rejected_at')->nullable();
             $table->timestamps();
         });
     }

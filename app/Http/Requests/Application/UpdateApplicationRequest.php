@@ -25,7 +25,13 @@ class UpdateApplicationRequest extends FormRequest
     {
         return [
             //
-            'id' => 'required|exists:applications,id',
+            'psa' => 'boolean|nullable', 
+            'sf9' => 'boolean|nullable', 
+            'good_moral' => 'boolean|nullable', 
+            'colored_pictures' => 'boolean|nullable', 
+            'honorable_dismissal' => 'boolean|nullable', 
+            'transcript_records' => 'boolean|nullable', 
+            'clearance' => 'boolean|nullable', 
         ];
     }
 }

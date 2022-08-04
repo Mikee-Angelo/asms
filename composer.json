@@ -6,13 +6,18 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "acaronlex/laravel-calendar": "^1.6",
+        "anhskohbo/no-captcha": "*",
         "aws/aws-sdk-php": "^3.218",
+        "consoletvs/charts": "7.*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "luigel/laravel-paymongo": "^2.1",
+        "setasign/fpdf": "^1.8",
+        "setasign/fpdi": "^2.3",
         "spatie/laravel-permission": "^5.5",
         "yajra/laravel-datatables": "^1.5"
     },

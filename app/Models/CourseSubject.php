@@ -17,4 +17,7 @@ class CourseSubject extends Model
         return $this->belongsTo('App\Models\Subject', 'subject_id', 'id');
     }
 
+    public function schedule_course_subject(){ 
+        return $this->hasMany('App\Models\ScheduleCourseSubject', 'course_subject_id');
+    }
 }

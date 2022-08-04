@@ -32,6 +32,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        if(Auth::user()->hasRole('Dean')){ 
+            $course = Auth::user()->course_dean->first();
+            session($course->course->toArray());
+        }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

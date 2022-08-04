@@ -61,6 +61,14 @@ class StoreApplicationRequest extends FormRequest
             'chronic_illness' => 'required|boolean',
             'interfering_illness' => 'required|boolean',
             'allergies' => 'required|boolean',
+            'g-recaptcha-response' => 'required|captcha'
+        ];
+    }
+
+    public function messages(){ 
+        return [
+            'g-recaptcha-response.required' => 'Please verify that you are not a robot.',
+             'g-recaptcha-response.captcha' => 'Captcha error! try again later or contact site admin.',
         ];
     }
 }

@@ -1,4 +1,4 @@
- <table id="subjects-course-datatable" class="w-full rounded-lg leading-normal">
+<table id="subjects-course-datatable" class="w-full rounded-lg leading-normal">
      <thead>
          <tr>
         

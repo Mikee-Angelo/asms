@@ -40,6 +40,10 @@
                 </label>
             </div>
 
+            <div class="mt-3 w-full">
+
+                {!! NoCaptcha::display() !!}
+            </div>
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
@@ -53,4 +57,5 @@
             </div>
         </form>
     </x-auth-card>
+    {!! NoCaptcha::renderJs() !!}
 </x-guest-layout>
