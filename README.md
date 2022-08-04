@@ -4,9 +4,13 @@
 There are two ways of installing the system. Better use with [Docker].
 
 ## How to install ?
-The following are the steps on how to install the system.
+The following are the steps on how to install the system locally.
 
 Alternative installation is possible without local dependencies relying on [Docker].
+
+Make sure the __Laravel__ was properly installed on your system. [How to install Laravel](https://laravel.com/docs/9.x/installation)
+
+Also don't forget to install __MYSQL__ for the database. [How to install MYSQL](https://dev.mysql.com/downloads/installer/)
 
 Clone the repository
 ```
