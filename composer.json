@@ -9,7 +9,6 @@
         "acaronlex/laravel-calendar": "^1.6",
         "anhskohbo/no-captcha": "*",
         "aws/aws-sdk-php": "^3.218",
-        "consoletvs/charts": "7.*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.54",
