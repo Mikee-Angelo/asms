@@ -61,7 +61,6 @@ class StoreApplicationRequest extends FormRequest
             'chronic_illness' => 'required|boolean',
             'interfering_illness' => 'required|boolean',
             'allergies' => 'required|boolean',
-            'g-recaptcha-response' => 'required|captcha'
         ];
     }
 
