@@ -5,17 +5,17 @@
     <form action="{{ route('application.store') }}" method="post">
         @csrf
         @if (is_null($school_year) || !$is_ended)
-        <div class="py-12 h-screen" style="background-color: #000038">
+        <div class="h-screen py-12" style="background-color: #000038">
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex flex-col items-center mb-4">
                     <img src="{{asset('img/logo.png')}}" class="h-36" alt="SBCI Logo">
-                    <h1 class="my-4 text-2xl md:text-3xl lg:text-5xl font-black text-white leading-tight">
+                    <h1 class="my-4 text-2xl font-black leading-tight text-white md:text-3xl lg:text-5xl">
                         Application for Enrollment
                     </h1>
                 </div>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <p class="w-full indent-96 text-gray-600 text-md md:text-lg">
+                        <p class="w-full text-gray-600 indent-96 text-md md:text-lg">
                             Enrollment is currently closed. Please try again later.
                         </p>
                     </div>
@@ -28,7 +28,7 @@
 
                 <div class="flex flex-col items-center mb-4">
                     <img src="{{asset('img/logo.png')}}" class="h-36" alt="SBCI Logo">
-                    <h1 class="my-4 text-2xl md:text-3xl lg:text-5xl font-black text-white leading-tight">
+                    <h1 class="my-4 text-2xl font-black leading-tight text-white md:text-3xl lg:text-5xl">
                         Application for Enrollment
                     </h1>
                 </div>
@@ -36,7 +36,7 @@
                 <!-- Session Status -->
                 @if(session('status'))
 
-                <div class="bg-green-200 border-green-600 text-green-600 border-l-4 p-4 mb-5" role="alert">
+                <div class="p-4 mb-5 text-green-600 bg-green-200 border-l-4 border-green-600" role="alert">
                     <p class="font-bold">
                         {{session('status')['message']}}
                     </p>
@@ -50,10 +50,10 @@
                 <!-- Validation Errors -->
                 <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
 
-                        <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                        <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                             Application
                         </h2>
 
@@ -62,7 +62,7 @@
                             <x-label for="application_type" :value="__('Type of Application')" />
 
                             <select :value="old('application_type')" id="application_type"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                 name="application_type">
                                 <option value="">
                                     Select an option
@@ -88,7 +88,7 @@
                             <x-label for="course_id" :value="__('Course')" />
 
                             <select :value="old('course_id')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                 name="course_id">
                                 <option value="">
                                     Select an option
@@ -108,7 +108,7 @@
                             <x-label for="year_level" :value="__('Year')" />
 
                             <select :value="old('year_level')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                 name="year_level">
                                 <option value="">
                                     Select an option
@@ -132,18 +132,18 @@
                 </div>
             </div>
 
-            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8  mt-5">
+            <div class="max-w-4xl mx-auto mt-5 sm:px-6 lg:px-8">
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                        <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                             Personal Information
                         </h2>
                         <!-- Last Name -->
                         <div class="mb-4">
                             <x-label for="last_name" :value="__('Last Name')" />
 
-                            <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name"
+                            <x-input id="last_name" class="block w-full mt-1" type="text" name="last_name"
                                 :value="old('last_name')" required autofocus />
                         </div>
 
@@ -151,7 +151,7 @@
                         <div class="mb-4">
                             <x-label for="first_name" :value="__('First Name')" />
 
-                            <x-input id="first_name" class="block mt-1 w-full" type="text" name="first_name"
+                            <x-input id="first_name" class="block w-full mt-1" type="text" name="first_name"
                                 :value="old('first_name')" required autofocus />
                         </div>
 
@@ -159,7 +159,7 @@
                         <div class="mb-4">
                             <x-label for="middle_name" :value="__('Middle Name')" />
 
-                            <x-input id="middle_name" class="block mt-1 w-full" type="text" name="middle_name"
+                            <x-input id="middle_name" class="block w-full mt-1" type="text" name="middle_name"
                                 :value="old('middle_name')" required autofocus />
                         </div>
 
@@ -167,25 +167,25 @@
                         <div class="mb-4">
                             <x-label for="birthday" :value="__('Birthdate')" />
 
-                            <x-input id="birthday" class="block mt-1 w-full" type="date" name="birthday"
+                            <x-input id="birthday" class="block w-full mt-1" type="date" name="birthday"
                                 :value="old('birthday')" required autofocus />
                         </div>
 
                         <div class="flex flex-row">
                             <!-- Mobile Number -->
-                            <div class="mb-4 w-full mr-2">
+                            <div class="w-full mb-4 mr-2">
                                 <x-label for="mobile_no" :value="__('Mobile No.')" />
 
-                                <x-input id="mobile_no" class="block mt-1 w-full" type="tel" name="mobile_no"
+                                <x-input id="mobile_no" class="block w-full mt-1" type="tel" name="mobile_no"
                                     :value="old('mobile_no')" required autofocus />
                             </div>
 
                             <!-- Gender -->
-                            <div class="mb-4 w-full ml-2">
+                            <div class="w-full mb-4 ml-2">
                                 <x-label for="gender" :value="__('Gender')" />
 
                                 <select :value="old('gender')"
-                                    class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                    class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                     name="gender">
                                     <option value="">
                                         Select an option
@@ -206,7 +206,7 @@
                         <div class="mb-4">
                             <x-label for="register_email" :value="__('Email Address')" />
 
-                            <x-input id="register_email" class="block mt-1 w-full" type="email" name="register_email"
+                            <x-input id="register_email" class="block w-full mt-1" type="email" name="register_email"
                                 :value="old('register_email')" required autofocus />
                         </div>
 
@@ -214,7 +214,7 @@
                         <div class="mb-4">
                             <x-label for="facebook_link" :value="__('Facebook Link')" />
 
-                            <x-input id="facebook_link" class="block mt-1 w-full" type="text" name="facebook_link"
+                            <x-input id="facebook_link" class="block w-full mt-1" type="text" name="facebook_link"
                                 :value="old('facebook_link')" required autofocus />
                         </div>
 
@@ -222,7 +222,7 @@
                         <div class="mb-4">
                             <x-label for="home_address" :value="__('Home Address')" />
 
-                            <x-input id="home_address" class="block mt-1 w-full" type="text" name="home_address"
+                            <x-input id="home_address" class="block w-full mt-1" type="text" name="home_address"
                                 :value="old('home_address')" required autofocus />
                         </div>
 
@@ -230,7 +230,7 @@
                         <div class="mb-4">
                             <x-label for="present_address" :value="__('Present Address')" />
 
-                            <x-input id="present_address" class="block mt-1 w-full" type="text" name="present_address"
+                            <x-input id="present_address" class="block w-full mt-1" type="text" name="present_address"
                                 :value="old('present_address')" required autofocus />
                         </div>
 
@@ -238,7 +238,7 @@
                         <div class="mb-4">
                             <x-label for="mother" :value="__('Mother\'s Name')" />
 
-                            <x-input id="mother" class="block mt-1 w-full" type="text" name="mother"
+                            <x-input id="mother" class="block w-full mt-1" type="text" name="mother"
                                 :value="old('mother')" required autofocus />
                         </div>
 
@@ -246,7 +246,7 @@
                         <div class="mb-4">
                             <x-label for="mother_occupation" :value="__('Occupation')" />
 
-                            <x-input id="mother_occupation" class="block mt-1 w-full" type="text"
+                            <x-input id="mother_occupation" class="block w-full mt-1" type="text"
                                 name="mother_occupation" :value="old('mother_occupation')" required autofocus />
                         </div>
 
@@ -254,7 +254,7 @@
                         <div class="mb-4">
                             <x-label for="father" :value="__('Father\'s Name')" />
 
-                            <x-input id="father" class="block mt-1 w-full" type="text" name="father"
+                            <x-input id="father" class="block w-full mt-1" type="text" name="father"
                                 :value="old('father')" required autofocus />
                         </div>
 
@@ -262,7 +262,7 @@
                         <div class="mb-4">
                             <x-label for="father_occupation" :value="__('Occupation')" />
 
-                            <x-input id="father_occupation" class="block mt-1 w-full" type="text"
+                            <x-input id="father_occupation" class="block w-full mt-1" type="text"
                                 name="father_occupation" :value="old('father_occupation')" required autofocus />
                         </div>
 
@@ -270,7 +270,7 @@
                         <div class="mb-4">
                             <x-label for="guardian" :value="__('Guardian')" />
 
-                            <x-input id="guardian" class="block mt-1 w-full" type="text" name="guardian"
+                            <x-input id="guardian" class="block w-full mt-1" type="text" name="guardian"
                                 :value="old('guardian')" required autofocus />
                         </div>
 
@@ -278,7 +278,7 @@
                         <div class="mb-4">
                             <x-label for="guardian_contact_no" :value="__('Contact No.')" />
 
-                            <x-input id="guardian_contact_no" class="block mt-1 w-full" type="tel"
+                            <x-input id="guardian_contact_no" class="block w-full mt-1" type="tel"
                                 name="guardian_contact_no" :value="old('guardian_contact_no')" required autofocus />
                         </div>
 
@@ -286,7 +286,7 @@
                         <div class="mb-4">
                             <x-label for="guardian_relationship" :value="__('Relationship')" />
 
-                            <x-input id="guardian_relationship" class="block mt-1 w-full" type="tel"
+                            <x-input id="guardian_relationship" class="block w-full mt-1" type="tel"
                                 name="guardian_relationship" :value="old('guardian_relationship')" required autofocus />
                         </div>
                     </div>
@@ -295,10 +295,10 @@
 
 
 
-            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-5">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="max-w-4xl mx-auto mt-5 sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                        <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                             Academic Information
                         </h2>
 
@@ -306,7 +306,7 @@
                         <div class="mb-4">
                             <x-label for="primary_school" :value="__('Primary School (Elementary)')" />
 
-                            <x-input id="primary_school" class="block mt-1 w-full" type="text" name="primary_school"
+                            <x-input id="primary_school" class="block w-full mt-1" type="text" name="primary_school"
                                 :value="old('primary_school')" required autofocus />
                         </div>
 
@@ -314,7 +314,7 @@
                         <div class="mb-4">
                             <x-label for="primary_graduated" :value="__('Year Graduated')" />
 
-                            <x-input id="primary_graduated" class="block mt-1 w-full" type="month"
+                            <x-input id="primary_graduated" class="block w-full mt-1" type="month"
                                 name="primary_graduated" :value="old('primary_graduated')" required autofocus />
                         </div>
 
@@ -322,7 +322,7 @@
                         <div class="mb-4">
                             <x-label for="secondary_school" :value="__('Secondary School (High School)')" />
 
-                            <x-input id="secondary_school" class="block mt-1 w-full" type="text" name="secondary_school"
+                            <x-input id="secondary_school" class="block w-full mt-1" type="text" name="secondary_school"
                                 :value="old('secondary_school')" required autofocus />
                         </div>
 
@@ -330,7 +330,7 @@
                         <div class="mb-4">
                             <x-label for="secondary_graduated" :value="__('Year Graduated')" />
 
-                            <x-input id="secondary_graduated" class="block mt-1 w-full" type="month"
+                            <x-input id="secondary_graduated" class="block w-full mt-1" type="month"
                                 name="secondary_graduated" :value="old('secondary_graduated')" required autofocus />
                         </div>
 
@@ -339,7 +339,7 @@
                             <x-label for="senior_high_status" :value="__('Are you a Senior High graduate?')" />
 
                             <select :value="old('senior_high_status')" id="senior_high_status"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                 name="senior_high_status">
                                 <option value="">
                                     Select an option
@@ -355,11 +355,11 @@
                         </div>
 
                         <!-- Name of Senior High School -->
-                        <div class="senior_high_container hidden">
+                        <div class="hidden senior_high_container">
                             <div class="mb-4">
                                 <x-label for="senior_school_name" :value="__('Name of Senior High School')" />
 
-                                <x-input id="senior_school_name" class="block mt-1 w-full" type="text"
+                                <x-input id="senior_school_name" class="block w-full mt-1" type="text"
                                     name="senior_school_name" :value="old('senior_school_name')" />
                             </div>
 
@@ -367,7 +367,7 @@
                             <div class="mb-4">
                                 <x-label for="strand" :value="__('Strand / Track')" />
 
-                                <x-input id="strand" class="block mt-1 w-full" type="text" name="strand"
+                                <x-input id="strand" class="block w-full mt-1" type="text" name="strand"
                                     :value="old('strand')" />
                             </div>
 
@@ -375,17 +375,17 @@
                             <div class="mb-4">
                                 <x-label for="senior_graduated" :value="__('Year Graduated')" />
 
-                                <x-input id="senior_graduated" class="block mt-1 w-full" type="month"
+                                <x-input id="senior_graduated" class="block w-full mt-1" type="month"
                                     name="senior_graduated" :value="old('senior_graduated')" />
                             </div>
                         </div>
 
                         <!-- Tertiary School -->
-                        <div class="tertiary-container hidden">
+                        <div class="hidden tertiary-container">
                             <div class="mb-4">
                                 <x-label for="tertiary_school" :value="__('Tertiary School (College)')" />
 
-                                <x-input id="tertiary_school" class="block mt-1 w-full" type="text"
+                                <x-input id="tertiary_school" class="block w-full mt-1" type="text"
                                     name="tertiary_school" :value="old('tertiary_school')" />
                             </div>
 
@@ -393,7 +393,7 @@
                             <div class="mb-4">
                                 <x-label for="tertiary_graduated" :value="__('Year Graduated')" />
 
-                                <x-input id="tertiary_graduated" class="block mt-1 w-full" type="month"
+                                <x-input id="tertiary_graduated" class="block w-full mt-1" type="month"
                                     name="tertiary_graduated" :value="old('tertiary_graduated')" />
                             </div>
 
@@ -403,7 +403,7 @@
                         <div class="mb-4">
                             <x-label for="last_school_date" :value="__('Date of the Last school attended')" />
 
-                            <x-input id="last_school_date" class="block mt-1 w-full" type="month"
+                            <x-input id="last_school_date" class="block w-full mt-1" type="month"
                                 name="last_school_date" :value="old('last_school_date')" required autofocus />
                         </div>
 
@@ -412,10 +412,10 @@
                 </div>
             </div>
 
-            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-5">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="max-w-4xl mx-auto mt-5 sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                        <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                             Medical
                         </h2>
 
@@ -424,7 +424,7 @@
                             <x-label for="mental_illness" :value="__('Do you have any history of mental illness?')" />
 
                             <select :value="old('mental_illness')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                 name="mental_illness">
                                 <option value="">
                                     Select an option
@@ -444,7 +444,7 @@
                             <x-label for="hearing_defects" :value="__('Do you have any visual or hearing defects?')" />
 
                             <select :value="old('hearing_defects')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                 name="hearing_defects">
                                 <option value="">
                                     Select an option
@@ -465,7 +465,7 @@
                                 :value="__('Do you suffer from any physical disability?')" />
 
                             <select :value="old('physical_disability')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                 name="physical_disability">
                                 <option value="">
                                     Select an option
@@ -485,7 +485,7 @@
                             <x-label for="chronic_illness" :value="__('Do you suffer from any chronic illness?')" />
 
                             <select :value="old('chronic_illness')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                 name="chronic_illness">
                                 <option value="">
                                     Select an option
@@ -506,7 +506,7 @@
                                 :value="__('Have you suffered from any illness which may interfere with your ability to complete your studies with SBCI?')" />
 
                             <select :value="old('interfering_illness')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                 name="interfering_illness">
                                 <option value="">
                                     Select an option
@@ -526,7 +526,7 @@
                             <x-label for="allergies" :value="__('Do you suffer from any allergies?')" />
 
                             <select :value="old('allergies')"
-                                class="block w-full mt-1 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                                class="block w-full px-3 py-2 mt-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                                 name="allergies">
                                 <option value="">
                                     Select an option
@@ -543,10 +543,10 @@
                 </div>
             </div>
 
-            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 mt-5">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="max-w-4xl mx-auto mt-5 sm:px-6 lg:px-8">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <h2 class="w-full my-2 text-3xl font-black leading-tight text-gray-800 mb-5">
+                        <h2 class="w-full my-2 mb-5 text-3xl font-black leading-tight text-gray-800">
                             Declaration of Application
                         </h2>
 
@@ -554,7 +554,7 @@
                         <div class="block mt-4">
                             <label for="eula_status" class="inline-flex">
                                 <input id="eula_status" type="checkbox"
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mt-1"
+                                    class="mt-1 text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     name="eula_status">
                                 <span
                                     class="ml-2 text-sm text-gray-600">{{ __("I agree to pay a Non-refundable registration fee of Php 2,000.00 (for CHED courses)/ Php 1,000.00 (for TVET Courses) payable to Subic Bay Colleges (SBCI), Inc. Registration fee and monthly fee are NON-REFUNDABLE regardless of the outcome of the registration. I have been made aware of the financial obligations associated with studying at this institution, and I agree to pay any tuition and other fees that are due to the institution in accordance with its rules. My withdrawal from this institution does not relieve me from the obligation to pay the full semester's tuition") }}</span>
@@ -565,7 +565,7 @@
                         <div class="block mt-4">
                             <label for="admission_status" class="inline-flex">
                                 <input id="admission_status" type="checkbox"
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mt-1"
+                                    class="mt-1 text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     name="admission_status">
                                 <span
                                     class="ml-2 text-sm text-gray-600">{{ __("wish to apply for admission to the SUBIC BAY COLLEGES (SBCI), INC., and declare that the above information is correct to the best of my knowledge and belief. I understand that submitting my application does not provide me any rights in terms of admissions selection, which is exclusively at the discretion of the school. If I am accepted, I agree to abide by and observe all of the institution's rules and regulations") }}</span>
@@ -576,15 +576,14 @@
                         <div class="block mt-4">
                             <label for="information_status" class="inline-flex">
                                 <input id="information_status" type="checkbox"
-                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mt-1"
+                                    class="mt-1 text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     name="information_status">
                                 <span
                                     class="ml-2 text-sm text-gray-600">{{ __("All the information given are will evaluate by the registrar kindly wait for confirmation of your enrollment in your email address or text message. Thank you for enrolling in Subic Bay Colleges Inc. ") }}</span>
                             </label>
                         </div>
-                        <div class="mt-3 w-full">
+                        <div class="w-full mt-3">
 
-                            {!! NoCaptcha::display() !!}
                         </div>
 
                         <x-button id="application-submit-button" class="mt-5" disabled>
@@ -599,7 +598,6 @@
 
     </form>
 
-    {!! NoCaptcha::renderJs() !!}
     <script type="text/javascript">
         $(function () {
 
